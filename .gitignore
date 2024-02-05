@@ -1,0 +1,10 @@
+# Folder
+.idea
+.vscode
+build
+
+# Extensions
+*.o
+
+# Binary files
+nanotekspice
