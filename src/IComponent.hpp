@@ -31,6 +31,18 @@ namespace nts {
         return a == nts::True || b == nts::True ? nts::True : nts::False;
     }
 
+    constexpr nts::Tristate operator!(nts::Tristate a)
+    {
+        if (a == nts::Undefined)
+            return nts::Undefined;
+        return a == nts::True ? nts::False : nts::True;
+    }
+
+    constexpr nts::Tristate operator&(nts::Tristate a, nts::Tristate b)
+    {
+        return !(a && b);
+    }
+
     constexpr nts::Tristate operator^(nts::Tristate a, nts::Tristate b)
     {
         if (a == nts::Undefined || b == nts::Undefined)
@@ -38,11 +50,9 @@ namespace nts {
         return a != b ? nts::True : nts::False;
     }
 
-    constexpr nts::Tristate operator!(nts::Tristate a)
+    constexpr nts::Tristate operator|(nts::Tristate a, nts::Tristate b)
     {
-        if (a == nts::Undefined)
-            return nts::Undefined;
-        return a == nts::True ? nts::False : nts::True;
+        return !(a || b);
     }
 
     constexpr std::ostream &operator<<(std::ostream &os, nts::Tristate state)
@@ -185,6 +195,36 @@ namespace nts {
     };
 
     class NotComponent : public AComponent {
+    public:
+        nts::Tristate compute(std::size_t pin) override;
+    };
+
+    class Gates4001 : public AComponent {
+    public:
+        nts::Tristate compute(std::size_t pin) override;
+    };
+
+    class Gates4011 : public AComponent {
+    public:
+        nts::Tristate compute(std::size_t pin) override;
+    };
+
+    class Gates4030 : public AComponent {
+    public:
+        nts::Tristate compute(std::size_t pin) override;
+    };
+
+    class Gates4069 : public AComponent {
+    public:
+        nts::Tristate compute(std::size_t pin) override;
+    };
+
+    class Gates4071 : public AComponent {
+    public:
+        nts::Tristate compute(std::size_t pin) override;
+    };
+
+    class Gates4081 : public AComponent {
     public:
         nts::Tristate compute(std::size_t pin) override;
     };

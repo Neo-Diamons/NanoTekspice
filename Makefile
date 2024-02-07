@@ -35,6 +35,16 @@ SRC			+=	$(addprefix $(lastword $(DIR))/,					\
 					Not.cpp											\
 				)
 
+DIR			+=	src/components/gates
+SRC			+=	$(addprefix $(lastword $(DIR))/,					\
+					4001.cpp										\
+					4011.cpp										\
+					4030.cpp										\
+					4069.cpp										\
+					4071.cpp										\
+					4081.cpp										\
+				)
+
 DIR_FUNC	:=	tests/functional
 SRC_FUNC	:=	$(addprefix $(DIR_FUNC)/,							\
 					functional_tester.c								\
