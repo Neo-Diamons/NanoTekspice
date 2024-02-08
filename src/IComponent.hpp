@@ -228,6 +228,16 @@ namespace nts {
     public:
         nts::Tristate compute(std::size_t pin) override;
     };
+
+    class Gates4008 : public AComponent {
+    private:
+        std::map<int, nts::Tristate> _outPins;
+
+        nts::Tristate add(int idA, int idB, nts::Tristate carry);
+
+    public:
+        nts::Tristate compute(std::size_t pin) override;
+    };
 }
 
 #endif //NANOTEKSPICE_ICOMPONENT_HPP

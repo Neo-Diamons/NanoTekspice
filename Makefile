@@ -45,13 +45,20 @@ SRC			+=	$(addprefix $(lastword $(DIR))/,					\
 					4081.cpp										\
 				)
 
+DIR			+=	src/components/advanced
+SRC			+=	$(addprefix $(lastword $(DIR))/,					\
+					4008.cpp										\
+				)
+
 DIR_FUNC	:=	tests/functional
 SRC_FUNC	:=	$(addprefix $(DIR_FUNC)/,							\
 					functional_tester.c								\
 				)
 
 DIR_UTEST	:=	tests/unit
-SRC_UTEST	:=	$(addprefix $(DIR_UTEST)/,							\
+SRC_UTEST	:=	$(filter-out src/Main.cpp, $(SRC))
+SRC_UTEST	+=	$(addprefix $(DIR_UTEST)/,							\
+					tests_4008.cpp									\
 				)
 
 DIR_BUILD	:=	build
@@ -76,9 +83,9 @@ RM			:=	rm -rf
 CXX			:=	g++
 CXXFLAGS	:=	-iquote. --std=c++20 -Wall -Wextra
 
-all:				$(DIR_BUILD) $(NAME)
+all:				$(ROOT_OBJ) $(NAME)
 
-$(DIR_BUILD):
+$(ROOT_OBJ):
 	@mkdir -p $(DIR_OBJ)											\
 	&& printf "\033[93m[CREATED]\033[0m %s\n" $(DIR_OBJ)			\
 	|| printf "\033[31m[ERROR]\033[0m %s\n"   $(DIR_OBJ)
@@ -106,17 +113,17 @@ tests:				all
 	|| printf "\033[31m[ERROR]\033[0m %s\n"  $@
 	@./$(FUNC_TEST)
 
-$(UNIT_TEST):		CFLAGS += -lcriterion --coverage
+$(UNIT_TEST):		CXXFLAGS += -lcriterion --coverage
 $(UNIT_TEST):		fclean
 	@mkdir -p $(TEST_DIR)
-	@$(CXX) $(CXXFLAGS) $(SRC) $(SRC_UTEST) -o $(TEST_DIR)$@		\
+	@$(CXX) $(CXXFLAGS) $(SRC_UTEST) -o $(TEST_DIR)$@				\
 	&& printf "\033[32m[SUCCES]\033[0m %s\n" $@						\
 	|| printf "\033[31m[ERROR]\033[0m %s\n"  $@
 
 tests_run:			$(UNIT_TEST)
 	@$(TEST_DIR)$(UNIT_TEST)
 	gcovr $(TEST_DIR) --exclude tests/
-	gcovr $(TEST_DIR) --exclude tests/ --branches
+	gcovr $(TEST_DIR) --exclude tests/ --txt-metric branch
 
 ##  _____       _
 ## |  __ \     | |
@@ -127,7 +134,7 @@ tests_run:			$(UNIT_TEST)
 ##                           __/ |
 ##                          |___/
 
-$(D_DIR_BUILD):
+$(D_ROOT_OBJ):
 	@mkdir -p $(D_DIR_OBJ)											\
 	&& printf "\033[93m[CREATED]\033[0m %s\n" $(DIR_OBJ)			\
 	|| printf "\033[31m[ERROR]\033[0m %s\n"   $(DIR_OBJ)
@@ -138,7 +145,7 @@ $(D_ROOT_OBJ)%.o:	%$(EXT)
 	|| printf "\033[31m[KO]\033[0m %s\n" $<
 
 debug:				CXXFLAGS += -g
-debug:				$(D_DIR_BUILD) $(D_OBJ)
+debug:				$(D_ROOT_OBJ) $(D_OBJ)
 	@$(CXX) -o $(NAME) $(D_OBJ) $(CXXFLAGS)							\
 	&& printf "\033[32m[SUCCES]\033[0m %s\n" $(NAME)				\
 	|| printf "\033[31m[ERROR]\033[0m %s\n"  $(NAME)

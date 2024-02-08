@@ -9,7 +9,7 @@
 
 void nts::InputComponent::simulate(std::size_t tick)
 {
-    if (_pins.find(0) == _pins.end()) {
+    if (_pins.find(0) != _pins.end()) {
         _pins[0].simulate(tick);
         return;
     }
