@@ -6,7 +6,6 @@
 */
 
 
-#include <iostream>
 #include "src/IComponent.hpp"
 
 nts::Tristate nts::Gates4008::add(int idA, int idB, nts::Tristate carry)

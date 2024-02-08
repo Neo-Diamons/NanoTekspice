@@ -13,9 +13,6 @@ void nts::InputComponent::simulate(std::size_t tick)
         _pins[0].simulate(tick);
         return;
     }
-    if (tick <= _lastTick)
-        return;
-    _lastTick = tick;
     _oldState = _state;
 }
 

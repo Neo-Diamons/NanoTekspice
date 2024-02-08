@@ -141,7 +141,6 @@ namespace nts {
     private:
         nts::Tristate _state = nts::Undefined;
         nts::Tristate _oldState = nts::Undefined;
-        std::size_t _lastTick = 0;
 
     public:
         void simulate(std::size_t tick) override;
@@ -199,6 +198,7 @@ namespace nts {
         nts::Tristate compute(std::size_t pin) override;
     };
 
+    // Gates components
     class Gates4001 : public AComponent {
     public:
         nts::Tristate compute(std::size_t pin) override;
@@ -229,6 +229,7 @@ namespace nts {
         nts::Tristate compute(std::size_t pin) override;
     };
 
+    // Advanced components
     class Gates4008 : public AComponent {
     private:
         std::map<int, nts::Tristate> _outPins;
@@ -236,6 +237,16 @@ namespace nts {
         nts::Tristate add(int idA, int idB, nts::Tristate carry);
 
     public:
+        nts::Tristate compute(std::size_t pin) override;
+    };
+
+    class Gates4017 : public AComponent {
+    private:
+        std::size_t _count = 0;
+
+    public:
+        void simulate(std::size_t tick) override;
+
         nts::Tristate compute(std::size_t pin) override;
     };
 }

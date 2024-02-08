@@ -6,5 +6,8 @@ build
 # Extensions
 *.o
 
+# Debug
+vgcore.*
+
 # Binary files
 nanotekspice
