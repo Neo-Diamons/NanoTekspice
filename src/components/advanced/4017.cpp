@@ -7,6 +7,18 @@
 
 #include "src/IComponent.hpp"
 
+void nts::Gates4017::simulate(std::size_t tick)
+{
+    for (auto &pin: _pins)
+        pin.second.simulate(tick);
+
+    if (_pins[15].compute() == nts::Tristate::True)
+        _count = 0;
+    else if (_pins[13].compute() == nts::Tristate::True
+        && _pins[14].compute() == nts::Tristate::True)
+        _count = (_count + 1) % 10;
+}
+
 nts::Tristate nts::Gates4017::compute(std::size_t pin)
 {
     switch (pin) {
@@ -35,16 +47,4 @@ nts::Tristate nts::Gates4017::compute(std::size_t pin)
         default:
             throw AComponent::Exception("4017: Invalid pin");
     }
-}
-
-void nts::Gates4017::simulate(std::size_t tick)
-{
-    for (auto &pin: _pins)
-        pin.second.simulate(tick);
-
-    if (_pins[15].compute() == nts::Tristate::True)
-        _count = 0;
-    else if (_pins[13].compute() == nts::Tristate::True
-        && _pins[14].compute() == nts::Tristate::True)
-        _count = (_count + 1) % 10;
 }

@@ -49,6 +49,7 @@ DIR			+=	src/components/advanced
 SRC			+=	$(addprefix $(lastword $(DIR))/,					\
 					4008.cpp										\
 					4017.cpp										\
+					4013.cpp										\
 				)
 
 DIR_FUNC	:=	tests/functional
@@ -61,6 +62,7 @@ SRC_UTEST	:=	$(filter-out src/Main.cpp, $(SRC))
 SRC_UTEST	+=	$(addprefix $(DIR_UTEST)/,							\
 					tests_4008.cpp									\
 					tests_4017.cpp									\
+					tests_4013.cpp									\
 				)
 
 DIR_BUILD	:=	build
