@@ -102,6 +102,8 @@ define CREATE_DIR
 endef
 
 define BUILD_OBJ
+	@$(RM) $(patsubst %.o,%.gcda,$@)
+	@$(RM) $(patsubst %.o,%.gcno,$@)
 	$(CREATE_DIR)
 	@$(CXX) $(CXXFLAGS) -c $< -o $@									\
 	&& printf "\033[32m[OK]\033[0m %s\n" $<							\
@@ -123,21 +125,20 @@ $(NAME):			$(OBJ); 	$(COMPILE)
 
 $(FU_TEST):			$(FU_OBJ);	$(COMPILE)
 tests_functional:	$(FU_TEST)
-	@$(FU_TEST)
+	@$<
 
 $(UT_TEST):			CXXFLAGS += -lcriterion --coverage
-$(UT_TEST):			$(UT_OBJ)
-	@$(RM) $(patsubst %.o,%.gcda,$(UT_OBJ))
-	@$(RM) $(patsubst %.o,%.gcno,$(UT_OBJ))
-	$(COMPILE)
+$(UT_TEST):			$(UT_OBJ);	$(COMPILE)
 tests_unit:			$(UT_TEST)
-	@$(UT_TEST)
+	@cp $(UT_TEST) $(UT_DIR_OBJ)
+	@$(UT_DIR_OBJ)/$(notdir $<)
 
 debug:				CXXFLAGS += -g
 debug:				$(DG_OBJ); 	$(COMPILE)
+
 tests_run:			tests_functional tests_unit
-	gcovr $(TEST_DIR) --exclude tests/
-	gcovr $(TEST_DIR) --exclude tests/ --txt-metric branch
+	gcovr $(UT_DIR_OBJ) --exclude tests/
+	gcovr $(UT_DIR_OBJ) --exclude tests/ --txt-metric branch
 
 clean:
 	@[ -d $(DIR_BUILD) ]											\
