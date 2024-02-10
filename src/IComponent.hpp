@@ -262,6 +262,16 @@ namespace nts {
     public:
         nts::Tristate compute(std::size_t pin) override;
     };
+
+    class Gates4040 : public AComponent {
+    private:
+        unsigned _count = 0;
+
+    public:
+        void simulate(std::size_t tick) override;
+
+        nts::Tristate compute(std::size_t pin) override;
+    };
 }
 
 #endif //NANOTEKSPICE_ICOMPONENT_HPP

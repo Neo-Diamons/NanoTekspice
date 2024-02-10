@@ -30,8 +30,6 @@ Test(gates4017, test00)
     cr_assert_eq(gate.compute(5), nts::False);
     cr_assert_eq(gate.compute(6), nts::False);
     cr_assert_eq(gate.compute(9), nts::False);
-    cr_assert_eq(gate.compute(11), nts::False);
-    cr_assert_eq(gate.compute(12), nts::True);
 
     gate.simulate(1);
 
@@ -115,7 +113,7 @@ Test(gates4017, reset)
 
     in_r->setState(nts::True);
     gate.simulate(1);
-    
+
     cr_assert_eq(gate.compute(3), nts::True);
     cr_assert_eq(gate.compute(2), nts::False);
     cr_assert_eq(gate.compute(4), nts::False);

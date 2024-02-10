@@ -50,116 +50,94 @@ SRC			+=	$(addprefix $(lastword $(DIR))/,					\
 					4008.cpp										\
 					4017.cpp										\
 					4013.cpp										\
+					4040.cpp										\
 				)
 
-DIR_FUNC	:=	tests/functional
-SRC_FUNC	:=	$(addprefix $(DIR_FUNC)/,							\
-					functional_tester.c								\
+FU_DIR		:=	tests/func
+FU_SRC		:=	$(filter-out src/Main.cpp, $(SRC))
+FU_SRC		+=	$(addprefix $(FU_DIR)/,								\
+					Tests.cpp										\
 				)
 
-DIR_UTEST	:=	tests/unit
-SRC_UTEST	:=	$(filter-out src/Main.cpp, $(SRC))
-SRC_UTEST	+=	$(addprefix $(DIR_UTEST)/,							\
-					tests_4008.cpp									\
-					tests_4017.cpp									\
-					tests_4013.cpp									\
+UT_DIR		:=	tests/unit
+UT_SRC		:=	$(filter-out src/Main.cpp, $(SRC))
+UT_SRC		+=	$(addprefix $(UT_DIR)/,								\
+					Tests_4008.cpp									\
+					Tests_4017.cpp									\
+					Tests_4013.cpp									\
+					Tests_4040.cpp									\
 				)
 
 DIR_BUILD	:=	build
+DIR_BIN		:=	$(DIR_BUILD)/bin
 
-ROOT_OBJ	:=	$(addprefix $(DIR_BUILD)/,obj/)
-DIR_OBJ		:=	$(addprefix $(ROOT_OBJ),$(DIR))
+DIR_OBJ		:=	$(DIR_BUILD)/obj
+OBJ			:=	$(patsubst %$(EXT),$(DIR_OBJ)/%.o,$(SRC))
 
-OBJ			:=	$(patsubst %$(EXT),$(ROOT_OBJ)%.o,$(SRC))
+FU_OBJ		:=	$(patsubst %$(EXT),$(DIR_OBJ)/%.o,$(FU_SRC))
 
-D_DIR_BUILD	:=	$(addprefix $(DIR_BUILD)/, debug)
+UT_DIR_OBJ	:=	$(DIR_BUILD)/tests/unit
+UT_OBJ		:=	$(patsubst %$(EXT),$(UT_DIR_OBJ)/%.o,$(UT_SRC))
 
-D_ROOT_OBJ	:=	$(addprefix $(D_DIR_BUILD)/,obj/)
-D_DIR_OBJ	:=	$(addprefix $(D_ROOT_OBJ),$(DIR))
-D_OBJ		:=	$(patsubst %$(EXT),$(D_ROOT_OBJ)%.o,$(SRC))
+DG_DIR_OBJ	:=	$(DIR_BUILD)/debug
+DG_OBJ		:=	$(patsubst %$(EXT),$(DG_DIR_OBJ)/%.o,$(SRC))
 
-TEST_DIR	:=	$(addprefix $(DIR_BUILD)/,tests/)
-FUNC_TEST	:=	functional_test
-UNIT_TEST	:=	unit_test
+DEBUG		:=	$(DIR_BIN)/debug
+FU_TEST		:=	$(DIR_BIN)/func_test
+UT_TEST		:=	$(DIR_BIN)/unit_test
 
 RM			:=	rm -rf
 
 CXX			:=	g++
 CXXFLAGS	:=	-iquote. --std=c++20 -Wall -Wextra
 
-all:				$(ROOT_OBJ) $(NAME)
+all:				$(NAME)
 
-$(ROOT_OBJ):
-	@mkdir -p $(DIR_OBJ)											\
-	&& printf "\033[93m[CREATED]\033[0m %s\n" $(DIR_OBJ)			\
-	|| printf "\033[31m[ERROR]\033[0m %s\n"   $(DIR_OBJ)
+define CREATE_DIR
+	@if [ ! -d $(dir $@) ]; then									\
+		mkdir -p $(dir $@) 											\
+		&& printf "\033[93m[CREATED]\033[0m %s\n" $(dir $@)			\
+		|| printf "\033[31m[ERROR]\033[0m %s\n"   $(dir $@);		\
+	fi
+endef
 
-$(ROOT_OBJ)%.o:		%$(EXT)
+define BUILD_OBJ
+	$(CREATE_DIR)
 	@$(CXX) $(CXXFLAGS) -c $< -o $@									\
 	&& printf "\033[32m[OK]\033[0m %s\n" $<							\
 	|| printf "\033[31m[KO]\033[0m %s\n" $<
+endef
 
-$(NAME):			$(OBJ)
-	@$(CXX) -o $@ $^ $(CXXFLAGS)									\
+$(DIR_OBJ)/%.o:		%$(EXT); $(BUILD_OBJ)
+$(UT_DIR_OBJ)/%.o:	%$(EXT); $(BUILD_OBJ)
+$(DG_DIR_OBJ)/%.o:	%$(EXT); $(BUILD_OBJ)
+
+define COMPILE
+	$(CREATE_DIR)
+	@$(CXX) $(CXXFLAGS) -o $@ $^			 						\
 	&& printf "\033[32m[SUCCES]\033[0m %s\n" $@						\
 	|| printf "\033[31m[ERROR]\033[0m %s\n"  $@
+endef
 
-##  _______        _
-## |__   __|      | |
-##    | | ___  ___| |_ ___
-##    | |/ _ \/ __| __/ __|
-##    | |  __/\__ \ |_\__ \
-##    |_|\___||___/\__|___/
+$(NAME):			$(OBJ); 	$(COMPILE)
 
-tests:				all
-	@gcc -Wall -Wextra -o $(FUNC_TEST) $(SRC_FUNC) -L. -lasm		\
-	&& printf "\033[32m[SUCCES]\033[0m %s\n" $@						\
-	|| printf "\033[31m[ERROR]\033[0m %s\n"  $@
-	@./$(FUNC_TEST)
+$(FU_TEST):			$(FU_OBJ);	$(COMPILE)
+tests_functional:	$(FU_TEST)
+	@$(FU_TEST)
 
-$(UNIT_TEST):		CXXFLAGS += -lcriterion --coverage
-$(UNIT_TEST):		fclean
-	@mkdir -p $(TEST_DIR)
-	@$(CXX) $(CXXFLAGS) $(SRC_UTEST) -o $(TEST_DIR)$@				\
-	&& printf "\033[32m[SUCCES]\033[0m %s\n" $@						\
-	|| printf "\033[31m[ERROR]\033[0m %s\n"  $@
-
-tests_run:			$(UNIT_TEST)
-	@$(TEST_DIR)$(UNIT_TEST)
-	gcovr $(TEST_DIR) --exclude tests/
-	gcovr $(TEST_DIR) --exclude tests/ --txt-metric branch
-
-##  _____       _
-## |  __ \     | |
-## | |  | | ___| |__  _   _  __ _
-## | |  | |/ _ \ '_ \| | | |/ _` |
-## | |__| |  __/ |_) | |_| | (_| |
-## |_____/ \___|_.__/ \__,_|\__, |
-##                           __/ |
-##                          |___/
-
-$(D_ROOT_OBJ):
-	@mkdir -p $(D_DIR_OBJ)											\
-	&& printf "\033[93m[CREATED]\033[0m %s\n" $(DIR_OBJ)			\
-	|| printf "\033[31m[ERROR]\033[0m %s\n"   $(DIR_OBJ)
-
-$(D_ROOT_OBJ)%.o:	%$(EXT)
-	@$(CXX) $(CXXFLAGS) -c $< -o $@									\
-	&& printf "\033[32m[OK]\033[0m %s\n" $<							\
-	|| printf "\033[31m[KO]\033[0m %s\n" $<
+$(UT_TEST):			CXXFLAGS += -lcriterion --coverage
+$(UT_TEST):			$(UT_OBJ)
+	@$(RM) $(patsubst %.o,%.gcda,$(UT_OBJ))
+	@$(RM) $(patsubst %.o,%.gcno,$(UT_OBJ))
+	$(COMPILE)
+tests_unit:			$(UT_TEST)
+	@$(UT_TEST)
 
 debug:				CXXFLAGS += -g
-debug:				$(D_ROOT_OBJ) $(D_OBJ)
-	@$(CXX) -o $(NAME) $(D_OBJ) $(CXXFLAGS)							\
-	&& printf "\033[32m[SUCCES]\033[0m %s\n" $(NAME)				\
-	|| printf "\033[31m[ERROR]\033[0m %s\n"  $(NAME)
-
-##   _____ _
-##  / ____| |
-## | |    | | ___  __ _ _ __
-## | |    | |/ _ \/ _` | '_ \
-## | |____| |  __/ (_| | | | |
-##  \_____|_|\___|\__,_|_| |_|
+debug:				$(DG_OBJ); 	$(COMPILE)
+tests_run:			tests_functional tests_unit
+	gcovr $(TEST_DIR) --exclude tests/
+	gcovr $(TEST_DIR) --exclude tests/ --txt-metric branch
 
 clean:
 	@[ -d $(DIR_BUILD) ]											\
@@ -171,17 +149,8 @@ fclean:				clean
 	&& $(RM) $(NAME)												\
 	&& printf "\033[31m[DELETED]\033[0m %s\n" $(NAME) || true
 
-##   ____  _   _
-##  / __ \| | | |
-## | |  | | |_| |__   ___ _ __
-## | |  | | __| '_ \ / _ \ '__|
-## | |__| | |_| | | |  __/ |
-##  \____/ \__|_| |_|\___|_|
-
 re:					fclean all
 
-.PHONY:				all tests tests_run debug clean fclean re 		\
-					$(DIR_OBJ) $(ROOT_OBJ)%.o $(NAME) $(UNIT_TEST)
+.PHONY:				all tests tests_run debug clean fclean re
 
-.SILENT:			all tests tests_run debug clean fclean re 		\
-					$(DIR_OBJ) $(ROOT_OBJ)%.o $(NAME) $(UNIT_TEST)
+.SILENT:			all tests tests_run debug clean fclean re
