@@ -11,67 +11,9 @@
 #include <memory>
 #include <map>
 
+#include "Tristate.hpp"
+
 namespace nts {
-    // Enum
-    enum Tristate {
-        Undefined = (-true),
-        True = true,
-        False = false
-    };
-
-    constexpr nts::Tristate operator&&(nts::Tristate a, nts::Tristate b)
-    {
-        if (a == nts::False || b == nts::False)
-            return nts::False;
-        return a == nts::Undefined || b == nts::Undefined ? nts::Undefined : nts::True;
-    }
-
-    constexpr nts::Tristate operator||(nts::Tristate a, nts::Tristate b)
-    {
-        return a == nts::True || b == nts::True ? nts::True : nts::False;
-    }
-
-    constexpr nts::Tristate operator!(nts::Tristate a)
-    {
-        if (a == nts::Undefined)
-            return nts::Undefined;
-        return a == nts::True ? nts::False : nts::True;
-    }
-
-    constexpr nts::Tristate operator&(nts::Tristate a, nts::Tristate b)
-    {
-        return !(a && b);
-    }
-
-    constexpr nts::Tristate operator^(nts::Tristate a, nts::Tristate b)
-    {
-        if (a == nts::Undefined || b == nts::Undefined)
-            return nts::Undefined;
-        return a != b ? nts::True : nts::False;
-    }
-
-    constexpr nts::Tristate operator|(nts::Tristate a, nts::Tristate b)
-    {
-        return !(a || b);
-    }
-
-    constexpr std::ostream &operator<<(std::ostream &os, nts::Tristate state)
-    {
-        switch (state) {
-            case nts::Tristate::Undefined:
-                os << "U";
-                break;
-            case nts::Tristate::True:
-                os << "1";
-                break;
-            case nts::Tristate::False:
-                os << "0";
-                break;
-        }
-
-        return os;
-    }
-
     // Interface
     class IComponent {
     public:

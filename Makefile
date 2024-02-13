@@ -11,6 +11,7 @@ EXT			:=	.cpp
 DIR			:=	src
 SRC			:=	$(addprefix $(DIR)/,								\
 					Main.cpp										\
+					Tristate.cpp									\
 				)
 
 DIR			+=	src/components
