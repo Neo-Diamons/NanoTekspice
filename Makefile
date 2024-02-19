@@ -17,6 +17,7 @@ SRC			:=	$(addprefix $(DIR)/,								\
 DIR			+=	src/components
 SRC			+=	$(addprefix $(lastword $(DIR))/,					\
 					AComponent.cpp									\
+					Link.cpp
 				)
 
 DIR			+=	src/components/special

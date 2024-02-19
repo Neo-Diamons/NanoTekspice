@@ -5,20 +5,16 @@
 ** AComponent
 */
 
-#include "src/IComponent.hpp"
+#include "AComponent.hpp"
+#include "Link.hpp"
 
-#include <utility>
+using namespace nts;
 
-nts::AComponent::Exception::Exception(std::string message)
-    : _message(std::move(message))
-{}
-
-const char *nts::AComponent::Exception::what() const noexcept
+void AComponent::setLink(std::size_t pin, std::shared_ptr<IComponent> other, std::size_t otherPin)
 {
-    return _message.c_str();
-}
-
-void nts::AComponent::setLink(std::size_t pin, std::shared_ptr<IComponent> other, std::size_t otherPin)
-{
+    if (!this->getValidPins().first.contains(pin))
+        throw Link::InvalidPinException(pin, std::shared_ptr<IComponent>(this));
+    if (!other->getValidPins().second.contains(otherPin))
+        throw Link::InvalidPinException(otherPin, other, true);
     _pins[pin] = Link(other, otherPin);
 }
