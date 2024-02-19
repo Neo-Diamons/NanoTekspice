@@ -12,18 +12,9 @@
 #include <map>
 
 #include "Tristate.hpp"
+#include "components/IComponent.hpp"
 
 namespace nts {
-    // Interface
-    class IComponent {
-    public:
-        virtual ~IComponent() = default;
-
-        virtual void simulate(std::size_t tick) = 0;
-        virtual nts::Tristate compute(std::size_t pin) = 0;
-        virtual void setLink(std::size_t pin, std::shared_ptr<IComponent> other, std::size_t otherPin) = 0;
-    };
-
     class Link {
     public:
         Link() : _pin(0)
@@ -32,11 +23,6 @@ namespace nts {
         Link(const std::shared_ptr<IComponent> &component, std::size_t pin)
             : _component(component), _pin(pin)
         {};
-
-        void simulate(std::size_t tick)
-        {
-            _component->simulate(tick);
-        }
 
         [[nodiscard]] nts::Tristate compute() const
         {
@@ -65,14 +51,10 @@ namespace nts {
         };
 
         void setLink(std::size_t pin, std::shared_ptr<IComponent> other, std::size_t otherPin) override;
-        void simulate(std::size_t tick) override;
     };
 
     class ValueComponent : public AComponent {
     public:
-        void simulate([[maybe_unused]] std::size_t tick) override
-        {};
-
         void setLink([[maybe_unused]] std::size_t pin, [[maybe_unused]] std::shared_ptr<IComponent> other,
             [[maybe_unused]] std::size_t otherPin) final
         {};
@@ -85,7 +67,6 @@ namespace nts {
         nts::Tristate _oldState = nts::Undefined;
 
     public:
-        void simulate(std::size_t tick) override;
 
         nts::Tristate compute(std::size_t pin) override;
 
@@ -94,7 +75,6 @@ namespace nts {
 
     class OutputComponent : public AComponent {
     public:
-        void simulate(std::size_t tick) override;
 
         nts::Tristate compute(std::size_t pin) override;
     };
@@ -114,7 +94,6 @@ namespace nts {
         nts::Tristate _state = nts::Undefined;
 
     public:
-        void simulate(std::size_t tick) override;
 
         nts::Tristate compute(std::size_t pin) override;
     };
@@ -187,7 +166,6 @@ namespace nts {
         std::size_t _count = 0;
 
     public:
-        void simulate(std::size_t tick) override;
 
         nts::Tristate compute(std::size_t pin) override;
     };
@@ -210,7 +188,6 @@ namespace nts {
         unsigned _count = 0;
 
     public:
-        void simulate(std::size_t tick) override;
 
         nts::Tristate compute(std::size_t pin) override;
     };
