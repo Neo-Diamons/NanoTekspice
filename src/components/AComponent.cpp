@@ -22,9 +22,3 @@ void nts::AComponent::setLink(std::size_t pin, std::shared_ptr<IComponent> other
 {
     _pins[pin] = Link(other, otherPin);
 }
-
-void nts::AComponent::simulate(std::size_t tick)
-{
-    for (auto &pin: _pins)
-        pin.second.simulate(tick);
-}
