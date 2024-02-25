@@ -17,7 +17,7 @@
 namespace nts {
     class Circuit;
 
-    class AComponent : public IComponent {
+    class AComponent : public virtual IComponent {
         public:
             const std::string &getName() final;
             void setLink(std::size_t pin, std::shared_ptr<IComponent> other, std::size_t otherPin) final;
