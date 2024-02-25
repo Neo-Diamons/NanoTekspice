@@ -8,19 +8,13 @@
 #include <iostream>
 #include "src/IComponent.hpp"
 
-void nts::Gates4040::simulate(std::size_t tick)
-{
-    for (auto &pin: _pins)
-        pin.second.simulate(tick);
-
-    if (_pins[11].compute())
-        _count = 0;
-    else if (_pins[10].compute())
-        _count = (_count + 1) % 0b1000000000000;
-}
-
 nts::Tristate nts::Gates4040::compute(std::size_t pin)
 {
+    if (_pins[11].compute() == nts::Tristate::True)
+        _count = 0;
+    else if (_pins[10].compute() == nts::Tristate::True)
+        _count = (_count + 1) % 0b1000000000000;
+
     switch (pin) {
         case 9:
             return _count & 0b000000000001 ? nts::True : nts::False;

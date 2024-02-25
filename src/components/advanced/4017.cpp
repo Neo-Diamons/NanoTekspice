@@ -7,20 +7,14 @@
 
 #include "src/IComponent.hpp"
 
-void nts::Gates4017::simulate(std::size_t tick)
+nts::Tristate nts::Gates4017::compute(std::size_t pin)
 {
-    for (auto &pin: _pins)
-        pin.second.simulate(tick);
-
     if (_pins[15].compute() == nts::Tristate::True)
         _count = 0;
     else if (_pins[13].compute() == nts::Tristate::True
         && _pins[14].compute() == nts::Tristate::True)
         _count = (_count + 1) % 10;
-}
 
-nts::Tristate nts::Gates4017::compute(std::size_t pin)
-{
     switch (pin) {
         case 3:
             return _count == 0 ? nts::Tristate::True : nts::Tristate::False;
