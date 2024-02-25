@@ -47,6 +47,6 @@ nts::Tristate nts::Gates4040::compute(std::size_t pin)
         case 1:
             return _count & 0b100000000000 ? nts::True : nts::False;
         default:
-            throw AComponent::Exception("4040: Invalid pin");
+            throw std::runtime_error("Bad pin");
     }
 }

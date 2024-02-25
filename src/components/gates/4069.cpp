@@ -23,6 +23,6 @@ nts::Tristate nts::Gates4069::compute(std::size_t pin)
         case 12:
             return !_pins[13].compute();
         default:
-            throw AComponent::Exception("4069: Invalid pin");
+            throw std::runtime_error("Bad pin");
     }
 }
