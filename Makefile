@@ -12,6 +12,7 @@ DIR			:=	src
 SRC			:=	$(addprefix $(DIR)/,								\
 					Main.cpp										\
 					Tristate.cpp									\
+					Exception.cpp									\
 				)
 
 DIR			+=	src/components

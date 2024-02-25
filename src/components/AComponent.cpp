@@ -18,8 +18,8 @@ const std::string &AComponent::getName()
 void AComponent::setLink(std::size_t pin, std::shared_ptr<IComponent> other, std::size_t otherPin)
 {
     if (!this->getValidPins().first.contains(pin))
-        throw Link::InvalidPinException(pin, std::shared_ptr<IComponent>(this));
+        throw Link::InvalidPinException(pin, this->getName());
     if (!other->getValidPins().second.contains(otherPin))
-        throw Link::InvalidPinException(otherPin, other, true);
+        throw Link::InvalidPinException(otherPin, other->getName(), true);
     _pins[pin] = Link(other, otherPin);
 }
