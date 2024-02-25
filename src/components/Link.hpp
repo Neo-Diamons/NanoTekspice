@@ -13,6 +13,7 @@
     #include <memory>
     #include <string>
 
+    #include "../Exception.hpp"
     #include "IComponent.hpp"
 
 namespace nts {
@@ -26,23 +27,23 @@ namespace nts {
 
             [[nodiscard]] Tristate compute() const;
 
-            class InvalidPinException : public std::exception {
+            class InvalidPinException : public Exception {
                 public:
-                    InvalidPinException(std::size_t pin, std::shared_ptr<IComponent> component, bool isOutputPin = false)
-                        : _pin(pin), _component(component), _isOutputPin(isOutputPin), _message(this->makeMessage())
+                    InvalidPinException(std::size_t pin, const std::string &componentName, bool isOutputPin = false)
+                        : _pin(pin), _componentName(componentName), _isOutputPin(isOutputPin)
                     {}
 
-                    [[nodiscard]] const char *what() const noexcept final;
                     std::size_t getPin() const { return _pin; }
-                    std::shared_ptr<IComponent> getComponent() const { return _component; }
+                    const std::string &getComponentName() const { return _componentName; }
                     bool isOutputPin() const { return _isOutputPin; }
+
+                protected:
+                    [[nodiscard]] std::string makeMessage() const final;
 
                 private:
                     const std::size_t _pin;
-                    const std::shared_ptr<IComponent> _component;
+                    const std::string _componentName;
                     const bool _isOutputPin;
-                    const std::string _message;
-                    [[nodiscard]] std::string makeMessage() const;
             };
 
         private:

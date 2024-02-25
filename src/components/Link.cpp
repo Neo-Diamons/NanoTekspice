@@ -21,13 +21,8 @@ using namespace nts;
     std::stringstream message;
 
     message << "Link::InvalidPinException: Pin " << this->_pin
-        << " on component '" << this->_component->getName()
+        << " on component '" << this->_componentName
         << "' is not a valid " << (this->_isOutputPin ? "output pin." : "input pin.");
 
     return message.str();
-}
-
-[[nodiscard]] const char *Link::InvalidPinException::what() const noexcept
-{
-    return this->_message.c_str();
 }
