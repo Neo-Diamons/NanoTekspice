@@ -14,7 +14,7 @@ nts::Tristate nts::Gates4008::add(int idA, int idB, nts::Tristate carry)
     nts::Tristate b = _pins[idB].compute() ^ carry;
 
     nts::Tristate sum = a ^ b ^ _outPins[14];
-    _outPins[14] = (a && b) || (_outPins[14] && (a ^ b));
+    _outPins[14] = (a & b) | (_outPins[14] & (a ^ b));
 
     return sum;
 }
