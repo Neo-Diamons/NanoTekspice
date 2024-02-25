@@ -12,6 +12,7 @@ DIR			:=	src
 SRC			:=	$(addprefix $(DIR)/,								\
 					Main.cpp										\
 					Tristate.cpp									\
+					Circuit.cpp										\
 					Exception.cpp									\
 				)
 
