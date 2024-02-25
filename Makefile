@@ -22,6 +22,7 @@ SRC			+=	$(addprefix $(lastword $(DIR))/,					\
 					Link.cpp										\
 					ASourceComponent.cpp							\
 					AInputComponent.cpp								\
+					ComponentFactory.cpp							\
 				)
 
 DIR			+=	src/components/special
