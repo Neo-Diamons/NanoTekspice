@@ -13,6 +13,6 @@ nts::Tristate nts::NotComponent::compute(std::size_t pin)
         case 1:
             return !_pins[1].compute();
         default:
-            throw AComponent::Exception("NotComponent: Invalid pin");
+            throw std::runtime_error("Bad pin");
     }
 }

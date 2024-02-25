@@ -45,6 +45,6 @@ nts::Tristate nts::Gates4017::compute(std::size_t pin)
         case 12:
             return _count <= 4 ? nts::Tristate::True : nts::Tristate::False;
         default:
-            throw AComponent::Exception("4017: Invalid pin");
+            throw std::runtime_error("Bad pin");
     }
 }
