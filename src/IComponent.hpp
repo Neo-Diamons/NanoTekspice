@@ -11,68 +11,9 @@
 #include <memory>
 #include <map>
 
+#include "Tristate.hpp"
+
 namespace nts {
-    // Enum
-    enum Tristate {
-        Undefined = (-true),
-        True = true,
-        False = false
-    };
-
-    constexpr nts::Tristate operator&&(nts::Tristate a, nts::Tristate b)
-    {
-        if (a == nts::False || b == nts::False)
-            return nts::False;
-        return a == nts::Undefined || b == nts::Undefined ? nts::Undefined : nts::True;
-    }
-
-    constexpr nts::Tristate operator||(nts::Tristate a, nts::Tristate b)
-    {
-        return a == nts::True || b == nts::True ? nts::True : nts::False;
-    }
-
-    constexpr nts::Tristate operator!(nts::Tristate a)
-    {
-        if (a == nts::Undefined)
-            return nts::Undefined;
-        return a == nts::True ? nts::False : nts::True;
-    }
-
-    constexpr nts::Tristate operator&(nts::Tristate a, nts::Tristate b)
-    {
-        return !(a && b);
-    }
-
-    constexpr nts::Tristate operator^(nts::Tristate a, nts::Tristate b)
-    {
-        if (a == nts::Undefined || b == nts::Undefined)
-            return nts::Undefined;
-        return a != b ? nts::True : nts::False;
-    }
-
-    constexpr nts::Tristate operator|(nts::Tristate a, nts::Tristate b)
-    {
-        return !(a || b);
-    }
-
-    constexpr std::ostream &operator<<(std::ostream &os, nts::Tristate state)
-    {
-        switch (state) {
-            case nts::Tristate::Undefined:
-                os << "U";
-                break;
-            case nts::Tristate::True:
-                os << "1";
-                break;
-            case nts::Tristate::False:
-                os << "0";
-                break;
-        }
-
-        return os;
-    }
-
-    // Interface
     class IComponent {
     public:
         virtual ~IComponent() = default;
@@ -106,10 +47,12 @@ namespace nts {
         std::size_t _pin;
     };
 
-    // Abstract
     class AComponent : public IComponent {
     protected:
-        std::map<size_t, Link> _pins{};
+        std::map<std::size_t, Link> _pins{};
+        std::size_t _lastTick = 0;
+
+        Tristate checkPin(const std::string &name, size_t pin);
 
     public:
         class Exception : public std::exception {
@@ -136,8 +79,13 @@ namespace nts {
         {};
     };
 
+    class InputComponents : public AComponent {
+    public:
+        virtual void setState(nts::Tristate state) = 0;
+    };
+
     // Special components
-    class InputComponent : public AComponent {
+    class InputComponent : public InputComponents {
     private:
         nts::Tristate _state = nts::Undefined;
         nts::Tristate _oldState = nts::Undefined;
@@ -147,7 +95,7 @@ namespace nts {
 
         nts::Tristate compute(std::size_t pin) override;
 
-        void setState(nts::Tristate state);
+        void setState(nts::Tristate state) override;
     };
 
     class OutputComponent : public AComponent {
@@ -167,7 +115,7 @@ namespace nts {
         nts::Tristate compute(std::size_t pin) override;
     };
 
-    class ClockComponent : public ValueComponent {
+    class ClockComponent : public InputComponents {
     private:
         nts::Tristate _state = nts::Undefined;
 
@@ -175,6 +123,8 @@ namespace nts {
         void simulate(std::size_t tick) override;
 
         nts::Tristate compute(std::size_t pin) override;
+
+        void setState(nts::Tristate state) override;
     };
 
     // Elementary components

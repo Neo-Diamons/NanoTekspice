@@ -19,6 +19,6 @@ nts::Tristate nts::Gates4030::compute(std::size_t pin)
         case 11:
             return _pins[12].compute() ^ _pins[13].compute();
         default:
-            throw AComponent::Exception("4030: Invalid pin");
+            return checkPin("4030", pin);
     }
 }

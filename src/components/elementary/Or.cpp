@@ -13,6 +13,6 @@ nts::Tristate nts::OrComponent::compute(std::size_t pin)
         case 1:
             return _pins[1].compute() || _pins[2].compute();
         default:
-            throw AComponent::Exception("OrComponent: Invalid pin");
+            return checkPin("Or", pin);
     }
 }

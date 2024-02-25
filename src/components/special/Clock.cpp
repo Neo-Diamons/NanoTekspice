@@ -21,3 +21,8 @@ nts::Tristate nts::ClockComponent::compute(std::size_t pin)
         throw AComponent::Exception("ClockComponent: Invalid pin");
     return _state;
 }
+
+void nts::ClockComponent::setState(nts::Tristate state)
+{
+    _state = state;
+}

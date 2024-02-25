@@ -9,6 +9,9 @@
 
 void nts::Gates4017::simulate(std::size_t tick)
 {
+    if (tick == _lastTick)
+        return;
+    _lastTick = tick;
     for (auto &pin: _pins)
         pin.second.simulate(tick);
 
@@ -45,6 +48,6 @@ nts::Tristate nts::Gates4017::compute(std::size_t pin)
         case 12:
             return _count <= 4 ? nts::Tristate::True : nts::Tristate::False;
         default:
-            throw AComponent::Exception("4017: Invalid pin");
+            return checkPin("4017", pin);
     }
 }

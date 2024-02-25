@@ -5,11 +5,13 @@
 ** 4040
 */
 
-#include <iostream>
 #include "src/IComponent.hpp"
 
 void nts::Gates4040::simulate(std::size_t tick)
 {
+    if (tick == _lastTick)
+        return;
+    _lastTick = tick;
     for (auto &pin: _pins)
         pin.second.simulate(tick);
 
@@ -47,6 +49,6 @@ nts::Tristate nts::Gates4040::compute(std::size_t pin)
         case 1:
             return _count & 0b100000000000 ? nts::True : nts::False;
         default:
-            throw AComponent::Exception("4040: Invalid pin");
+            return checkPin("4040", pin);
     }
 }

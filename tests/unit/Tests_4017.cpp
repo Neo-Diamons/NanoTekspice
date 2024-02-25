@@ -45,14 +45,14 @@ Test(gates4017, test00)
     cr_assert_eq(gate.compute(11), nts::False);
     cr_assert_eq(gate.compute(12), nts::True);
 
-    gate.simulate(1);
-    gate.simulate(1);
-    gate.simulate(1);
-    gate.simulate(1);
-    gate.simulate(1);
-    gate.simulate(1);
-    gate.simulate(1);
-    gate.simulate(1);
+    gate.simulate(2);
+    gate.simulate(3);
+    gate.simulate(4);
+    gate.simulate(5);
+    gate.simulate(6);
+    gate.simulate(7);
+    gate.simulate(8);
+    gate.simulate(9);
 
     cr_assert_eq(gate.compute(3), nts::False);
     cr_assert_eq(gate.compute(2), nts::False);
@@ -66,7 +66,7 @@ Test(gates4017, test00)
     cr_assert_eq(gate.compute(11), nts::True);
     cr_assert_eq(gate.compute(12), nts::False);
 
-    gate.simulate(1);
+    gate.simulate(10);
 
     cr_assert_eq(gate.compute(3), nts::True);
     cr_assert_eq(gate.compute(2), nts::False);
@@ -96,8 +96,8 @@ Test(gates4017, reset)
     gate.setLink(15, in_r, 1);
 
     gate.simulate(1);
-    gate.simulate(1);
-    gate.simulate(1);
+    gate.simulate(2);
+    gate.simulate(3);
 
     cr_assert_eq(gate.compute(3), nts::False);
     cr_assert_eq(gate.compute(2), nts::False);
@@ -112,7 +112,7 @@ Test(gates4017, reset)
     cr_assert_eq(gate.compute(12), nts::True);
 
     in_r->setState(nts::True);
-    gate.simulate(1);
+    gate.simulate(4);
 
     cr_assert_eq(gate.compute(3), nts::True);
     cr_assert_eq(gate.compute(2), nts::False);
