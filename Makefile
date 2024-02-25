@@ -17,16 +17,17 @@ SRC			:=	$(addprefix $(DIR)/,								\
 DIR			+=	src/components
 SRC			+=	$(addprefix $(lastword $(DIR))/,					\
 					AComponent.cpp									\
-					Link.cpp
+					Link.cpp										\
+					ASourceComponent.cpp							\
+					AInputComponent.cpp								\
 				)
 
 DIR			+=	src/components/special
 SRC			+=	$(addprefix $(lastword $(DIR))/,					\
-					True.cpp										\
-					False.cpp										\
-					Input.cpp										\
-					Output.cpp										\
-					Clock.cpp										\
+					TrueComponent.cpp								\
+					FalseComponent.cpp								\
+					InputComponent.cpp								\
+					ClockComponent.cpp								\
 				)
 
 DIR			+=	src/components/elementary
