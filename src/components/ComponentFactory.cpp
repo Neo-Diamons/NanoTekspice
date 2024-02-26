@@ -13,8 +13,6 @@
 #include "Components.hpp"
 
 #include "ComponentFactory.hpp"
-#include "IComponent.hpp"
-#include "IInputComponent.hpp"
 
 using namespace nts;
 
@@ -30,7 +28,7 @@ const std::map<const char *, std::function<std::shared_ptr<IComponent>(const Cir
     std::stringstream message;
 
     message << "ComponentFactory::InvalidTypeException: Component '" << this->_name
-        << "' has type '" << this->_type << "' which is not valid.";
+        << "' has type '" << this->_type << "' which is not valid";
 
     return message.str();
 }
@@ -40,7 +38,7 @@ const std::map<const char *, std::function<std::shared_ptr<IComponent>(const Cir
     std::stringstream message;
 
     message << "ComponentFactory::ComponentExistsException: Cannot create component named '" << this->_name
-        << "' of type '" << this->_type << "'; a component with that name already exists.";
+        << "' of type '" << this->_type << "'; a component with that name already exists";
 
     return message.str();
 }

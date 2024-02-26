@@ -16,5 +16,5 @@ using namespace nts;
 
 [[nodiscard]] std::string Exception::makeMessage() const
 {
-    return "nts::Exception: An error has occured.";
+    return "nts::Exception: An error has occured";
 }
