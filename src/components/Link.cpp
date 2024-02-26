@@ -22,7 +22,7 @@ using namespace nts;
 
     message << "Link::InvalidPinException: Pin " << this->_pin
         << " on component '" << this->_componentName
-        << "' is not a valid " << (this->_isOutputPin ? "output pin." : "input pin.");
+        << "' is not a valid " << (this->_isOutputPin ? "out" : "in") << "put pin";
 
     return message.str();
 }

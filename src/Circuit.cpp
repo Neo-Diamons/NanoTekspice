@@ -51,7 +51,7 @@ void Circuit::addOutput(const std::string &name)
 {
     std::stringstream message;
 
-    message << "Circuit::ComponentNotFoundException: Component '" << this->_name << "' does not exist.";
+    message << "Circuit::ComponentNotFoundException: Component '" << this->_name << "' does not exist";
 
     return message.str();
 }
