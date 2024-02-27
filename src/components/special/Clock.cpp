@@ -18,7 +18,7 @@ void nts::ClockComponent::simulate(std::size_t tick)
 nts::Tristate nts::ClockComponent::compute(std::size_t pin)
 {
     if (pin != 1)
-        throw AComponent::Exception("ClockComponent: Invalid pin");
+        throw AComponent::ExceptionInvalidPin("ClockComponent: Invalid pin");
     return _state;
 }
 

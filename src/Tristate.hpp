@@ -67,6 +67,17 @@ namespace nts {
 
         return os;
     }
+
+    constexpr nts::Tristate toTristate(const std::string &str)
+    {
+        if (str == "0")
+            return nts::Tristate::False;
+        if (str == "1")
+            return nts::Tristate::True;
+        if (str == "U")
+            return nts::Tristate::Undefined;
+        throw std::invalid_argument("Invalid Tristate");
+    }
 }
 
 #endif //NANOTEKSPICE_TRISTATE_HPP

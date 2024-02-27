@@ -12,6 +12,8 @@
 #include <utility>
 #include <csignal>
 
+#include "Factory.hpp"
+
 volatile bool isLoop = true;
 
 void Parser::signalHandler([[maybe_unused]] int signum)
@@ -37,7 +39,12 @@ void Parser::parseChipsets()
 
         std::istringstream iss(line);
         iss >> type >> value;
-        _circuit.addComponent(type, value);
+        try {
+            _circuit.addComponent(type, value);
+        } catch (const nts::Factory::ExceptionUnknowComponent &e) {
+            std::cerr << e.what() << std::endl;
+            exit(84);
+        }
     }
 }
 
@@ -54,12 +61,17 @@ void Parser::parseLinks()
         std::istringstream iss(line);
         iss >> comp1 >> comp2;
 
-        _circuit.addLink(
-            comp1.substr(0, comp1.find(':')),
-            std::stoi(comp1.substr(comp1.find(':') + 1)),
-            comp2.substr(0, comp2.find(':')),
-            std::stoi(comp2.substr(comp2.find(':') + 1))
-        );
+        try {
+            _circuit.addLink(
+                comp1.substr(0, comp1.find(':')),
+                std::stoi(comp1.substr(comp1.find(':') + 1)),
+                comp2.substr(0, comp2.find(':')),
+                std::stoi(comp2.substr(comp2.find(':') + 1))
+            );
+        } catch (const nts::AComponent::ExceptionInvalidPin &e) {
+            std::cerr << e.what() << std::endl;
+            exit(84);
+        }
     }
 }
 
@@ -87,6 +99,7 @@ void Parser::loop()
 
                 _circuit.simulate();
                 std::cout << _circuit;
+                usleep(100);
             }
         }
 
@@ -100,11 +113,13 @@ void Parser::loop()
     }
 }
 
-bool Parser::parse()
+void Parser::parse()
 {
     _file.open(_filename);
-    if (!_file.is_open())
-        throw std::runtime_error("File not found");
+    if (!_file.is_open()) {
+        std::cerr << "Error: could not open file" << std::endl;
+        exit(84);
+    }
 
     std::string line;
     while (std::getline(_file, line)) {
@@ -112,15 +127,14 @@ bool Parser::parse()
             break;
         if (line.empty() || line[0] == '#')
             continue;
-        return false;
+        exit(84);
     }
 
     parseChipsets();
     parseLinks();
 
+    _circuit.sortComponents();
     loop();
 
     _file.close();
-
-    return true;
 }

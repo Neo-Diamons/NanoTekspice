@@ -7,7 +7,7 @@
 
 #include "Factory.hpp"
 
-std::shared_ptr<nts::IComponent> Factory::createComponent(const std::string &type)
+std::shared_ptr<nts::IComponent> nts::Factory::createComponent(const std::string &type)
 {
     // Special
     if (type == "input")
@@ -51,16 +51,5 @@ std::shared_ptr<nts::IComponent> Factory::createComponent(const std::string &typ
         return std::make_shared<nts::Gates4017>();
     if (type == "4040")
         return std::make_shared<nts::Gates4040>();
-    return nullptr;
-}
-
-nts::Tristate Factory::stringToTristate(const std::string &str)
-{
-    if (str == "0")
-        return nts::Tristate::False;
-    if (str == "1")
-        return nts::Tristate::True;
-    if (str == "U")
-        return nts::Tristate::Undefined;
-    throw Factory::Exception("Invalid tristate string");
+    throw Factory::ExceptionUnknowComponent(type);
 }

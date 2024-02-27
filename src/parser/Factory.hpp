@@ -10,31 +10,33 @@
 
 #include <string>
 #include <tuple>
+#include <utility>
 
 #include "src/components/special/Special.hpp"
 #include "src/components/elementary/Elementary.hpp"
 #include "src/components/gates/Gates.hpp"
 #include "src/components/advanced/Advanced.hpp"
 
-class Factory {
-public:
-    class Exception : public std::exception {
-    private:
-        std::string _message;
-
+namespace nts {
+    class Factory {
     public:
-        explicit Exception(const std::string &message)
-            : _message("Factory: " + message)
-        {};
+        class ExceptionUnknowComponent : public std::exception {
+        private:
+            std::string type;
 
-        [[nodiscard]] const char *what() const noexcept override
-        {
-            return _message.c_str();
-        }
+        public:
+            explicit ExceptionUnknowComponent(std::string type)
+                : type(std::move(type))
+            {};
+
+            [[nodiscard]] const char *what() const noexcept override
+            {
+                return ("Unknown component name \'" + type + "\'.").c_str();
+            }
+        };
+
+        static std::shared_ptr<nts::IComponent> createComponent(const std::string &type);
     };
-
-    static std::shared_ptr<nts::IComponent> createComponent(const std::string &type);
-    static nts::Tristate stringToTristate(const std::string &str);
-};
+}
 
 #endif //NANOTEKSPICE_FACTORY_HPP

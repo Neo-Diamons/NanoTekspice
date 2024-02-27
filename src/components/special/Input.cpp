@@ -22,7 +22,7 @@ void nts::InputComponent::simulate(std::size_t tick)
 nts::Tristate nts::InputComponent::compute(std::size_t pin)
 {
     if (pin != 1)
-        throw AComponent::Exception("InputComponent: Invalid pin");
+        throw AComponent::ExceptionInvalidPin("InputComponent: Invalid pin");
     if (_pins.find(1) == _pins.end())
         return _oldState;
     return _pins[1].compute();

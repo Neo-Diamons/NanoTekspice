@@ -11,7 +11,7 @@
 #include <tuple>
 #include <list>
 
-#include "src/components/IComponent.hpp"
+#include "src/components/AComponent.hpp"
 
 class Circuit {
 private:

@@ -19,7 +19,7 @@ bool Circuit::addComponent(const std::string &type, const std::string &name)
 
     std::shared_ptr<std::tuple<std::string, std::shared_ptr<nts::IComponent>>> newComponent = std::make_shared<std::tuple<std::string, std::shared_ptr<nts::IComponent>>>(
         name,
-        Factory::createComponent(type)
+        nts::Factory::createComponent(type)
     );
     if (std::get<1>(*newComponent) == nullptr)
         return false;
@@ -55,7 +55,7 @@ bool Circuit::setValues(const std::string &name, const std::string &value)
 {
     for (auto &input : _inputs)
         if (std::get<0>(*input) == name) {
-            std::dynamic_pointer_cast<nts::InputComponents>(std::get<1>(*input))->setState(Factory::stringToTristate(value));
+            std::dynamic_pointer_cast<nts::InputComponents>(std::get<1>(*input))->setState(nts::toTristate(value));
             return true;
         }
     return false;

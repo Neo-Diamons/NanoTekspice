@@ -10,7 +10,7 @@
 
 #include <fstream>
 
-#include "./Circuit.hpp"
+#include "Circuit.hpp"
 
 class Parser {
 private:
@@ -27,7 +27,7 @@ private:
 public:
     explicit Parser(std::string filename);
 
-    bool parse();
+    void parse();
 };
 
 #endif //NANOTEKSPICE_PARSER_HPP

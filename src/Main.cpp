@@ -17,5 +17,7 @@ int main(int ac, char **av)
     }
 
     Parser parser(av[1]);
-    return parser.parse() ? 0 : 84;
+    parser.parse();
+
+    return 0;
 }
