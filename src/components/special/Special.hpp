@@ -60,6 +60,7 @@ namespace nts {
     class ClockComponent : public InputComponents {
     private:
         nts::Tristate _state = nts::Undefined;
+        nts::Tristate _oldState = nts::Undefined;
 
     public:
         void simulate(std::size_t tick) override;
