@@ -5,7 +5,7 @@
 ** And
 */
 
-#include "src/IComponent.hpp"
+#include "Elementary.hpp"
 
 nts::Tristate nts::AndComponent::compute(std::size_t pin)
 {

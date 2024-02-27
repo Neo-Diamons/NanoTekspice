@@ -5,7 +5,7 @@
 ** 4071
 */
 
-#include "src/IComponent.hpp"
+#include "Gates.hpp"
 
 nts::Tristate nts::Gates4071::compute(std::size_t pin)
 {

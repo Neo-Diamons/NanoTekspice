@@ -5,7 +5,7 @@
 ** AComponent
 */
 
-#include "src/IComponent.hpp"
+#include "AComponent.hpp"
 
 #include <utility>
 

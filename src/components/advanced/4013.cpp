@@ -5,7 +5,7 @@
 ** 4013
 */
 
-#include "src/IComponent.hpp"
+#include "Advanced.hpp"
 
 nts::Tristate nts::Gates4013::compute(std::size_t pin)
 {

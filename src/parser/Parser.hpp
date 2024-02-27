@@ -18,6 +18,8 @@ private:
     std::ifstream _file;
     Circuit _circuit;
 
+    static void signalHandler(int signum);
+
     void parseChipsets();
     void parseLinks();
     void loop();

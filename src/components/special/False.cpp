@@ -5,7 +5,7 @@
 ** False
 */
 
-#include "src/IComponent.hpp"
+#include "Special.hpp"
 
 nts::Tristate nts::FalseComponent::compute(std::size_t pin)
 {

@@ -5,7 +5,7 @@
 ** Not
 */
 
-#include "src/IComponent.hpp"
+#include "Elementary.hpp"
 
 nts::Tristate nts::NotComponent::compute(std::size_t pin)
 {

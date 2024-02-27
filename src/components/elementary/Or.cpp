@@ -5,7 +5,7 @@
 ** Or
 */
 
-#include "src/IComponent.hpp"
+#include "Elementary.hpp"
 
 nts::Tristate nts::OrComponent::compute(std::size_t pin)
 {

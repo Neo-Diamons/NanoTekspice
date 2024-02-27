@@ -5,7 +5,7 @@
 ** 4017
 */
 
-#include "src/IComponent.hpp"
+#include "Advanced.hpp"
 
 void nts::Gates4017::simulate(std::size_t tick)
 {

@@ -11,7 +11,10 @@
 #include <string>
 #include <tuple>
 
-#include "src/IComponent.hpp"
+#include "src/components/special/Special.hpp"
+#include "src/components/elementary/Elementary.hpp"
+#include "src/components/gates/Gates.hpp"
+#include "src/components/advanced/Advanced.hpp"
 
 class Factory {
 public:

@@ -5,8 +5,7 @@
 ** 4008
 */
 
-
-#include "src/IComponent.hpp"
+#include "Advanced.hpp"
 
 nts::Tristate nts::Gates4008::add(int idA, int idB, nts::Tristate carry)
 {

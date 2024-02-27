@@ -7,9 +7,17 @@
 
 #include "Parser.hpp"
 
-#include <utility>
-#include <sstream>
 #include <iostream>
+#include <sstream>
+#include <utility>
+#include <csignal>
+
+volatile bool isLoop = true;
+
+void Parser::signalHandler([[maybe_unused]] int signum)
+{
+    isLoop = false;
+}
 
 Parser::Parser(std::string filename)
     : _filename(std::move(filename))
@@ -73,7 +81,10 @@ void Parser::loop()
             continue;
         }
         if (line == "loop") {
-            while (true) {
+            isLoop = true;
+            while (isLoop) {
+                signal(SIGINT, signalHandler);
+
                 _circuit.simulate();
                 std::cout << _circuit;
             }

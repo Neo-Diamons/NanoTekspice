@@ -5,7 +5,7 @@
 ** Clock
 */
 
-#include "src/IComponent.hpp"
+#include "Special.hpp"
 
 void nts::ClockComponent::simulate(std::size_t tick)
 {

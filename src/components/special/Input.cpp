@@ -5,7 +5,7 @@
 ** Input
 */
 
-#include "src/IComponent.hpp"
+#include "Special.hpp"
 
 void nts::InputComponent::simulate(std::size_t tick)
 {

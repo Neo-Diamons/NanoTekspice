@@ -5,7 +5,7 @@
 ** Output
 */
 
-#include "src/IComponent.hpp"
+#include "Special.hpp"
 
 void nts::OutputComponent::simulate([[maybe_unused]] std::size_t tick)
 {}

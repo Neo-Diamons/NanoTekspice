@@ -5,8 +5,9 @@
 ** Circuit
 */
 
-#include <iostream>
 #include "Circuit.hpp"
+
+#include <iostream>
 
 #include "Factory.hpp"
 

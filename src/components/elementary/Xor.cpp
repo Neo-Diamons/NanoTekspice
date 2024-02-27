@@ -5,7 +5,7 @@
 ** Xor
 */
 
-#include "src/IComponent.hpp"
+#include "Elementary.hpp"
 
 nts::Tristate nts::XorComponent::compute(std::size_t pin)
 {
