@@ -12,20 +12,20 @@
 #include <utility>
 #include <csignal>
 
-#include "Factory.hpp"
+#include "Exception.hpp"
 
 volatile bool isLoop = true;
 
-void Parser::signalHandler([[maybe_unused]] int signum)
+void nts::Parser::signalHandler([[maybe_unused]] int signum)
 {
     isLoop = false;
 }
 
-Parser::Parser(std::string filename)
+nts::Parser::Parser(std::string filename)
     : _filename(std::move(filename))
 {}
 
-void Parser::parseChipsets()
+void nts::Parser::parseChipsets()
 {
     std::string line;
     std::string type;
@@ -41,14 +41,17 @@ void Parser::parseChipsets()
         iss >> type >> value;
         try {
             _circuit.addComponent(type, value);
-        } catch (const nts::Factory::ExceptionUnknowComponent &e) {
+        } catch (const ExceptionUnknowComponent &e) {
+            std::cerr << e.what() << std::endl;
+            exit(84);
+        } catch (const ExceptionDuplicateComponent &e) {
             std::cerr << e.what() << std::endl;
             exit(84);
         }
     }
 }
 
-void Parser::parseLinks()
+void nts::Parser::parseLinks()
 {
     std::string line;
     std::string comp1;
@@ -68,14 +71,17 @@ void Parser::parseLinks()
                 comp2.substr(0, comp2.find(':')),
                 std::stoi(comp2.substr(comp2.find(':') + 1))
             );
-        } catch (const nts::AComponent::ExceptionInvalidPin &e) {
+        } catch (const ExceptionUnknowComponent &e) {
+            std::cerr << e.what() << std::endl;
+            exit(84);
+        } catch (const AComponent::ExceptionInvalidPin &e) {
             std::cerr << e.what() << std::endl;
             exit(84);
         }
     }
 }
 
-void Parser::loop()
+void nts::Parser::loop()
 {
     std::string line;
     std::string value;
@@ -113,7 +119,7 @@ void Parser::loop()
     }
 }
 
-void Parser::parse()
+void nts::Parser::parse()
 {
     _file.open(_filename);
     if (!_file.is_open()) {

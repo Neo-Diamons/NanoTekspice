@@ -20,21 +20,6 @@
 namespace nts {
     class Factory {
     public:
-        class ExceptionUnknowComponent : public std::exception {
-        private:
-            std::string type;
-
-        public:
-            explicit ExceptionUnknowComponent(std::string type)
-                : type(std::move(type))
-            {};
-
-            [[nodiscard]] const char *what() const noexcept override
-            {
-                return ("Unknown component name \'" + type + "\'.").c_str();
-            }
-        };
-
         static std::shared_ptr<nts::IComponent> createComponent(const std::string &type);
     };
 }

@@ -13,22 +13,32 @@
 
 #include "src/components/AComponent.hpp"
 
-class Circuit {
-private:
-    std::size_t _tick = 0;
-    std::list<std::shared_ptr<std::tuple<std::string, std::shared_ptr<nts::IComponent>>>> _components{};
-    std::list<std::shared_ptr<std::tuple<std::string, std::shared_ptr<nts::IComponent>>>> _inputs{};
-    std::list<std::shared_ptr<std::tuple<std::string, std::shared_ptr<nts::IComponent>>>> _outputs{};
+typedef std::list<std::shared_ptr<std::tuple<std::string, std::shared_ptr<nts::IComponent>>>> Components;
 
-public:
-    bool addComponent(const std::string &type, const std::string &value);
-    void sortComponents();
+namespace nts {
+    class Circuit {
+    private:
+        std::size_t _tick = 0;
+        Components _components{};
+        Components _inputs{};
+        Components _outputs{};
 
-    void simulate();
-    bool addLink(const std::string &comp1, std::size_t pin1, const std::string &comp2, std::size_t pin2);
-    bool setValues(const std::string &name, const std::string &value);
+    public:
+        void addComponent(const std::string &type, const std::string &value);
+        void sortComponents();
 
-    friend std::ostream &operator<<(std::ostream &os, const Circuit &circuit);
+        void simulate();
+        void addLink(const std::string &comp1, std::size_t pin1, const std::string &comp2, std::size_t pin2);
+        bool setValues(const std::string &name, const std::string &value);
+
+        [[nodiscard]] std::size_t getTick() const;
+        [[nodiscard]] const Components &getInputs() const;
+        [[nodiscard]] const Components &getOutputs() const;
+
+        friend std::ostream &operator<<(std::ostream &os, const Circuit &circuit);
+    };
+
+    std::ostream &operator<<(std::ostream &os, const Circuit &circuit);
 };
 
 #endif //NANOTEKSPICE_CIRCUIT_HPP

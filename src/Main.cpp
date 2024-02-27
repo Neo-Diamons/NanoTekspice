@@ -16,7 +16,7 @@ int main(int ac, char **av)
         return 84;
     }
 
-    Parser parser(av[1]);
+    nts::Parser parser(av[1]);
     parser.parse();
 
     return 0;

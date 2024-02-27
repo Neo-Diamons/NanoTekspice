@@ -7,6 +7,8 @@
 
 #include "Factory.hpp"
 
+#include "Exception.hpp"
+
 std::shared_ptr<nts::IComponent> nts::Factory::createComponent(const std::string &type)
 {
     // Special
@@ -51,5 +53,5 @@ std::shared_ptr<nts::IComponent> nts::Factory::createComponent(const std::string
         return std::make_shared<nts::Gates4017>();
     if (type == "4040")
         return std::make_shared<nts::Gates4040>();
-    throw Factory::ExceptionUnknowComponent(type);
+    throw ExceptionUnknowComponent(type);
 }

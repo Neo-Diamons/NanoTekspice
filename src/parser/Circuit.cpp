@@ -9,30 +9,28 @@
 
 #include <iostream>
 
+#include "Exception.hpp"
 #include "Factory.hpp"
 
-bool Circuit::addComponent(const std::string &type, const std::string &name)
+void nts::Circuit::addComponent(const std::string &type, const std::string &name)
 {
     for (auto &component : _components)
         if (std::get<0>(*component) == name)
-            return false;
+            throw ExceptionDuplicateComponent(name);
 
     std::shared_ptr<std::tuple<std::string, std::shared_ptr<nts::IComponent>>> newComponent = std::make_shared<std::tuple<std::string, std::shared_ptr<nts::IComponent>>>(
         name,
         nts::Factory::createComponent(type)
     );
-    if (std::get<1>(*newComponent) == nullptr)
-        return false;
 
     _components.push_back(newComponent);
     if (type == "input" || type == "clock")
         _inputs.push_back(_components.back());
     if (type == "output")
         _outputs.push_back(_components.back());
-    return true;
 }
 
-void Circuit::sortComponents()
+void nts::Circuit::sortComponents()
 {
     _inputs.sort([](const std::shared_ptr<std::tuple<std::string, std::shared_ptr<nts::IComponent>>> &a, const std::shared_ptr<std::tuple<std::string, std::shared_ptr<nts::IComponent>>> &b) {
         return std::get<0>(*a) < std::get<0>(*b);
@@ -42,7 +40,7 @@ void Circuit::sortComponents()
     });
 }
 
-void Circuit::simulate()
+void nts::Circuit::simulate()
 {
     _tick++;
     for (auto &input : _inputs)
@@ -51,7 +49,7 @@ void Circuit::simulate()
         std::dynamic_pointer_cast<nts::OutputComponent>(std::get<1>(*output))->simulate(_tick);
 }
 
-bool Circuit::setValues(const std::string &name, const std::string &value)
+bool nts::Circuit::setValues(const std::string &name, const std::string &value)
 {
     for (auto &input : _inputs)
         if (std::get<0>(*input) == name) {
@@ -61,7 +59,7 @@ bool Circuit::setValues(const std::string &name, const std::string &value)
     return false;
 }
 
-bool Circuit::addLink(const std::string &comp1, std::size_t pin1, const std::string &comp2, std::size_t pin2)
+void nts::Circuit::addLink(const std::string &comp1, std::size_t pin1, const std::string &comp2, std::size_t pin2)
 {
     std::shared_ptr<nts::IComponent> component1 = nullptr;
     std::shared_ptr<nts::IComponent> component2 = nullptr;
@@ -73,21 +71,37 @@ bool Circuit::addLink(const std::string &comp1, std::size_t pin1, const std::str
             component2 = std::get<1>(*component);
     }
 
-    if (component1 == nullptr || component2 == nullptr)
-        return false;
+    if (component1 == nullptr)
+        throw ExceptionUnknowComponent(comp1);
+    if (component2 == nullptr)
+        throw ExceptionUnknowComponent(comp2);
 
     component2->setLink(pin2, component1, pin1);
-    return true;
 }
 
-std::ostream &operator<<(std::ostream &os, const Circuit &circuit)
+std::size_t nts::Circuit::getTick() const
 {
-    os << "tick: " << circuit._tick << std::endl;
+    return _tick;
+}
+
+const Components &nts::Circuit::getInputs() const
+{
+    return _inputs;
+}
+
+const Components &nts::Circuit::getOutputs() const
+{
+    return _outputs;
+}
+
+std::ostream &nts::operator<<(std::ostream &os, const nts::Circuit &circuit)
+{
+    os << "tick: " << circuit.getTick() << std::endl;
     os << "input(s):" << std::endl;
-    for (auto &input : circuit._inputs)
+    for (auto &input : circuit.getInputs())
         os << "  " << std::get<0>(*input) << ": " << std::dynamic_pointer_cast<nts::InputComponents>(std::get<1>(*input))->compute(1) << std::endl;
     os << "output(s):" << std::endl;
-    for (auto &output : circuit._outputs)
+    for (auto &output : circuit.getOutputs())
         os << "  " << std::get<0>(*output) << ": " << std::dynamic_pointer_cast<nts::OutputComponent>(std::get<1>(*output))->compute(1) << std::endl;
     return os;
 }
