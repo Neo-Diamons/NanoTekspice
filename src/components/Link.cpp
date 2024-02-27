@@ -26,5 +26,7 @@ void nts::Link::simulate(std::size_t tick)
 
 nts::Tristate nts::Link::compute() const
 {
-    return _component->compute(this->_pin);
+    if (_pin == 0)
+        return Undefined;
+    return _component->compute(_pin);
 }
