@@ -8,10 +8,12 @@ env:
 jobs:
   push_to_mirror:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - uses: pixta-dev/repository-mirroring-action@v1
         with:
           target_repo_url:
