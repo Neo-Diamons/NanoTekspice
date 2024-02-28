@@ -7,7 +7,7 @@
 
 #include "Elementary.hpp"
 
-nts::Tristate nts::XorComponent::compute(std::size_t pin)
+nts::Tristate nts::XorComponent::compute(const std::size_t pin)
 {
     switch (pin) {
         case 3:

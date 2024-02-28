@@ -9,12 +9,9 @@
 
 #include "src/parser/Exception.hpp"
 
-void nts::OutputComponent::simulate([[maybe_unused]] std::size_t tick)
-{}
-
-nts::Tristate nts::OutputComponent::compute(std::size_t pin)
+nts::Tristate nts::OutputComponent::compute(const std::size_t pin)
 {
     if (pin != 1)
-        throw ExceptionInvalidPin("OutputComponent: Invalid pin");
+        throw ExceptionInvalidPin("Output: Invalid pin");
     return _pins[pin].compute();
 }

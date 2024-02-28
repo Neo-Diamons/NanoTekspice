@@ -13,7 +13,7 @@
 static auto gate = std::make_shared<nts::NotComponent>();
 static auto input = std::make_shared<nts::InputComponent>();
 
-void setup_not()
+static void setup_not()
 {
     nts::Link::setLink(gate, 1, input, 1);
 }

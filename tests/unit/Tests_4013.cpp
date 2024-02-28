@@ -6,24 +6,23 @@
 */
 
 #include <criterion/criterion.h>
-#include <iostream>
 
 #include "src/parser/Factory.hpp"
+#include "src/parser/Exception.hpp"
 
-Test(test4013, test00)
+static auto gate = std::make_shared<nts::Gates4013>();
+static auto in_1_data = std::make_shared<nts::InputComponent>();
+static auto in_1_set = std::make_shared<nts::InputComponent>();
+static auto in_1_reset = std::make_shared<nts::InputComponent>();
+static auto cl_1_clock = std::make_shared<nts::ClockComponent>();
+static auto in_2_data = std::make_shared<nts::InputComponent>();
+static auto in_2_set = std::make_shared<nts::InputComponent>();
+static auto in_2_reset = std::make_shared<nts::InputComponent>();
+static auto cl_2_clock = std::make_shared<nts::ClockComponent>();
+static std::size_t tick = 0;
+
+static void setup4013()
 {
-    auto gate = std::make_shared<nts::Gates4013>();
-
-    auto in_1_data = std::make_shared<nts::FalseComponent>();
-    auto in_1_set = std::make_shared<nts::FalseComponent>();
-    auto in_1_reset = std::make_shared<nts::FalseComponent>();
-    auto cl_1_clock = std::make_shared<nts::ClockComponent>();
-
-    auto in_2_data = std::make_shared<nts::TrueComponent>();
-    auto in_2_set = std::make_shared<nts::FalseComponent>();
-    auto in_2_reset = std::make_shared<nts::FalseComponent>();
-    auto cl_2_clock = std::make_shared<nts::ClockComponent>();
-
     nts::Link::setLink(gate, 5, in_1_data, 1);
     nts::Link::setLink(gate, 6, in_1_set, 1);
     nts::Link::setLink(gate, 4, in_1_reset, 1);
@@ -33,45 +32,136 @@ Test(test4013, test00)
     nts::Link::setLink(gate, 8, in_2_set, 1);
     nts::Link::setLink(gate, 10, in_2_reset, 1);
     nts::Link::setLink(gate, 11, cl_2_clock, 1);
+}
 
-    gate->simulate(2);
+static void terminate4013()
+{
+    cr_assert_eq(gate->compute(13), gate->compute(1));
+    cr_assert_eq(gate->compute(12), gate->compute(2));
+}
+
+Test(gate4013, default_state, .init = setup4013, .fini = terminate4013)
+{
+    cr_assert_eq(gate->compute(1), nts::Undefined);
+    cr_assert_eq(gate->compute(2), nts::Undefined);
+}
+
+Test(gate4013, clock_hight_data_false, .init = setup4013, .fini = terminate4013)
+{
+    in_1_data->setState(nts::False);
+    in_1_set->setState(nts::False);
+    in_1_reset->setState(nts::False);
+    cl_1_clock->setState(nts::True);
+
+    in_2_data->setState(nts::False);
+    in_2_set->setState(nts::False);
+    in_2_reset->setState(nts::False);
+    cl_2_clock->setState(nts::True);
+
+    gate->simulate(tick++);
 
     cr_assert_eq(gate->compute(1), nts::False);
     cr_assert_eq(gate->compute(2), nts::True);
-
-    cr_assert_eq(gate->compute(13), nts::True);
-    cr_assert_eq(gate->compute(12), nts::False);
 }
 
-Test(test4013, test01)
+Test(gate4013, clock_hight_data_true, .init = setup4013, .fini = terminate4013)
 {
-    auto gate = std::make_shared<nts::Gates4013>();
+    in_1_data->setState(nts::True);
+    in_1_set->setState(nts::False);
+    in_1_reset->setState(nts::False);
+    cl_1_clock->setState(nts::True);
 
-    auto in_1_data = std::make_shared<nts::FalseComponent>();
-    auto in_1_set = std::make_shared<nts::FalseComponent>();
-    auto in_1_reset = std::make_shared<nts::FalseComponent>();
-    auto cl_1_clock = std::make_shared<nts::ClockComponent>();
+    in_2_data->setState(nts::True);
+    in_2_set->setState(nts::False);
+    in_2_reset->setState(nts::False);
+    cl_2_clock->setState(nts::True);
 
-    auto in_2_data = std::make_shared<nts::FalseComponent>();
-    auto in_2_set = std::make_shared<nts::FalseComponent>();
-    auto in_2_reset = std::make_shared<nts::TrueComponent>();
-    auto cl_2_clock = std::make_shared<nts::ClockComponent>();
+    gate->simulate(tick++);
 
-    nts::Link::setLink(gate, 5, in_1_data, 1);
-    nts::Link::setLink(gate, 6, in_1_set, 1);
-    nts::Link::setLink(gate, 4, in_1_reset, 1);
-    nts::Link::setLink(gate, 3, cl_1_clock, 1);
+    cr_assert_eq(gate->compute(1), nts::True);
+    cr_assert_eq(gate->compute(2), nts::False);
+}
 
-    nts::Link::setLink(gate, 9, in_2_data, 1);
-    nts::Link::setLink(gate, 8, in_2_set, 1);
-    nts::Link::setLink(gate, 10, in_2_reset, 1);
-    nts::Link::setLink(gate, 11, cl_2_clock, 1);
+Test(gate4013, clock_down, .init = setup4013, .fini = terminate4013)
+{
+    in_1_data->setState(nts::False);
+    in_1_set->setState(nts::False);
+    in_1_reset->setState(nts::False);
+    cl_1_clock->setState(nts::False);
 
-    gate->simulate(1);
+    in_2_data->setState(nts::False);
+    in_2_set->setState(nts::False);
+    in_2_reset->setState(nts::False);
+    cl_2_clock->setState(nts::False);
+
+    gate->simulate(tick++);
 
     cr_assert_eq(gate->compute(1), nts::Undefined);
     cr_assert_eq(gate->compute(2), nts::Undefined);
+}
 
-    cr_assert_eq(gate->compute(13), nts::False);
-    cr_assert_eq(gate->compute(12), nts::True);
+Test(gate4013, reset_true_set_false, .init = setup4013, .fini = terminate4013)
+{
+    in_1_set->setState(nts::False);
+    in_1_reset->setState(nts::True);
+
+    in_2_set->setState(nts::False);
+    in_2_reset->setState(nts::True);
+
+    gate->simulate(tick++);
+
+    cr_assert_eq(gate->compute(1), nts::False);
+    cr_assert_eq(gate->compute(2), nts::True);
+}
+
+Test(gate4013, reset_true_set_true, .init = setup4013, .fini = terminate4013)
+{
+    in_1_set->setState(nts::True);
+    in_1_reset->setState(nts::True);
+
+    in_2_set->setState(nts::True);
+    in_2_reset->setState(nts::True);
+
+    gate->simulate(tick++);
+
+    cr_assert_eq(gate->compute(1), nts::True);
+    cr_assert_eq(gate->compute(2), nts::True);
+}
+
+Test(gate4013, reset_false, .init = setup4013, .fini = terminate4013)
+{
+    in_1_set->setState(nts::False);
+    in_1_reset->setState(nts::True);
+
+    in_2_set->setState(nts::False);
+    in_2_reset->setState(nts::True);
+
+    gate->simulate(tick++);
+
+    cr_assert_eq(gate->compute(1), nts::False);
+    cr_assert_eq(gate->compute(2), nts::True);
+}
+
+Test(gate4013, invalid_simulate, .init = setup4013)
+{
+    in_1_set->setState(nts::False);
+    in_1_reset->setState(nts::True);
+
+    in_2_set->setState(nts::False);
+    in_2_reset->setState(nts::True);
+
+    gate->simulate(tick);
+    gate->simulate(tick);
+
+    cr_assert_eq(gate->compute(1), nts::False);
+    cr_assert_eq(gate->compute(2), nts::True);
+}
+
+Test(gate4013, invalid_pin, .init = setup4013)
+{
+    try {
+        gate->compute(16);
+    } catch (nts::ExceptionInvalidPin &e) {
+        cr_assert_str_eq(e.what(), "4013: Invalid pin");
+    }
 }

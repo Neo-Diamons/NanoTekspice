@@ -8,6 +8,8 @@
 #ifndef NANOTEKSPICE_LINK_HPP
 #define NANOTEKSPICE_LINK_HPP
 
+#include <memory>
+
 #include "IComponent.hpp"
 
 namespace nts {
@@ -20,8 +22,8 @@ namespace nts {
         std::size_t _pin;
         Link(const std::shared_ptr<IComponent> &component, std::size_t pin);
 
-        void simulate(std::size_t tick);
-        [[nodiscard]] nts::Tristate compute() const;
+        void simulate(std::size_t tick) const;
+        [[nodiscard]] Tristate compute() const;
 
         static void setLink(const std::shared_ptr<IComponent>& component, std::size_t pin, const std::shared_ptr<IComponent>& toComponent, std::size_t toPin);
     };

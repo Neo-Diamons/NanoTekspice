@@ -7,26 +7,26 @@
 
 #include "Advanced.hpp"
 
-nts::Tristate nts::Gates4008::add(int idA, int idB, nts::Tristate carry)
+nts::Tristate nts::Gates4008::add(const u_int8_t idA, const u_int8_t idB, const Tristate carry)
 {
-    nts::Tristate a = _pins[idA].compute();
-    nts::Tristate b = _pins[idB].compute() ^ carry;
+    const Tristate a = _pins[idA].compute();
+    const Tristate b = _pins[idB].compute() ^ carry;
 
-    nts::Tristate sum = a ^ b ^ _outPins[14];
+    const Tristate sum = a ^ b ^ _outPins[14];
     _outPins[14] = (a && b) || (_outPins[14] && (a ^ b));
 
     return sum;
 }
 
-nts::Tristate nts::Gates4008::compute(std::size_t pin)
+nts::Tristate nts::Gates4008::compute(const std::size_t pin)
 {
-    nts::Tristate carry = _pins[9].compute();
+    Tristate carry = _pins[9].compute();
 
     _outPins = {
-        {10, nts::Undefined},
-        {11, nts::Undefined},
-        {12, nts::Undefined},
-        {13, nts::Undefined},
+        {10, Undefined},
+        {11, Undefined},
+        {12, Undefined},
+        {13, Undefined},
         {14, carry},
     };
 

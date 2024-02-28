@@ -12,14 +12,14 @@
 #include <string>
 
 namespace nts {
-    class ExceptionInvalidPin : public std::exception {
+    class ExceptionInvalidPin final : public std::exception {
     private:
         std::string _message;
 
     public:
         explicit ExceptionInvalidPin(const std::string &message)
             : _message(message)
-        {};
+        {}
 
         [[nodiscard]] const char *what() const noexcept override
         {
@@ -27,14 +27,14 @@ namespace nts {
         }
     };
 
-    class ExceptionUnknowComponent : public std::exception {
+    class ExceptionUnknowComponent final : public std::exception {
     private:
         std::string _type;
 
     public:
         explicit ExceptionUnknowComponent(const std::string &type)
             : _type("Unknown component name \'" + type + "\'.")
-        {};
+        {}
 
         [[nodiscard]] const char *what() const noexcept override
         {
@@ -42,14 +42,14 @@ namespace nts {
         }
     };
 
-    class ExceptionDuplicateComponent : public std::exception {
+    class ExceptionDuplicateComponent final : public std::exception {
     private:
         std::string _type;
 
     public:
         explicit ExceptionDuplicateComponent(const std::string &type)
             : _type("Duplicate component name \'" + type + "\'.")
-        {};
+        {}
 
         [[nodiscard]] const char *what() const noexcept override
         {

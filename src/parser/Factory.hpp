@@ -20,7 +20,7 @@
 namespace nts {
     class Factory {
     public:
-        static std::shared_ptr<nts::IComponent> createComponent(const std::string &type);
+        static std::shared_ptr<IComponent> createComponent(const std::string &type);
     };
 }
 

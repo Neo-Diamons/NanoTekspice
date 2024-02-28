@@ -8,9 +8,7 @@
 #ifndef NANOTEKSPICE_ICOMPONENT_HPP
 #define NANOTEKSPICE_ICOMPONENT_HPP
 
-#include <memory>
 #include <map>
-
 
 #include "../Tristate.hpp"
 
@@ -26,7 +24,7 @@ namespace nts {
         [[nodiscard]] virtual std::map<std::size_t, Link> &getPins() = 0;
 
         virtual void simulate(std::size_t tick) = 0;
-        virtual nts::Tristate compute(std::size_t pin) = 0;
+        virtual Tristate compute(std::size_t pin) = 0;
     };
 }
 

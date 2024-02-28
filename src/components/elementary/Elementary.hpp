@@ -11,44 +11,44 @@
 #include "../AComponent.hpp"
 
 namespace nts {
-    class AndComponent : public AComponent {
+    class AndComponent final : public AComponent {
     public:
         AndComponent() {
             _inputs = {1, 2};
             _outputs = {3};
         }
 
-        nts::Tristate compute(std::size_t pin) override;
+        Tristate compute(std::size_t pin) override;
     };
 
-    class OrComponent : public AComponent {
+    class OrComponent final : public AComponent {
     public:
         OrComponent() {
             _inputs = {1, 2};
             _outputs = {3};
         }
 
-        nts::Tristate compute(std::size_t pin) override;
+        Tristate compute(std::size_t pin) override;
     };
 
-    class XorComponent : public AComponent {
+    class XorComponent final : public AComponent {
     public:
         XorComponent() {
             _inputs = {1, 2};
             _outputs = {3};
         }
 
-        nts::Tristate compute(std::size_t pin) override;
+        Tristate compute(std::size_t pin) override;
     };
 
-    class NotComponent : public AComponent {
+    class NotComponent final : public AComponent {
     public:
         NotComponent() {
             _inputs = {1};
             _outputs = {2};
         }
 
-        nts::Tristate compute(std::size_t pin) override;
+        Tristate compute(std::size_t pin) override;
     };
 }
 

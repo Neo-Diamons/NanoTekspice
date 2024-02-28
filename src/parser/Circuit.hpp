@@ -28,8 +28,8 @@ namespace nts {
         void sortComponents();
 
         void simulate();
-        void addLink(const std::string &comp1, std::size_t pin1, const std::string &comp2, std::size_t pin2);
-        bool setValues(const std::string &name, const std::string &value);
+        void addLink(const std::string &comp1, std::size_t pin1, const std::string &comp2, std::size_t pin2) const;
+        bool setValues(const std::string &name, const std::string &value) const;
 
         [[nodiscard]] std::size_t getTick() const;
         [[nodiscard]] const Components &getInputs() const;
@@ -39,6 +39,6 @@ namespace nts {
     };
 
     std::ostream &operator<<(std::ostream &os, const Circuit &circuit);
-};
+}
 
 #endif //NANOTEKSPICE_CIRCUIT_HPP

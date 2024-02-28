@@ -7,40 +7,45 @@
 
 #include "Advanced.hpp"
 
-nts::Tristate nts::Gates4013::compute(std::size_t pin)
+void nts::Gates4013::simulate(const std::size_t tick)
 {
-    if (_pins[4].compute() == nts::True) {
-        _outPins[1] = _pins[6].compute();
-        _outPins[2] = nts::True;
-    } else if (_pins[6].compute() == nts::True) {
-        _outPins[1] = nts::True;
-        _outPins[2] = nts::False;
-    } else if (_pins[3].compute() == nts::True) {
-        if (_pins[5].compute() == nts::True) {
-            _outPins[1] = nts::True;
-            _outPins[2] = nts::False;
-        } else {
-            _outPins[1] = nts::False;
-            _outPins[2] = nts::True;
-        }
+    if (tick == _lastTick)
+        return;
+    _lastTick = tick;
+    for (auto &[fst, snd]: _pins)
+        snd.simulate(tick);
+
+    if (_pins[6].compute() == True) {
+        _outPins[1] = True;
+        _outPins[2] = _pins[4].compute();
+    } else if (_pins[4].compute() == True) {
+        _outPins[1] = False;
+        _outPins[2] = True;
+    } else if (_pins[3].compute() == True) {
+        _outPins[1] = _pins[5].compute();
+        _outPins[2] = !_outPins[1];
+    } else {
+        _outPins[1] = !_outPins[1];
+        _outPins[2] = !_outPins[2];
     }
 
-    if (_pins[10].compute() == nts::True) {
-        _outPins[13] = _pins[8].compute();
-        _outPins[12] = nts::True;
-    } else if (_pins[8].compute() == nts::True) {
-        _outPins[13] = nts::True;
-        _outPins[12] = nts::False;
-    } else if (_pins[11].compute() == nts::True) {
-        if (_pins[9].compute() == nts::True) {
-            _outPins[13] = nts::True;
-            _outPins[12] = nts::False;
-        } else {
-            _outPins[13] = nts::False;
-            _outPins[12] = nts::True;
-        }
+    if (_pins[8].compute() == True) {
+        _outPins[13] = True;
+        _outPins[12] = _pins[10].compute();
+    } else if (_pins[10].compute() == True) {
+        _outPins[13] = False;
+        _outPins[12] = True;
+    } else if (_pins[11].compute() == True) {
+        _outPins[13] = _pins[9].compute();
+        _outPins[12] = !_outPins[13];
+    } else {
+        _outPins[13] = !_outPins[13];
+        _outPins[12] = !_outPins[12];
     }
+}
 
+nts::Tristate nts::Gates4013::compute(const std::size_t pin)
+{
     switch (pin) {
         case 1:
             return _outPins[1];

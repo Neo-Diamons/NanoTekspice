@@ -11,7 +11,7 @@
 #include "../AComponent.hpp"
 
 namespace nts {
-    class Gates4001 : public AComponent {
+    class Gates4001 final : public AComponent {
     public:
         Gates4001()
         {
@@ -19,10 +19,10 @@ namespace nts {
             _outputs = {3, 4, 10, 11};
         }
 
-        nts::Tristate compute(std::size_t pin) override;
+        Tristate compute(std::size_t pin) override;
     };
 
-    class Gates4011 : public AComponent {
+    class Gates4011 final : public AComponent {
     public:
         Gates4011()
         {
@@ -30,10 +30,10 @@ namespace nts {
             _outputs = {3, 4, 10, 11};
         }
 
-        nts::Tristate compute(std::size_t pin) override;
+        Tristate compute(std::size_t pin) override;
     };
 
-    class Gates4030 : public AComponent {
+    class Gates4030 final : public AComponent {
     public:
         Gates4030()
         {
@@ -41,10 +41,10 @@ namespace nts {
             _outputs = {3, 4, 10, 11};
         }
 
-        nts::Tristate compute(std::size_t pin) override;
+        Tristate compute(std::size_t pin) override;
     };
 
-    class Gates4069 : public AComponent {
+    class Gates4069 final : public AComponent {
     public:
         Gates4069()
         {
@@ -52,10 +52,10 @@ namespace nts {
             _outputs = {2, 4, 6, 8, 10, 12};
         }
 
-        nts::Tristate compute(std::size_t pin) override;
+        Tristate compute(std::size_t pin) override;
     };
 
-    class Gates4071 : public AComponent {
+    class Gates4071 final : public AComponent {
     public:
         Gates4071()
         {
@@ -63,10 +63,10 @@ namespace nts {
             _outputs = {3, 4, 10, 11};
         }
 
-        nts::Tristate compute(std::size_t pin) override;
+        Tristate compute(std::size_t pin) override;
     };
 
-    class Gates4081 : public AComponent {
+    class Gates4081 final : public AComponent {
     public:
         Gates4081()
         {
@@ -74,7 +74,7 @@ namespace nts {
             _outputs = {3, 4, 10, 11};
         }
 
-        nts::Tristate compute(std::size_t pin) override;
+        Tristate compute(std::size_t pin) override;
     };
 }
 

@@ -8,6 +8,7 @@
 #ifndef NANOTEKSPICE_ACOMPONENT_HPP
 #define NANOTEKSPICE_ACOMPONENT_HPP
 
+#include <string>
 #include <list>
 
 #include "IComponent.hpp"
@@ -17,7 +18,7 @@ namespace nts {
     class AComponent : public IComponent {
     protected:
         std::map<std::size_t, Link> _pins{};
-        std::size_t _lastTick = 0;
+        std::size_t _lastTick = -1;
         std::list<std::size_t> _inputs;
         std::list<std::size_t> _outputs;
 

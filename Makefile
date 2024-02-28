@@ -74,6 +74,11 @@ UT_SRC		+=	$(addprefix $(UT_DIR)/,								\
 					Tests_Not.cpp									\
 					Tests_Or.cpp									\
 					Tests_Xor.cpp									\
+					Tests_Clock.cpp									\
+					Tests_False.cpp									\
+					Tests_Input.cpp									\
+					Tests_Output.cpp								\
+					Tests_True.cpp									\
 				)
 
 DIR_BUILD	:=	build

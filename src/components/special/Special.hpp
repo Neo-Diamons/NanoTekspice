@@ -13,20 +13,20 @@
 namespace nts {
     class ValueComponent : public AComponent {
     public:
-        void simulate([[maybe_unused]] std::size_t tick) override
-        {};
+        void simulate([[maybe_unused]] const std::size_t tick) override
+        {}
     };
 
     class InputComponents : public AComponent {
     public:
-        virtual void setState(nts::Tristate state) = 0;
+        virtual void setState(Tristate state) = 0;
     };
 
     // Special components
-    class InputComponent : public InputComponents {
+    class InputComponent final : public InputComponents {
     private:
-        nts::Tristate _state = nts::Undefined;
-        nts::Tristate _oldState = nts::Undefined;
+        Tristate _state = Undefined;
+        Tristate _oldState = Undefined;
 
     public:
         InputComponent()
@@ -37,12 +37,12 @@ namespace nts {
 
         void simulate(std::size_t tick) override;
 
-        nts::Tristate compute(std::size_t pin) override;
+        Tristate compute(std::size_t pin) override;
 
-        void setState(nts::Tristate state) override;
+        void setState(Tristate state) override;
     };
 
-    class OutputComponent : public AComponent {
+    class OutputComponent final : public AComponent {
     public:
         OutputComponent()
         {
@@ -50,12 +50,10 @@ namespace nts {
             _outputs = {};
         }
 
-        void simulate(std::size_t tick) override;
-
-        nts::Tristate compute(std::size_t pin) override;
+        Tristate compute(std::size_t pin) override;
     };
 
-    class TrueComponent : public ValueComponent {
+    class TrueComponent final : public ValueComponent {
     public:
         TrueComponent()
         {
@@ -63,10 +61,10 @@ namespace nts {
             _outputs = {1};
         }
 
-        nts::Tristate compute(std::size_t pin) override;
+        Tristate compute(std::size_t pin) override;
     };
 
-    class FalseComponent : public ValueComponent {
+    class FalseComponent final : public ValueComponent {
     public:
         FalseComponent()
         {
@@ -74,13 +72,13 @@ namespace nts {
             _outputs = {1};
         }
 
-        nts::Tristate compute(std::size_t pin) override;
+        Tristate compute(std::size_t pin) override;
     };
 
-    class ClockComponent : public InputComponents {
+    class ClockComponent final : public InputComponents {
     private:
-        nts::Tristate _state = nts::Undefined;
-        nts::Tristate _oldState = nts::Undefined;
+        Tristate _state = Undefined;
+        Tristate _oldState = Undefined;
 
     public:
         ClockComponent()
@@ -91,9 +89,9 @@ namespace nts {
 
         void simulate(std::size_t tick) override;
 
-        nts::Tristate compute(std::size_t pin) override;
+        Tristate compute(std::size_t pin) override;
 
-        void setState(nts::Tristate state) override;
+        void setState(Tristate state) override;
     };
 }
 

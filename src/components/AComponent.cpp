@@ -11,23 +11,21 @@
 
 #include "src/parser/Exception.hpp"
 
-bool nts::AComponent::asInput(std::size_t pin) const
+bool nts::AComponent::asInput(const std::size_t pin) const
 {
-    return std::find(_inputs.begin(), _inputs.end(), pin) != _inputs.end();
+    return std::ranges::find(_inputs, pin) != _inputs.end();
 }
 
-bool nts::AComponent::asOutput(std::size_t pin) const
+bool nts::AComponent::asOutput(const std::size_t pin) const
 {
-    return std::find(_outputs.begin(), _outputs.end(), pin) != _outputs.end();
+    return std::ranges::find(_outputs, pin) != _outputs.end();
 }
 
-nts::Tristate nts::AComponent::checkPin(const std::string &name, std::size_t pin)
+nts::Tristate nts::AComponent::checkPin(const std::string &name, const std::size_t pin)
 {
     if (!asInput(pin) && !asOutput(pin))
         throw ExceptionInvalidPin(name + ": Invalid pin");
-    return _pins.find(pin) == _pins.end()
-        ? nts::Undefined
-        : _pins[pin].compute();
+    return !_pins.contains(pin) ? Undefined : _pins[pin].compute();
 }
 
 std::map<std::size_t, nts::Link> &nts::AComponent::getPins()
@@ -35,11 +33,11 @@ std::map<std::size_t, nts::Link> &nts::AComponent::getPins()
     return _pins;
 }
 
-void nts::AComponent::simulate(std::size_t tick)
+void nts::AComponent::simulate(const std::size_t tick)
 {
     if (tick == _lastTick)
         return;
     _lastTick = tick;
-    for (auto &pin: _pins)
-        pin.second.simulate(tick);
+    for (auto &[fst, snd]: _pins)
+        snd.simulate(tick);
 }

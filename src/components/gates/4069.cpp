@@ -7,7 +7,7 @@
 
 #include "Gates.hpp"
 
-nts::Tristate nts::Gates4069::compute(std::size_t pin)
+nts::Tristate nts::Gates4069::compute(const std::size_t pin)
 {
     switch (pin) {
         case 2:

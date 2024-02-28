@@ -12,15 +12,15 @@
 #include "Exception.hpp"
 #include "Factory.hpp"
 
-void nts::Circuit::addComponent(const std::string &type, const std::string &name)
+void nts::Circuit::addComponent(const std::string &type, const std::string &value)
 {
     for (auto &component : _components)
-        if (std::get<0>(*component) == name)
-            throw ExceptionDuplicateComponent(name);
+        if (std::get<0>(*component) == value)
+            throw ExceptionDuplicateComponent(value);
 
-    std::shared_ptr<std::tuple<std::string, std::shared_ptr<nts::IComponent>>> newComponent = std::make_shared<std::tuple<std::string, std::shared_ptr<nts::IComponent>>>(
-        name,
-        nts::Factory::createComponent(type)
+    auto newComponent = std::make_shared<std::tuple<std::string, std::shared_ptr<nts::IComponent>>>(
+        value,
+        Factory::createComponent(type)
     );
 
     _components.push_back(newComponent);
@@ -32,10 +32,10 @@ void nts::Circuit::addComponent(const std::string &type, const std::string &name
 
 void nts::Circuit::sortComponents()
 {
-    _inputs.sort([](const std::shared_ptr<std::tuple<std::string, std::shared_ptr<nts::IComponent>>> &a, const std::shared_ptr<std::tuple<std::string, std::shared_ptr<nts::IComponent>>> &b) {
+    _inputs.sort([](const std::shared_ptr<std::tuple<std::string, std::shared_ptr<IComponent>>> &a, const std::shared_ptr<std::tuple<std::string, std::shared_ptr<IComponent>>> &b) {
         return std::get<0>(*a) < std::get<0>(*b);
     });
-    _outputs.sort([](const std::shared_ptr<std::tuple<std::string, std::shared_ptr<nts::IComponent>>> &a, const std::shared_ptr<std::tuple<std::string, std::shared_ptr<nts::IComponent>>> &b) {
+    _outputs.sort([](const std::shared_ptr<std::tuple<std::string, std::shared_ptr<IComponent>>> &a, const std::shared_ptr<std::tuple<std::string, std::shared_ptr<IComponent>>> &b) {
         return std::get<0>(*a) < std::get<0>(*b);
     });
 }
@@ -44,25 +44,25 @@ void nts::Circuit::simulate()
 {
     _tick++;
     for (auto &input : _inputs)
-        std::dynamic_pointer_cast<nts::InputComponents>(std::get<1>(*input))->simulate(_tick);
+        std::dynamic_pointer_cast<InputComponents>(std::get<1>(*input))->simulate(_tick);
     for (auto &output : _outputs)
-        std::dynamic_pointer_cast<nts::OutputComponent>(std::get<1>(*output))->simulate(_tick);
+        std::dynamic_pointer_cast<OutputComponent>(std::get<1>(*output))->simulate(_tick);
 }
 
-bool nts::Circuit::setValues(const std::string &name, const std::string &value)
+bool nts::Circuit::setValues(const std::string &name, const std::string &value) const
 {
     for (auto &input : _inputs)
         if (std::get<0>(*input) == name) {
-            std::dynamic_pointer_cast<nts::InputComponents>(std::get<1>(*input))->setState(nts::toTristate(value));
+            std::dynamic_pointer_cast<InputComponents>(std::get<1>(*input))->setState(toTristate(value));
             return true;
         }
     return false;
 }
 
-void nts::Circuit::addLink(const std::string &comp1, std::size_t pin1, const std::string &comp2, std::size_t pin2)
+void nts::Circuit::addLink(const std::string &comp1, const std::size_t pin1, const std::string &comp2, const std::size_t pin2) const
 {
-    std::shared_ptr<nts::IComponent> component1 = nullptr;
-    std::shared_ptr<nts::IComponent> component2 = nullptr;
+    std::shared_ptr<IComponent> component1 = nullptr;
+    std::shared_ptr<IComponent> component2 = nullptr;
 
     for (auto &component : _components) {
         if (std::get<0>(*component) == comp1)
@@ -94,14 +94,14 @@ const Components &nts::Circuit::getOutputs() const
     return _outputs;
 }
 
-std::ostream &nts::operator<<(std::ostream &os, const nts::Circuit &circuit)
+std::ostream &nts::operator<<(std::ostream &os, const Circuit &circuit)
 {
     os << "tick: " << circuit.getTick() << std::endl;
     os << "input(s):" << std::endl;
     for (auto &input : circuit.getInputs())
-        os << "  " << std::get<0>(*input) << ": " << std::dynamic_pointer_cast<nts::InputComponents>(std::get<1>(*input))->compute(1) << std::endl;
+        os << "  " << std::get<0>(*input) << ": " << std::dynamic_pointer_cast<InputComponents>(std::get<1>(*input))->compute(1) << std::endl;
     os << "output(s):" << std::endl;
     for (auto &output : circuit.getOutputs())
-        os << "  " << std::get<0>(*output) << ": " << std::dynamic_pointer_cast<nts::OutputComponent>(std::get<1>(*output))->compute(1) << std::endl;
+        os << "  " << std::get<0>(*output) << ": " << std::dynamic_pointer_cast<OutputComponent>(std::get<1>(*output))->compute(1) << std::endl;
     return os;
 }

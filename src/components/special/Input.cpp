@@ -9,28 +9,22 @@
 
 #include "src/parser/Exception.hpp"
 
-void nts::InputComponent::simulate(std::size_t tick)
+void nts::InputComponent::simulate(const std::size_t tick)
 {
     if (tick == _lastTick)
         return;
     _lastTick = tick;
-    if (_pins.find(1) != _pins.end()) {
-        _pins[1].simulate(tick);
-        return;
-    }
     _oldState = _state;
 }
 
-nts::Tristate nts::InputComponent::compute(std::size_t pin)
+nts::Tristate nts::InputComponent::compute(const std::size_t pin)
 {
     if (pin != 1)
-        throw ExceptionInvalidPin("InputComponent: Invalid pin");
-    if (_pins.find(1) == _pins.end())
-        return _oldState;
-    return _pins[1].compute();
+        throw ExceptionInvalidPin("Input: Invalid pin");
+    return _oldState;
 }
 
-void nts::InputComponent::setState(nts::Tristate state)
+void nts::InputComponent::setState(const Tristate state)
 {
     _state = state;
 }

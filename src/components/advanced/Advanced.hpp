@@ -11,11 +11,11 @@
 #include "../AComponent.hpp"
 
 namespace nts {
-    class Gates4008 : public AComponent {
+    class Gates4008 final : public AComponent {
     private:
-        std::map<int, nts::Tristate> _outPins;
+        std::map<u_int8_t, Tristate> _outPins;
 
-        nts::Tristate add(int idA, int idB, nts::Tristate carry);
+        Tristate add(u_int8_t idA, u_int8_t idB, Tristate carry);
 
     public:
         Gates4008()
@@ -24,10 +24,10 @@ namespace nts {
             _outputs = {10, 11, 12, 13, 14};
         }
 
-        nts::Tristate compute(std::size_t pin) override;
+        Tristate compute(std::size_t pin) override;
     };
 
-    class Gates4017 : public AComponent {
+    class Gates4017 final : public AComponent {
     private:
         std::size_t _count = 0;
 
@@ -40,16 +40,16 @@ namespace nts {
 
         void simulate(std::size_t tick) override;
 
-        nts::Tristate compute(std::size_t pin) override;
+        Tristate compute(std::size_t pin) override;
     };
 
-    class Gates4013 : public AComponent {
+    class Gates4013 final : public AComponent {
     private:
-        std::map<int, nts::Tristate> _outPins = {
-            {1, nts::Undefined},
-            {2, nts::Undefined},
-            {3, nts::Undefined},
-            {4, nts::Undefined},
+        std::map<int, Tristate> _outPins = {
+            {1, Undefined},
+            {2, Undefined},
+            {13, Undefined},
+            {12, Undefined},
         };
 
     public:
@@ -59,7 +59,9 @@ namespace nts {
             _outputs = {1, 2, 12, 13};
         }
 
-        nts::Tristate compute(std::size_t pin) override;
+        void simulate(std::size_t tick) override;
+
+        Tristate compute(std::size_t pin) override;
     };
 
     class Gates4040 : public AComponent {
@@ -75,7 +77,7 @@ namespace nts {
 
         void simulate(std::size_t tick) override;
 
-        nts::Tristate compute(std::size_t pin) override;
+        Tristate compute(std::size_t pin) override;
     };
 }
 

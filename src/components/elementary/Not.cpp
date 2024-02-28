@@ -7,7 +7,7 @@
 
 #include "Elementary.hpp"
 
-nts::Tristate nts::NotComponent::compute(std::size_t pin)
+nts::Tristate nts::NotComponent::compute(const std::size_t pin)
 {
     switch (pin) {
         case 2:

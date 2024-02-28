@@ -8,52 +8,54 @@
 #ifndef NANOTEKSPICE_TRISTATE_HPP
 #define NANOTEKSPICE_TRISTATE_HPP
 
+#include <iostream>
+
 namespace nts {
     enum Tristate {
-        Undefined = (-true),
+        Undefined = -true,
         True      = true,
         False     = false
     };
 
-    constexpr Tristate operator&&(Tristate a, Tristate b)
+    constexpr Tristate operator&&(const Tristate a, const Tristate b)
     {
         if (a == False || b == False)
             return False;
         return a == Undefined || b == Undefined ? Undefined : True;
     }
 
-    constexpr Tristate operator||(Tristate a, Tristate b)
+    constexpr Tristate operator||(const Tristate a, const Tristate b)
     {
         if (a == True || b == True)
             return True;
         return a == Undefined || b == Undefined ? Undefined : False;
     }
 
-    constexpr Tristate operator!(Tristate a)
+    constexpr Tristate operator!(const Tristate a)
     {
         if (a == Undefined)
             return Undefined;
         return a == True ? False : True;
     }
 
-    constexpr Tristate operator&(Tristate a, Tristate b)
+    constexpr Tristate operator&(const Tristate a, const Tristate b)
     {
         return !(a && b);
     }
 
-    constexpr Tristate operator^(Tristate a, Tristate b)
+    constexpr Tristate operator^(const Tristate a, const Tristate b)
     {
         if (a == Undefined || b == Undefined)
             return Undefined;
         return a != b ? True : False;
     }
 
-    constexpr Tristate operator|(Tristate a, Tristate b)
+    constexpr Tristate operator|(const Tristate a, const Tristate b)
     {
         return !(a || b);
     }
 
-    constexpr std::ostream &operator<<(std::ostream &os, Tristate state)
+    constexpr std::ostream &operator<<(std::ostream &os, const Tristate state)
     {
         switch (state) {
             case Undefined:
@@ -70,14 +72,14 @@ namespace nts {
         return os;
     }
 
-    constexpr nts::Tristate toTristate(const std::string &str)
+    constexpr Tristate toTristate(const std::string &str)
     {
         if (str == "0")
-            return nts::Tristate::False;
+            return False;
         if (str == "1")
-            return nts::Tristate::True;
+            return True;
         if (str == "U")
-            return nts::Tristate::Undefined;
+            return Undefined;
         throw std::invalid_argument("Invalid Tristate");
     }
 }

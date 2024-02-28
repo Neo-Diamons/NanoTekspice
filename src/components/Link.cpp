@@ -14,13 +14,13 @@ nts::Link::Link()
     _component = nullptr;
 }
 
-nts::Link::Link(const std::shared_ptr<IComponent> &component, std::size_t pin)
+nts::Link::Link(const std::shared_ptr<IComponent> &component, const std::size_t pin)
 {
     _pin = pin;
     _component = component;
 }
 
-void nts::Link::simulate(std::size_t tick)
+void nts::Link::simulate(const std::size_t tick) const
 {
     _component->simulate(tick);
 }
@@ -32,8 +32,8 @@ nts::Tristate nts::Link::compute() const
     return _component->compute(_pin);
 }
 
-void nts::Link::setLink(const std::shared_ptr<IComponent> &component, std::size_t pin,
-                        const std::shared_ptr<IComponent> &toComponent, std::size_t toPin)
+void nts::Link::setLink(const std::shared_ptr<IComponent> &component, const std::size_t pin,
+                        const std::shared_ptr<IComponent> &toComponent, const std::size_t toPin)
 {
     if (component->asInput(pin) && toComponent->asOutput(toPin))
         component->getPins()[pin] = Link(toComponent, toPin);

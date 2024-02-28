@@ -9,21 +9,24 @@
 
 #include "src/parser/Exception.hpp"
 
-void nts::ClockComponent::simulate(std::size_t tick)
+void nts::ClockComponent::simulate(const std::size_t tick)
 {
+    if (tick == _lastTick)
+        return;
+    _lastTick = tick;
     if (_oldState == _state)
-        _state = tick % 2 ? nts::False : nts::True;
+        _state = !_state;
     _oldState = _state;
 }
 
-nts::Tristate nts::ClockComponent::compute(std::size_t pin)
+nts::Tristate nts::ClockComponent::compute(const std::size_t pin)
 {
     if (pin != 1)
-        throw ExceptionInvalidPin("ClockComponent: Invalid pin");
+        throw ExceptionInvalidPin("Clock: Invalid pin");
     return _oldState;
 }
 
-void nts::ClockComponent::setState(nts::Tristate state)
+void nts::ClockComponent::setState(const Tristate state)
 {
     _state = state;
 }

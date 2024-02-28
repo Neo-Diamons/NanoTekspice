@@ -14,7 +14,7 @@ static auto gate = std::make_shared<nts::OrComponent>();
 static auto input1 = std::make_shared<nts::InputComponent>();
 static auto input2 = std::make_shared<nts::InputComponent>();
 
-void setup_or()
+static void setup_or()
 {
     nts::Link::setLink(gate, 1, input1, 1);
     nts::Link::setLink(gate, 2, input2, 1);
