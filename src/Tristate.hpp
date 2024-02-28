@@ -24,7 +24,9 @@ namespace nts {
 
     constexpr Tristate operator||(Tristate a, Tristate b)
     {
-        return a == True || b == True ? True : False;
+        if (a == True || b == True)
+            return True;
+        return a == Undefined || b == Undefined ? Undefined : False;
     }
 
     constexpr Tristate operator!(Tristate a)
