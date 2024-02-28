@@ -152,7 +152,7 @@ tests_run:			tests_functional tests_unit
 	gcovr $(UT_DIR_OBJ) --exclude tests/ --branches
 
 doc:
-	doxygen Doxyfile
+	doxygen doc/Doxyfile
 
 clean:
 	@[ -d $(DIR_BUILD) ]											\
@@ -166,6 +166,6 @@ fclean:				clean
 
 re:					fclean all
 
-.PHONY:				all tests tests_run debug clean fclean re
+.PHONY:				all tests tests_run debug clean fclean re doc
 
-.SILENT:			all tests tests_run debug clean fclean re
+.SILENT:			all tests tests_run debug clean fclean re doc
