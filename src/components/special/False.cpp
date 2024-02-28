@@ -5,11 +5,13 @@
 ** False
 */
 
-#include "src/IComponent.hpp"
+#include "Special.hpp"
+
+#include "src/parser/Exception.hpp"
 
 nts::Tristate nts::FalseComponent::compute(std::size_t pin)
 {
     if (pin != 1)
-        throw AComponent::Exception("FalseComponent: Invalid pin");
+        throw ExceptionInvalidPin("FalseComponent: Invalid pin");
     return nts::False;
 }

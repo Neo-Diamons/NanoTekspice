@@ -5,14 +5,14 @@
 ** Not
 */
 
-#include "src/IComponent.hpp"
+#include "Elementary.hpp"
 
 nts::Tristate nts::NotComponent::compute(std::size_t pin)
 {
-    switch (pin - 1) {
-        case 1:
+    switch (pin) {
+        case 2:
             return !_pins[1].compute();
         default:
-            throw AComponent::Exception("NotComponent: Invalid pin");
+            return checkPin("Not", pin);
     }
 }

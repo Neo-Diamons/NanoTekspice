@@ -5,7 +5,7 @@
 ** 4013
 */
 
-#include "src/IComponent.hpp"
+#include "Advanced.hpp"
 
 nts::Tristate nts::Gates4013::compute(std::size_t pin)
 {
@@ -51,6 +51,6 @@ nts::Tristate nts::Gates4013::compute(std::size_t pin)
         case 13:
             return _outPins[13];
         default:
-            throw AComponent::Exception("4013: Invalid pin");
+            return checkPin("4013", pin);
     }
 }

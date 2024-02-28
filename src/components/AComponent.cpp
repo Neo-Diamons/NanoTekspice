@@ -5,26 +5,41 @@
 ** AComponent
 */
 
-#include "src/IComponent.hpp"
+#include "AComponent.hpp"
 
-#include <utility>
+#include <algorithm>
 
-nts::AComponent::Exception::Exception(std::string message)
-    : _message(std::move(message))
-{}
+#include "src/parser/Exception.hpp"
 
-const char *nts::AComponent::Exception::what() const noexcept
+bool nts::AComponent::asInput(std::size_t pin) const
 {
-    return _message.c_str();
+    return std::find(_inputs.begin(), _inputs.end(), pin) != _inputs.end();
 }
 
-void nts::AComponent::setLink(std::size_t pin, std::shared_ptr<IComponent> other, std::size_t otherPin)
+bool nts::AComponent::asOutput(std::size_t pin) const
 {
-    _pins[pin] = Link(other, otherPin);
+    return std::find(_outputs.begin(), _outputs.end(), pin) != _outputs.end();
+}
+
+nts::Tristate nts::AComponent::checkPin(const std::string &name, std::size_t pin)
+{
+    if (!asInput(pin) && !asOutput(pin))
+        throw ExceptionInvalidPin(name + ": Invalid pin");
+    return _pins.find(pin) == _pins.end()
+        ? nts::Undefined
+        : _pins[pin].compute();
+}
+
+std::map<std::size_t, nts::Link> &nts::AComponent::getPins()
+{
+    return _pins;
 }
 
 void nts::AComponent::simulate(std::size_t tick)
 {
+    if (tick == _lastTick)
+        return;
+    _lastTick = tick;
     for (auto &pin: _pins)
         pin.second.simulate(tick);
 }

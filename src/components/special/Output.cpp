@@ -5,7 +5,9 @@
 ** Output
 */
 
-#include "src/IComponent.hpp"
+#include "Special.hpp"
+
+#include "src/parser/Exception.hpp"
 
 void nts::OutputComponent::simulate([[maybe_unused]] std::size_t tick)
 {}
@@ -13,6 +15,6 @@ void nts::OutputComponent::simulate([[maybe_unused]] std::size_t tick)
 nts::Tristate nts::OutputComponent::compute(std::size_t pin)
 {
     if (pin != 1)
-        throw AComponent::Exception("OutputComponent: Invalid pin");
+        throw ExceptionInvalidPin("OutputComponent: Invalid pin");
     return _pins[pin].compute();
 }

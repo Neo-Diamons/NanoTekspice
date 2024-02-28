@@ -5,8 +5,7 @@
 ** 4008
 */
 
-
-#include "src/IComponent.hpp"
+#include "Advanced.hpp"
 
 nts::Tristate nts::Gates4008::add(int idA, int idB, nts::Tristate carry)
 {
@@ -48,6 +47,6 @@ nts::Tristate nts::Gates4008::compute(std::size_t pin)
         case 14:
             return _outPins[14];
         default:
-            throw AComponent::Exception("4008: Invalid pin");
+            return checkPin("4008", pin);
     }
 }

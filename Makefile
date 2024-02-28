@@ -13,9 +13,17 @@ SRC			:=	$(addprefix $(DIR)/,								\
 					Main.cpp										\
 				)
 
+DIR			+=	src/parser
+SRC			+=	$(addprefix $(lastword $(DIR))/,					\
+					Parser.cpp										\
+					Factory.cpp										\
+					Circuit.cpp										\
+				)
+
 DIR			+=	src/components
 SRC			+=	$(addprefix $(lastword $(DIR))/,					\
 					AComponent.cpp									\
+					Link.cpp										\
 				)
 
 DIR			+=	src/components/special
@@ -66,6 +74,10 @@ UT_SRC		+=	$(addprefix $(UT_DIR)/,								\
 					Tests_4017.cpp									\
 					Tests_4013.cpp									\
 					Tests_4040.cpp									\
+					Tests_And.cpp									\
+					Tests_Not.cpp									\
+					Tests_Or.cpp									\
+					Tests_Xor.cpp									\
 				)
 
 DIR_BUILD	:=	build
@@ -133,8 +145,9 @@ tests_unit:			$(UT_TEST)
 	@cp $(UT_TEST) $(UT_DIR_OBJ)
 	@$(UT_DIR_OBJ)/$(notdir $<)
 
-debug:				CXXFLAGS += -g
-debug:				$(DG_OBJ); 	$(COMPILE)
+$(DEBUG):				CXXFLAGS += -g
+$(DEBUG):				$(DG_OBJ); 	$(COMPILE)
+debug:					$(DEBUG)
 
 tests_run:			tests_functional tests_unit
 	gcovr $(UT_DIR_OBJ) --exclude tests/

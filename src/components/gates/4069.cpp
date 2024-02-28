@@ -5,7 +5,7 @@
 ** 4069
 */
 
-#include "src/IComponent.hpp"
+#include "Gates.hpp"
 
 nts::Tristate nts::Gates4069::compute(std::size_t pin)
 {
@@ -23,6 +23,6 @@ nts::Tristate nts::Gates4069::compute(std::size_t pin)
         case 12:
             return !_pins[13].compute();
         default:
-            throw AComponent::Exception("4069: Invalid pin");
+            return checkPin("4069", pin);
     }
 }

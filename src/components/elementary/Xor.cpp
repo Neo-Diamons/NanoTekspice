@@ -5,14 +5,14 @@
 ** Xor
 */
 
-#include "src/IComponent.hpp"
+#include "Elementary.hpp"
 
 nts::Tristate nts::XorComponent::compute(std::size_t pin)
 {
-    switch (pin - 2) {
-        case 1:
+    switch (pin) {
+        case 3:
             return _pins[1].compute() ^ _pins[2].compute();
         default:
-            throw AComponent::Exception("OrComponent: Invalid pin");
+            return checkPin("Xor", pin);
     }
 }
