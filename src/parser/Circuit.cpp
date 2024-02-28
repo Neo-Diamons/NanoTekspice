@@ -49,14 +49,14 @@ void nts::Circuit::simulate()
         std::dynamic_pointer_cast<OutputComponent>(std::get<1>(*output))->simulate(_tick);
 }
 
-bool nts::Circuit::setValues(const std::string &name, const std::string &value) const
+void nts::Circuit::setValue(const std::string &name, const std::string &value) const
 {
     for (auto &input : _inputs)
         if (std::get<0>(*input) == name) {
             std::dynamic_pointer_cast<InputComponents>(std::get<1>(*input))->setState(toTristate(value));
-            return true;
+            return;
         }
-    return false;
+    throw std::invalid_argument("Unknown input: " + name);
 }
 
 void nts::Circuit::addLink(const std::string &comp1, const std::size_t pin1, const std::string &comp2, const std::size_t pin2) const

@@ -31,6 +31,13 @@ Test(output, link, .init = setupOutput)
     cr_assert_eq(output->compute(1), nts::False);
 }
 
+Test(output, link_undef, .init = setupOutput)
+{
+    clockComp->setState(nts::Undefined);
+    output->simulate(tick++);
+    cr_assert_eq(output->compute(1), nts::Undefined);
+}
+
 Test(output, invalid_simulate, .init = setupOutput)
 {
     for (u_int8_t i = 0; i < 2; i++)

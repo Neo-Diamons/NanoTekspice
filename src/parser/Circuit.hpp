@@ -29,7 +29,7 @@ namespace nts {
 
         void simulate();
         void addLink(const std::string &comp1, std::size_t pin1, const std::string &comp2, std::size_t pin2) const;
-        bool setValues(const std::string &name, const std::string &value) const;
+        void setValue(const std::string &name, const std::string &value) const;
 
         [[nodiscard]] std::size_t getTick() const;
         [[nodiscard]] const Components &getInputs() const;

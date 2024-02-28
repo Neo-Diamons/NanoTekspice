@@ -39,7 +39,8 @@ do
   CODE=$?
 
   if [ $CODE -ne 0 ] && [ $CODE -ne 84 ]; then
-    echo -e "${BOLD}[${RED}Crashing${BOLD}]${RESET} $file"
+    echo -e "╭─${BOLD}[${RED}Crashing${BOLD}]${RESET} $file"
+    echo -e "╰─➤ $TMP"
     NB_CRASH=$((NB_CRASH+1))
     continue
   fi
@@ -48,7 +49,8 @@ do
   do
     if [ "$TMP" == "Unknown component name '$component'." ]; then
       if [ $CODE -eq 84 ]; then
-        echo -e "╭─${BOLD}[${YELLOW}SKIP${BOLD}]${RESET} $file\n╰─➤ $TMP"
+        echo -e "╭─${BOLD}[${YELLOW}SKIP${BOLD}]${RESET} $file"
+        echo -e "╰─➤ $TMP"
         NB_SUCCESS=$((NB_SUCCESS+1))
       else
         echo -e "${BOLD}[${RED}FAIL${BOLD}]${RESET} $file"
@@ -59,7 +61,8 @@ do
   done
 
   if [ $CODE -eq 84 ]; then
-    echo -e "${BOLD}[${RED}FAIL${BOLD}]${RESET} $file"
+    echo -e "╭─${BOLD}[${RED}FAIL${BOLD}]${RESET} $file"
+    echo -e "╰─➤ Expected 0 and got 84"
     NB_FAILURE=$((NB_FAILURE+1))
   else
     NB_SUCCESS=$((NB_SUCCESS+1))
@@ -67,16 +70,21 @@ do
   NB_TESTS=$((NB_TESTS+1))
 done
 
-for file in ./tests/files/*.nts
+for file in ./tests/files/*.nts ./tests/files/missing.nts /dev/null
 do
   TMP=$( { echo -n | "$BIN" "$file"; } 2>&1 )
   CODE=$?
 
   if [ $CODE -eq 0 ]; then
-    echo -e "${BOLD}[${RED}FAIL${BOLD}]${RESET} $file"
+    echo -e "╭─${BOLD}[${RED}FAIL${BOLD}]${RESET} $file"
+    echo -e "╰─➤ Expected 84 and got 0"
     NB_FAILURE=$((NB_FAILURE+1))
-  else
+  elif [ $CODE -eq 84 ]; then
     NB_SUCCESS=$((NB_SUCCESS+1))
+  else
+    echo -e "╭─${BOLD}[${RED}Crashing${BOLD}]${RESET} $file"
+    echo -e "╰─➤ $TMP"
+    NB_CRASH=$((NB_CRASH+1))
   fi
   NB_TESTS=$((NB_TESTS+1))
 done

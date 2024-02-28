@@ -11,7 +11,7 @@
 
 #include "parser/Factory.hpp"
 
-int main(int ac, char **av)
+int main(const int ac, char **av)
 {
     if (ac != 2) {
         std::cerr << "Usage: " << av[0] << " [filename]" << std::endl;

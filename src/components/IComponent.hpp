@@ -10,7 +10,7 @@
 
 #include <map>
 
-#include "../Tristate.hpp"
+#include "src/Tristate.hpp"
 
 namespace nts {
     class Link;

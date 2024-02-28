@@ -6,6 +6,9 @@ build
 # Extensions
 *.o
 
+# Missing permissions
+missing_right.nts
+
 # Debug
 vgcore.*
 

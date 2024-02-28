@@ -26,7 +26,7 @@ namespace nts {
         void loop();
 
     public:
-        explicit Parser(std::string filename);
+        explicit Parser(const std::string &filename);
 
         void parse();
     };

@@ -9,8 +9,6 @@
 #define NANOTEKSPICE_FACTORY_HPP
 
 #include <string>
-#include <tuple>
-#include <utility>
 
 #include "src/components/special/Special.hpp"
 #include "src/components/elementary/Elementary.hpp"
