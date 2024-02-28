@@ -151,6 +151,9 @@ tests_run:			tests_functional tests_unit
 	gcovr $(UT_DIR_OBJ) --exclude tests/
 	gcovr $(UT_DIR_OBJ) --exclude tests/ --branches
 
+doc:
+	doxygen Doxyfile
+
 clean:
 	@[ -d $(DIR_BUILD) ]											\
 	&& $(RM) $(DIR_BUILD)											\
