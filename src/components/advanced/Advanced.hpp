@@ -18,6 +18,12 @@ namespace nts {
         nts::Tristate add(int idA, int idB, nts::Tristate carry);
 
     public:
+        Gates4008()
+        {
+            _inputs = {1, 2, 3, 4, 5, 6, 7, 9, 15};
+            _outputs = {10, 11, 12, 13, 14};
+        }
+
         nts::Tristate compute(std::size_t pin) override;
     };
 
@@ -26,6 +32,12 @@ namespace nts {
         std::size_t _count = 0;
 
     public:
+        Gates4017()
+        {
+            _inputs = {13, 14, 15};
+            _outputs = {1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12};
+        }
+
         void simulate(std::size_t tick) override;
 
         nts::Tristate compute(std::size_t pin) override;
@@ -41,6 +53,12 @@ namespace nts {
         };
 
     public:
+        Gates4013()
+        {
+            _inputs = {3, 4, 5, 6, 9, 8, 10, 11};
+            _outputs = {1, 2, 12, 13};
+        }
+
         nts::Tristate compute(std::size_t pin) override;
     };
 
@@ -49,6 +67,12 @@ namespace nts {
         unsigned _count = 0;
 
     public:
+        Gates4040()
+        {
+            _inputs = {10, 11};
+            _outputs = {1, 2, 3, 4, 5, 6, 7, 9, 12, 13, 14, 15};
+        }
+
         void simulate(std::size_t tick) override;
 
         nts::Tristate compute(std::size_t pin) override;

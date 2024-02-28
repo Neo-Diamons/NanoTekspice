@@ -7,36 +7,32 @@
 
 #include "AComponent.hpp"
 
-#include <utility>
+#include <algorithm>
 
-nts::AComponent::ExceptionInvalidPin::ExceptionInvalidPin(std::string message)
-    : _message(std::move(message))
-{}
+#include "src/parser/Exception.hpp"
 
-const char *nts::AComponent::ExceptionInvalidPin::what() const noexcept
+bool nts::AComponent::asInput(std::size_t pin) const
 {
-    return _message.c_str();
+    return std::find(_inputs.begin(), _inputs.end(), pin) != _inputs.end();
 }
 
-bool nts::AComponent::asPin(std::size_t pin) const
+bool nts::AComponent::asOutput(std::size_t pin) const
 {
-    return pin > 0 || pin <= _nbPins;
+    return std::find(_outputs.begin(), _outputs.end(), pin) != _outputs.end();
 }
 
 nts::Tristate nts::AComponent::checkPin(const std::string &name, std::size_t pin)
 {
-    if (!asPin(pin))
-        throw AComponent::ExceptionInvalidPin(name + ": Invalid pin");
+    if (!asInput(pin) && !asOutput(pin))
+        throw ExceptionInvalidPin(name + ": Invalid pin");
     return _pins.find(pin) == _pins.end()
         ? nts::Undefined
         : _pins[pin].compute();
 }
 
-void nts::AComponent::setLink(std::size_t pin, std::shared_ptr<IComponent> other, std::size_t otherPin)
+std::map<std::size_t, nts::Link> &nts::AComponent::getPins()
 {
-    if (!asPin(pin))
-        throw AComponent::ExceptionInvalidPin("Invalid pin");
-    _pins[pin] = Link(other, otherPin);
+    return _pins;
 }
 
 void nts::AComponent::simulate(std::size_t tick)

@@ -15,10 +15,6 @@ namespace nts {
     public:
         void simulate([[maybe_unused]] std::size_t tick) override
         {};
-
-        void setLink([[maybe_unused]] std::size_t pin, [[maybe_unused]] std::shared_ptr<IComponent> other,
-            [[maybe_unused]] std::size_t otherPin) final
-        {};
     };
 
     class InputComponents : public AComponent {
@@ -33,6 +29,12 @@ namespace nts {
         nts::Tristate _oldState = nts::Undefined;
 
     public:
+        InputComponent()
+        {
+            _inputs = {};
+            _outputs = {1};
+        }
+
         void simulate(std::size_t tick) override;
 
         nts::Tristate compute(std::size_t pin) override;
@@ -42,6 +44,12 @@ namespace nts {
 
     class OutputComponent : public AComponent {
     public:
+        OutputComponent()
+        {
+            _inputs = {1};
+            _outputs = {};
+        }
+
         void simulate(std::size_t tick) override;
 
         nts::Tristate compute(std::size_t pin) override;
@@ -49,11 +57,23 @@ namespace nts {
 
     class TrueComponent : public ValueComponent {
     public:
+        TrueComponent()
+        {
+            _inputs = {};
+            _outputs = {1};
+        }
+
         nts::Tristate compute(std::size_t pin) override;
     };
 
     class FalseComponent : public ValueComponent {
     public:
+        FalseComponent()
+        {
+            _inputs = {};
+            _outputs = {1};
+        }
+
         nts::Tristate compute(std::size_t pin) override;
     };
 
@@ -63,6 +83,12 @@ namespace nts {
         nts::Tristate _oldState = nts::Undefined;
 
     public:
+        ClockComponent()
+        {
+            _inputs = {};
+            _outputs = {1};
+        }
+
         void simulate(std::size_t tick) override;
 
         nts::Tristate compute(std::size_t pin) override;

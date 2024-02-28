@@ -7,6 +7,8 @@
 
 #include "Special.hpp"
 
+#include "src/parser/Exception.hpp"
+
 void nts::ClockComponent::simulate(std::size_t tick)
 {
     if (_oldState == _state)
@@ -17,7 +19,7 @@ void nts::ClockComponent::simulate(std::size_t tick)
 nts::Tristate nts::ClockComponent::compute(std::size_t pin)
 {
     if (pin != 1)
-        throw AComponent::ExceptionInvalidPin("ClockComponent: Invalid pin");
+        throw ExceptionInvalidPin("ClockComponent: Invalid pin");
     return _oldState;
 }
 

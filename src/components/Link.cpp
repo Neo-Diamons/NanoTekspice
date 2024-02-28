@@ -6,6 +6,7 @@
 */
 
 #include "Link.hpp"
+#include "src/parser/Exception.hpp"
 
 nts::Link::Link()
 {
@@ -29,4 +30,15 @@ nts::Tristate nts::Link::compute() const
     if (_pin == 0)
         return Undefined;
     return _component->compute(_pin);
+}
+
+void nts::Link::setLink(const std::shared_ptr<IComponent> &component, std::size_t pin,
+                        const std::shared_ptr<IComponent> &toComponent, std::size_t toPin)
+{
+    if (component->asInput(pin) && toComponent->asOutput(toPin))
+        component->getPins()[pin] = Link(toComponent, toPin);
+    else if (component->asOutput(pin) && toComponent->asInput(toPin))
+        toComponent->getPins()[toPin] = Link(component, pin);
+    else
+        throw ExceptionInvalidPin("Invalid link");
 }

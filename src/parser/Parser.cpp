@@ -74,7 +74,7 @@ void nts::Parser::parseLinks()
         } catch (const ExceptionUnknowComponent &e) {
             std::cerr << e.what() << std::endl;
             exit(84);
-        } catch (const AComponent::ExceptionInvalidPin &e) {
+        } catch (const ExceptionInvalidPin &e) {
             std::cerr << e.what() << std::endl;
             exit(84);
         }

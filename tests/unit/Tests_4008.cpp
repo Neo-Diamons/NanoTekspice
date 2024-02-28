@@ -6,11 +6,12 @@
 */
 
 #include <criterion/criterion.h>
-#include "src/IComponent.hpp"
+
+#include "src/parser/Factory.hpp"
 
 Test(gates4008, test00)
 {
-    nts::Gates4008 gate;
+    auto gate = std::make_shared<nts::Gates4008>();
 
     auto in_a1 = std::make_shared<nts::InputComponent>();
     auto in_a2 = std::make_shared<nts::InputComponent>();
@@ -36,32 +37,32 @@ Test(gates4008, test00)
     in_a4->setState(nts::True);
     in_b4->setState(nts::True);
 
-    gate.setLink(9, in_c, 1);
+    nts::Link::setLink(gate, 9, in_c, 1);
 
-    gate.setLink(7, in_a1, 1);
-    gate.setLink(6, in_b1, 1);
+    nts::Link::setLink(gate, 7, in_a1, 1);
+    nts::Link::setLink(gate, 6, in_b1, 1);
 
-    gate.setLink(5, in_a2, 1);
-    gate.setLink(4, in_b2, 1);
+    nts::Link::setLink(gate, 5, in_a2, 1);
+    nts::Link::setLink(gate, 4, in_b2, 1);
 
-    gate.setLink(3, in_a3, 1);
-    gate.setLink(2, in_b3, 1);
+    nts::Link::setLink(gate, 3, in_a3, 1);
+    nts::Link::setLink(gate, 2, in_b3, 1);
 
-    gate.setLink(1, in_a4, 1);
-    gate.setLink(15, in_b4, 1);
+    nts::Link::setLink(gate, 1, in_a4, 1);
+    nts::Link::setLink(gate, 15, in_b4, 1);
 
-    gate.simulate(1);
+    gate->simulate(1);
 
-    cr_assert_eq(gate.compute(10), nts::False);
-    cr_assert_eq(gate.compute(11), nts::True);
-    cr_assert_eq(gate.compute(12), nts::True);
-    cr_assert_eq(gate.compute(13), nts::True);
-    cr_assert_eq(gate.compute(14), nts::False);
+    cr_assert_eq(gate->compute(10), nts::False);
+    cr_assert_eq(gate->compute(11), nts::True);
+    cr_assert_eq(gate->compute(12), nts::True);
+    cr_assert_eq(gate->compute(13), nts::True);
+    cr_assert_eq(gate->compute(14), nts::False);
 }
 
 Test(gates4008, test01)
 {
-    nts::Gates4008 gate;
+    auto gate = std::make_shared<nts::Gates4008>();
 
     auto in_a1 = std::make_shared<nts::InputComponent>();
     auto in_a2 = std::make_shared<nts::InputComponent>();
@@ -87,25 +88,25 @@ Test(gates4008, test01)
     in_a4->setState(nts::True);
     in_b4->setState(nts::False);
 
-    gate.setLink(9, in_c, 1);
+    nts::Link::setLink(gate, 9, in_c, 1);
 
-    gate.setLink(7, in_a1, 1);
-    gate.setLink(6, in_b1, 1);
+    nts::Link::setLink(gate, 7, in_a1, 1);
+    nts::Link::setLink(gate, 6, in_b1, 1);
 
-    gate.setLink(5, in_a2, 1);
-    gate.setLink(4, in_b2, 1);
+    nts::Link::setLink(gate, 5, in_a2, 1);
+    nts::Link::setLink(gate, 4, in_b2, 1);
 
-    gate.setLink(3, in_a3, 1);
-    gate.setLink(2, in_b3, 1);
+    nts::Link::setLink(gate, 3, in_a3, 1);
+    nts::Link::setLink(gate, 2, in_b3, 1);
 
-    gate.setLink(1, in_a4, 1);
-    gate.setLink(15, in_b4, 1);
+    nts::Link::setLink(gate, 1, in_a4, 1);
+    nts::Link::setLink(gate, 15, in_b4, 1);
 
-    gate.simulate(1);
+    gate->simulate(1);
 
-    cr_assert_eq(gate.compute(10), nts::True);
-    cr_assert_eq(gate.compute(11), nts::False);
-    cr_assert_eq(gate.compute(12), nts::True);
-    cr_assert_eq(gate.compute(13), nts::False);
-    cr_assert_eq(gate.compute(14), nts::True);
+    cr_assert_eq(gate->compute(10), nts::True);
+    cr_assert_eq(gate->compute(11), nts::False);
+    cr_assert_eq(gate->compute(12), nts::True);
+    cr_assert_eq(gate->compute(13), nts::False);
+    cr_assert_eq(gate->compute(14), nts::True);
 }

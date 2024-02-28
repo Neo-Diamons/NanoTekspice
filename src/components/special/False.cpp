@@ -7,9 +7,11 @@
 
 #include "Special.hpp"
 
+#include "src/parser/Exception.hpp"
+
 nts::Tristate nts::FalseComponent::compute(std::size_t pin)
 {
     if (pin != 1)
-        throw AComponent::ExceptionInvalidPin("FalseComponent: Invalid pin");
+        throw ExceptionInvalidPin("FalseComponent: Invalid pin");
     return nts::False;
 }

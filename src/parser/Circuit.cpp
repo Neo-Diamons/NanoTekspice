@@ -76,7 +76,7 @@ void nts::Circuit::addLink(const std::string &comp1, std::size_t pin1, const std
     if (component2 == nullptr)
         throw ExceptionUnknowComponent(comp2);
 
-    component2->setLink(pin2, component1, pin1);
+    Link::setLink(component1, pin1, component2, pin2);
 }
 
 std::size_t nts::Circuit::getTick() const

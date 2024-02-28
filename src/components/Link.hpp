@@ -14,14 +14,16 @@ namespace nts {
     class Link {
     private:
         std::shared_ptr<IComponent> _component;
-        std::size_t _pin;
 
     public:
         Link();
+        std::size_t _pin;
         Link(const std::shared_ptr<IComponent> &component, std::size_t pin);
 
         void simulate(std::size_t tick);
         [[nodiscard]] nts::Tristate compute() const;
+
+        static void setLink(const std::shared_ptr<IComponent>& component, std::size_t pin, const std::shared_ptr<IComponent>& toComponent, std::size_t toPin);
     };
 }
 

@@ -12,6 +12,21 @@
 #include <string>
 
 namespace nts {
+    class ExceptionInvalidPin : public std::exception {
+    private:
+        std::string _message;
+
+    public:
+        explicit ExceptionInvalidPin(const std::string &message)
+            : _message(message)
+        {};
+
+        [[nodiscard]] const char *what() const noexcept override
+        {
+            return _message.c_str();
+        }
+    };
+
     class ExceptionUnknowComponent : public std::exception {
     private:
         std::string _type;
