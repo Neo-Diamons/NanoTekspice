@@ -62,10 +62,6 @@ SRC			+=	$(addprefix $(lastword $(DIR))/,					\
 				)
 
 FU_DIR		:=	tests/func
-FU_SRC		:=	$(filter-out src/Main.cpp, $(SRC))
-FU_SRC		+=	$(addprefix $(FU_DIR)/,								\
-					Tests.cpp										\
-				)
 
 UT_DIR		:=	tests/unit
 UT_SRC		:=	$(filter-out src/Main.cpp, $(SRC))
@@ -86,8 +82,6 @@ DIR_BIN		:=	$(DIR_BUILD)/bin
 DIR_OBJ		:=	$(DIR_BUILD)/obj
 OBJ			:=	$(patsubst %$(EXT),$(DIR_OBJ)/%.o,$(SRC))
 
-FU_OBJ		:=	$(patsubst %$(EXT),$(DIR_OBJ)/%.o,$(FU_SRC))
-
 UT_DIR_OBJ	:=	$(DIR_BUILD)/tests/unit
 UT_OBJ		:=	$(patsubst %$(EXT),$(UT_DIR_OBJ)/%.o,$(UT_SRC))
 
@@ -95,7 +89,7 @@ DG_DIR_OBJ	:=	$(DIR_BUILD)/debug
 DG_OBJ		:=	$(patsubst %$(EXT),$(DG_DIR_OBJ)/%.o,$(SRC))
 
 DEBUG		:=	$(DIR_BIN)/debug
-FU_TEST		:=	$(DIR_BIN)/func_test
+FU_TEST		:=	$(FU_DIR)/tester.sh
 UT_TEST		:=	$(DIR_BIN)/unit_test
 
 RM			:=	rm -rf
@@ -135,9 +129,8 @@ endef
 
 $(NAME):			$(OBJ); 	$(COMPILE)
 
-$(FU_TEST):			$(FU_OBJ);	$(COMPILE)
-tests_functional:	$(FU_TEST)
-	@$<
+tests_functional:	$(FU_TEST) $(NAME)
+	@$^
 
 $(UT_TEST):			CXXFLAGS += -lcriterion --coverage
 $(UT_TEST):			$(UT_OBJ);	$(COMPILE)
