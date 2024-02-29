@@ -6,16 +6,8 @@
 */
 
 #include <algorithm>
-#include <cstddef>
-#include <functional>
-#include <memory>
-#include <sstream>
-#include <stdexcept>
 
 #include "Circuit.hpp"
-#include "Tristate.hpp"
-#include "components/IComponent.hpp"
-#include "components/IInputComponent.hpp"
 
 using namespace nts;
 
@@ -110,7 +102,7 @@ void Circuit::display() const
 
 void Circuit::simulate()
 {
-    _tick++;
+    this->_tick++;
     std::for_each(this->_outputs.begin(), this->_outputs.end(), [this](auto &o){
         o.second.second = this->_pins.compute(o.second.first);
     });
