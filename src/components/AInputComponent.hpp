@@ -15,7 +15,7 @@ namespace nts {
     class AInputComponent : public ASourceComponent, public IInputComponent {
         public:
             Tristate getState() const noexcept final;
-            void setState(Tristate state) final;
+            void setState(Tristate state) override;
 
         protected:
             AInputComponent(const Circuit &circuit, const std::string &name)

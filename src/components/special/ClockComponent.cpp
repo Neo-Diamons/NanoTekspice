@@ -9,6 +9,11 @@
 
 using namespace nts;
 
+void ClockComponent::setState(Tristate state)
+{
+    this->_state = !state;
+}
+
 Tristate ClockComponent::compute([[maybe_unused]] std::size_t pin)
 {
     Tristate state = this->_state;

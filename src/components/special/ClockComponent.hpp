@@ -21,6 +21,7 @@ namespace nts {
                 : AInputComponent(circuit, name), _lastUpdate(this->_circuit.getTick())
             {}
 
+            void setState(Tristate state) override;
             Tristate compute([[maybe_unused]] std::size_t pin) final;
 
         private:
