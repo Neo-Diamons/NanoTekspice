@@ -33,7 +33,7 @@ if [ ! -x "$BIN" ]; then
   exit 1
 fi
 
-for file in ./tests/files/nts_advanced/*.nts ./tests/files/nts_single/*.nts
+for file in ./tests/files/nts_advanced/*.nts ./tests/files/nts_single/*.nts ./tests/files/nts_hard_parsing/*.nts
 do
   TMP=$( { echo -n | "$BIN" "$file"; } 2>&1 )
   CODE=$?
@@ -70,7 +70,7 @@ do
   NB_TESTS=$((NB_TESTS+1))
 done
 
-for file in ./tests/files/*.nts ./tests/files/missing.nts /dev/null
+for file in ./tests/files/nts_bad/*.nts missing.nts /dev/null
 do
   TMP=$( { echo -n | "$BIN" "$file"; } 2>&1 )
   CODE=$?

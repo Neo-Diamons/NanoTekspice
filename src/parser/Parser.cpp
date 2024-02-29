@@ -46,7 +46,10 @@ void nts::Parser::parseChipsets()
         std::istringstream iss(line);
         if (iss.fail())
             exit(84);
-        iss >> type >> value;
+        iss >> type;
+        if (iss.fail())
+            continue;
+        iss >> value;
         if (iss.fail() || iss >> garbage)
             exit(84);
 
@@ -77,7 +80,10 @@ void nts::Parser::parseLinks()
         std::istringstream iss(line);
         if (iss.fail())
             exit(84);
-        iss >> comp1 >> comp2;
+        iss >> comp1;
+        if (iss.fail())
+            continue;
+        iss >> comp2;
         if (iss.fail() || iss >> garbage)
             exit(84);
 
