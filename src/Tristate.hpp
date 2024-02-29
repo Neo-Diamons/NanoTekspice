@@ -5,8 +5,8 @@
 ** Tristate
 */
 
-#ifndef NANOTEKSPICE_TRISTATE_HPP
-    #define NANOTEKSPICE_TRISTATE_HPP
+#ifndef NANOTEKSPICE_TRISTATE_HPP_
+    #define NANOTEKSPICE_TRISTATE_HPP_
 
     #include <iostream>
 
@@ -51,4 +51,4 @@ namespace nts {
     std::ostream &operator<<(std::ostream &os, Tristate state);
 }
 
-#endif //NANOTEKSPICE_TRISTATE_HPP
+#endif /* !NANOTEKSPICE_TRISTATE_HPP_ */

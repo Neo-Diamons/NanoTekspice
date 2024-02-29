@@ -5,8 +5,8 @@
 ** Circuit
 */
 
-#ifndef NANOTEKSPICE_CIRCUIT_HPP
-    #define NANOTEKSPICE_CIRCUIT_HPP
+#ifndef NANOTEKSPICE_CIRCUIT_HPP_
+    #define NANOTEKSPICE_CIRCUIT_HPP_
 
     #include <iostream>
     #include <list>
@@ -64,4 +64,4 @@ namespace nts {
     };
 }
 
-#endif //NANOTEKSPICE_CIRCUIT_HPP
+#endif /* !NANOTEKSPICE_CIRCUIT_HPP_ */
