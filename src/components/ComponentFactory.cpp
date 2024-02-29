@@ -16,11 +16,11 @@
 
 using namespace nts;
 
-const std::map<const char *, std::function<std::shared_ptr<IComponent>(const Circuit &, const std::string &)>> ComponentFactory::_constructors = {
-    {InputComponent::name, [](const Circuit &circuit, const std::string &name){ return std::make_shared<InputComponent>(circuit, name); }},
-    {ClockComponent::name, [](const Circuit &circuit, const std::string &name){ return std::make_shared<ClockComponent>(circuit, name); }},
-    {TrueComponent::name, [](const Circuit &circuit, const std::string &name){ return std::make_shared<TrueComponent>(circuit, name); }},
-    {FalseComponent::name, [](const Circuit &circuit, const std::string &name){ return std::make_shared<FalseComponent>(circuit, name); }}
+const std::map<const char *, std::function<std::unique_ptr<IComponent>(const Circuit &, const std::string &)>> ComponentFactory::_constructors = {
+    {InputComponent::name, [](const Circuit &circuit, const std::string &name){ return std::make_unique<InputComponent>(circuit, name); }},
+    {ClockComponent::name, [](const Circuit &circuit, const std::string &name){ return std::make_unique<ClockComponent>(circuit, name); }},
+    {TrueComponent::name, [](const Circuit &circuit, const std::string &name){ return std::make_unique<TrueComponent>(circuit, name); }},
+    {FalseComponent::name, [](const Circuit &circuit, const std::string &name){ return std::make_unique<FalseComponent>(circuit, name); }}
 };
 
 [[nodiscard]] std::string ComponentFactory::InvalidTypeException::makeMessage() const

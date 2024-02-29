@@ -15,11 +15,11 @@ const std::string &AComponent::getName()
     return this->_name;
 }
 
-void AComponent::setLink(std::size_t pin, std::shared_ptr<IComponent> other, std::size_t otherPin)
+void AComponent::setLink(std::size_t pin, IComponent *other, std::size_t otherPin)
 {
     if (!this->getValidPins().first.contains(pin))
         throw Link::InvalidPinException(pin, this->getName());
     if (!other->getValidPins().second.contains(otherPin))
         throw Link::InvalidPinException(otherPin, other->getName(), true);
-    _pins[pin] = Link(other, otherPin);
+    _pins.insert_or_assign(pin, Link(other, otherPin));
 }

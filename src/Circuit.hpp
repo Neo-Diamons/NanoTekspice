@@ -25,8 +25,8 @@ namespace nts {
     class Circuit : public AComponent {
         private:
             std::ostream &_os;
-            std::list<std::shared_ptr<IComponent>> _components;
-            std::list<std::pair<std::shared_ptr<IInputComponent>, Tristate>> _inputs;
+            std::list<std::unique_ptr<IComponent>> _components;
+            std::list<std::pair<IInputComponent *, Tristate>> _inputs;
             std::map<std::string, std::pair<std::size_t, Tristate>> _outputs;
             std::size_t _tick = 0;
             std::size_t _nextPin = 0;
@@ -39,7 +39,7 @@ namespace nts {
             {}
 
             [[nodiscard]] std::list<std::reference_wrapper<const std::string>> getNames() const;
-            void addComponent(std::shared_ptr<IComponent> component);
+            void addComponent(std::unique_ptr<IComponent> component);
             void addOutput(const std::string &name);
             void linkComponents(const std::string &in, std::size_t iPin, const std::string &out, std::size_t oPin);
             void display();

@@ -23,7 +23,7 @@ using namespace nts;
 {
     std::list<std::reference_wrapper<const std::string>> names;
 
-    std::for_each(this->_components.begin(), this->_components.end(), [&names](std::shared_ptr<nts::IComponent> c){
+    std::for_each(this->_components.begin(), this->_components.end(), [&names](const std::unique_ptr<IComponent> &c){
         names.push_back(c->getName());
     });
     std::for_each(this->_outputs.begin(), this->_outputs.end(), [&names](const auto &o){
@@ -33,18 +33,18 @@ using namespace nts;
     return names;
 }
 
-void Circuit::addComponent(std::shared_ptr<IComponent> component)
+void Circuit::addComponent(std::unique_ptr<IComponent> component)
 {
-    std::shared_ptr<IInputComponent> inputComponent = std::dynamic_pointer_cast<IInputComponent>(component);
+    IInputComponent *inputComponent = dynamic_cast<IInputComponent *>(component.get());
     if (inputComponent != nullptr)
-        this->_inputs.push_back(std::pair<std::shared_ptr<nts::IInputComponent>, nts::Tristate>(inputComponent, inputComponent->getState()));
-    this->_components.push_back(component);
+        this->_inputs.push_back(std::pair<IInputComponent *, Tristate>(inputComponent, inputComponent->getState()));
+    this->_components.push_back(std::move(component));
 }
 
 void Circuit::addOutput(const std::string &name)
 {
     this->_iPins.insert(this->_nextPin);
-    this->_outputs[name] = std::pair<std::size_t, nts::Tristate>(this->_nextPin++, Tristate::Undefined);
+    this->_outputs[name] = std::pair<std::size_t, Tristate>(this->_nextPin++, Tristate::Undefined);
 }
 
 [[nodiscard]] std::string Circuit::ComponentNotFoundException::makeMessage() const
@@ -69,7 +69,7 @@ void Circuit::linkComponents(const std::string &in, std::size_t iPin, const std:
         if (oPin != 1)
             throw Link::InvalidPinException(oPin, this->getName());
 
-        this->setLink(_outputs.at(out).first, *inComponent, iPin);
+        this->setLink(_outputs.at(out).first, inComponent->get(), iPin);
     } else {
         auto outComponent = std::find_if(_components.begin(), _components.end(), [&out](const auto &component) {
             return component->getName() == out;
@@ -78,7 +78,7 @@ void Circuit::linkComponents(const std::string &in, std::size_t iPin, const std:
         if (outComponent == _components.end())
             throw ComponentNotFoundException(in);
 
-        (*outComponent)->setLink(oPin, *inComponent, iPin);
+        (*outComponent)->setLink(oPin, inComponent->get(), iPin);
     }
 
 }

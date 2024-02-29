@@ -19,9 +19,7 @@
 namespace nts {
     class Link {
         public:
-            Link() = default;
-
-            Link(const std::shared_ptr<IComponent> &component, std::size_t pin)
+            Link(IComponent *component, std::size_t pin)
                 : _component(component), _pin(pin)
             {};
 
@@ -47,7 +45,7 @@ namespace nts {
             };
 
         private:
-            std::shared_ptr<IComponent> _component;
+            IComponent * _component;
             std::size_t _pin;
     };
 }
