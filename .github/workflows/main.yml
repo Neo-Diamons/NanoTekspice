@@ -1,0 +1,57 @@
+name: 'Main workflow'
+on:
+  push: {}
+  pull_request: {}
+  workflow_dispatch: {}
+env:
+  EXECUTABLES: 'nanotekspice'
+jobs:
+  coding-style:
+    runs-on: ubuntu-latest
+    container: 'ghcr.io/epitech/coding-style-checker:latest'
+    name: 'Check coding-style'
+    steps:
+      - uses: actions/checkout@v4
+      - name: 'Run checker'
+        run: |
+          check.sh $(pwd) $(pwd)
+          if [ -s coding-style-reports.log ]
+          then
+            cat coding-style-reports.log | while read line; do
+              echo "::error file=$(echo "$line" | cut -d: -f1),\
+                line=$(echo "$line" | cut -d: -f2),\
+                title=$(echo "$line" | cut -d: -f3 | xargs) \
+                coding style error::$(echo "$line" | cut -d: -f4)"
+            done
+            exit 1
+          fi
+  build:
+    runs-on: ubuntu-latest
+    container: 'epitechcontent/epitest-docker:latest'
+    name: 'Build program'
+    steps:
+      - uses: actions/checkout@v4
+      - name: 'Make'
+        timeout-minutes: 2
+        run: |
+          make
+      - name: 'Clean'
+        run: |
+          make clean
+      - name: 'Check for the executable(s)'
+        run: |
+          for executable in "$EXECUTABLES"
+          do
+            [ ! -f "$executable" ] || [ ! -x "$executable" ] && exit 1
+          done
+      - name: 'Remove the executable(s)'
+        run: |
+          make fclean
+          for executable in "$EXECUTABLES"
+          do
+            [ -f "$executable" ] && exit 1
+          done
+      - name: 'Run tests'
+        timeout-minutes: 2
+        run: |
+          make tests_run
