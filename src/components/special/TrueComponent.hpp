@@ -13,7 +13,7 @@
 namespace nts {
     class TrueComponent : public ASourceComponent {
         public:
-            static constexpr const char name[] = "true";
+            static constexpr const char typeName[] = "true";
 
             TrueComponent(const Circuit &circuit, const std::string &name)
                 : ASourceComponent(circuit, name)

@@ -13,7 +13,7 @@
 namespace nts {
     class InputComponent : public AInputComponent {
         public:
-            static constexpr const char name[] = "input";
+            static constexpr const char typeName[] = "input";
 
             InputComponent(const Circuit &circuit, const std::string &name)
                 : AInputComponent(circuit, name)

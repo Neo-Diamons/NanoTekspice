@@ -15,7 +15,7 @@
 namespace nts {
     class ClockComponent : public AInputComponent {
         public:
-            static constexpr const char name[] = "clock";
+            static constexpr const char typeName[] = "clock";
 
             ClockComponent(const Circuit &circuit, const std::string &name)
                 : AInputComponent(circuit, name), _lastUpdate(this->_circuit.getTick())

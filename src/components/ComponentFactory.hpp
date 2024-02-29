@@ -20,7 +20,7 @@
 namespace nts {
     class ComponentFactory {
         private:
-            static const std::map<const char * const, std::function<std::unique_ptr<IComponent>(const Circuit &, const std::string &)>> _constructors;
+            static const std::map<const char * const, std::function<std::unique_ptr<IComponent>(const Circuit &, const std::string &)>> constructors;
             Circuit &_circuit;
 
         public:

@@ -5,18 +5,27 @@
 ** ComponentFactory
 */
 
-#include <algorithm>
-#include <list>
-#include <memory>
-#include <sstream>
-
 #include "Components.hpp"
 
 #include "ComponentFactory.hpp"
 
 using namespace nts;
 
-const std::map<const char * const, std::function<std::unique_ptr<IComponent>(const Circuit &, const std::string &)>> ComponentFactory::_constructors = {
+template<typename T>
+concept HasComponentTypeName =
+    requires(T t) {
+    static_cast<const char *>(T::typeName);
+};
+
+template<typename T> requires HasComponentTypeName<T>
+static const std::pair<const char * const, std::function<std::unique_ptr<IComponent>(const Circuit &, const std::string &)>> makeConstructorPair()
+{
+    return {T::typeName, [](const Circuit &circuit, const std::string &name) { return std::make_unique<T>(circuit, name); }};
+}
+
+const std::map<const char * const, std::function<std::unique_ptr<IComponent>(const Circuit &, const std::string &)>> ComponentFactory::constructors = {
+    makeConstructorPair<InputComponent>(), makeConstructorPair<ClockComponent>(),
+    makeConstructorPair<TrueComponent>(), makeConstructorPair<FalseComponent>()
 };
 
 [[nodiscard]] std::string ComponentFactory::InvalidTypeException::makeMessage() const noexcept
@@ -43,8 +52,8 @@ void ComponentFactory::create(const std::string &type, const std::string &name) 
         return;
     }
 
-    auto constructor = _constructors.find(type.c_str());
-    if (constructor == _constructors.end())
+    auto constructor = constructors.find(type.c_str());
+    if (constructor == constructors.end())
         throw InvalidTypeException(type, name);
 
     this->_circuit.addComponent((*constructor).second(_circuit, name));
