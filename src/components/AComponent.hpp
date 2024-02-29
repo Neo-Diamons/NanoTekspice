@@ -18,8 +18,8 @@ namespace nts {
 
     class AComponent : public virtual IComponent {
         public:
-            const std::string &getName() final;
-            void setLink(std::size_t pin, IComponent * other, std::size_t otherPin) final;
+            const std::string &getName() const noexcept final;
+            void setLink(std::size_t pin, IComponent *other, std::size_t otherPin) final;
 
         protected:
             AComponent(const Circuit &circuit, const std::string &name)

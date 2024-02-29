@@ -20,11 +20,11 @@
 namespace nts {
     class ComponentFactory {
         private:
-            static const std::map<const char *, std::function<std::unique_ptr<IComponent>(const Circuit &, const std::string &)>> _constructors;
+            static const std::map<const char * const, std::function<std::unique_ptr<IComponent>(const Circuit &, const std::string &)>> _constructors;
             Circuit &_circuit;
 
         public:
-            explicit ComponentFactory(Circuit &circuit)
+            ComponentFactory(Circuit &circuit)
                 : _circuit(circuit)
             {}
 
@@ -32,8 +32,8 @@ namespace nts {
 
             class Exception : public nts::Exception {
                 public:
-                    const std::string &getType() const { return _type; }
-                    const std::string &getName() const { return _name; }
+                    const std::string &getType() const noexcept { return _type; }
+                    const std::string &getName() const noexcept { return _name; }
 
                 protected:
                     Exception(const std::string &type, const std::string &name)
@@ -51,7 +51,7 @@ namespace nts {
                     {}
 
                 protected:
-                    [[nodiscard]] std::string makeMessage() const final;
+                    [[nodiscard]] std::string makeMessage() const noexcept final;
             };
 
             class ComponentExistsException : public Exception {
@@ -61,7 +61,7 @@ namespace nts {
                     {}
 
                 protected:
-                    [[nodiscard]] std::string makeMessage() const final;
+                    [[nodiscard]] std::string makeMessage() const noexcept final;
             };
     };
 }

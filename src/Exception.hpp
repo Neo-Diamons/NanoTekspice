@@ -21,7 +21,7 @@ namespace nts {
             [[nodiscard]] const char *what() const noexcept final;
 
         protected:
-            [[nodiscard]] virtual std::string makeMessage() const;
+            [[nodiscard]] virtual std::string makeMessage() const noexcept;
 
         private:
             const std::string _message;

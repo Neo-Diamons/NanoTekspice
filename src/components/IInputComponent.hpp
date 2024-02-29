@@ -15,7 +15,7 @@ namespace nts {
         public:
             virtual ~IInputComponent() = default;
 
-            virtual Tristate getState() = 0;
+            virtual Tristate getState() const noexcept = 0;
             virtual void setState(Tristate state) = 0;
     };
 }

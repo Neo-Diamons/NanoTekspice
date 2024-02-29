@@ -14,7 +14,7 @@
 namespace nts {
     class AInputComponent : public ASourceComponent, public IInputComponent {
         public:
-            Tristate getState() final;
+            Tristate getState() const noexcept final;
             void setState(Tristate state) final;
 
         protected:

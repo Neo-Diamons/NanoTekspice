@@ -10,7 +10,7 @@
 
 using namespace nts;
 
-const std::string &AComponent::getName()
+const std::string &AComponent::getName() const noexcept
 {
     return this->_name;
 }

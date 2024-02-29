@@ -18,21 +18,21 @@ namespace nts {
     };
 
 
-    constexpr Tristate operator&(Tristate a, Tristate b)
+    constexpr Tristate operator&(Tristate a, Tristate b) noexcept
     {
         if (a == False || b == False)
             return False;
         return a == Undefined || b == Undefined ? Undefined : True;
     }
 
-    constexpr Tristate operator|(Tristate a, Tristate b)
+    constexpr Tristate operator|(Tristate a, Tristate b) noexcept
     {
         if (a == True || b == True)
             return True;
         return a == Undefined || b == Undefined ? Undefined : False;
     }
 
-    constexpr Tristate operator^(Tristate a, Tristate b)
+    constexpr Tristate operator^(Tristate a, Tristate b) noexcept
     {
         if (a == Undefined || b == Undefined)
             return Undefined;
@@ -40,7 +40,7 @@ namespace nts {
     }
 
 
-    constexpr Tristate operator!(Tristate a)
+    constexpr Tristate operator!(Tristate a) noexcept
     {
         if (a == Undefined)
             return Undefined;

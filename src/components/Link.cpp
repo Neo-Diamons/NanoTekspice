@@ -16,7 +16,7 @@ using namespace nts;
     return _component->compute(this->_pin);
 }
 
-[[nodiscard]] std::string Link::InvalidPinException::makeMessage() const
+[[nodiscard]] std::string Link::InvalidPinException::makeMessage() const noexcept
 {
     std::stringstream message;
 

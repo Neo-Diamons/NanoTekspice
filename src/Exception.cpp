@@ -14,7 +14,7 @@ using namespace nts;
     return this->_message.c_str();
 }
 
-[[nodiscard]] std::string Exception::makeMessage() const
+[[nodiscard]] std::string Exception::makeMessage() const noexcept
 {
     return "nts::Exception: An error has occured";
 }

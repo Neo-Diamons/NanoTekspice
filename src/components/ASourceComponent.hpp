@@ -13,7 +13,7 @@
 namespace nts {
     class ASourceComponent : public AComponent {
         public:
-            std::pair<const std::set<std::size_t> &, const std::set<std::size_t> &> getValidPins() final;
+            std::pair<const std::set<std::size_t> &, const std::set<std::size_t> &> getValidPins() const final;
 
         protected:
             ASourceComponent(const Circuit &circuit, const std::string &name)

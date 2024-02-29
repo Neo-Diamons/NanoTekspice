@@ -9,7 +9,7 @@
 
 using namespace nts;
 
-Tristate AInputComponent::getState()
+Tristate AInputComponent::getState() const noexcept
 {
     return this->_state;
 }

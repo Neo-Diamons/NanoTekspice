@@ -31,12 +31,12 @@ namespace nts {
                         : _pin(pin), _componentName(componentName), _isOutputPin(isOutputPin)
                     {}
 
-                    std::size_t getPin() const { return _pin; }
-                    const std::string &getComponentName() const { return _componentName; }
-                    bool isOutputPin() const { return _isOutputPin; }
+                    std::size_t getPin() const noexcept { return _pin; }
+                    const std::string &getComponentName() const noexcept { return _componentName; }
+                    bool isOutputPin() const noexcept { return _isOutputPin; }
 
                 protected:
-                    [[nodiscard]] std::string makeMessage() const final;
+                    [[nodiscard]] std::string makeMessage() const noexcept final;
 
                 private:
                     const std::size_t _pin;

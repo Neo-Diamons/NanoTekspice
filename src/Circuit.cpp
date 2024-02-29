@@ -35,9 +35,9 @@ using namespace nts;
 
 void Circuit::addComponent(std::unique_ptr<IComponent> component)
 {
-    IInputComponent *inputComponent = dynamic_cast<IInputComponent *>(component.get());
+    IInputComponent * const inputComponent = dynamic_cast<IInputComponent *>(component.get());
     if (inputComponent != nullptr)
-        this->_inputs.push_back(std::pair<IInputComponent *, Tristate>(inputComponent, inputComponent->getState()));
+        this->_inputs.push_back(std::pair<IInputComponent * const, Tristate>(inputComponent, inputComponent->getState()));
     this->_components.push_back(std::move(component));
 }
 
@@ -47,7 +47,7 @@ void Circuit::addOutput(const std::string &name)
     this->_outputs[name] = std::pair<std::size_t, Tristate>(this->_nextPin++, Tristate::Undefined);
 }
 
-[[nodiscard]] std::string Circuit::ComponentNotFoundException::makeMessage() const
+[[nodiscard]] std::string Circuit::ComponentNotFoundException::makeMessage() const noexcept
 {
     std::stringstream message;
 
@@ -85,9 +85,9 @@ void Circuit::linkComponents(const std::string &in, std::size_t iPin, const std:
 
 const std::set<std::size_t> Circuit::oPins = {};
 
-std::pair<const std::set<std::size_t>&, const std::set<std::size_t>&> Circuit::getValidPins()
+std::pair<const std::set<std::size_t> &, const std::set<std::size_t> &> Circuit::getValidPins() const
 {
-    return std::pair<const std::set<std::size_t>&, const std::set<std::size_t>&>(this->_iPins, oPins);
+    return std::pair<const std::set<std::size_t> &, const std::set<std::size_t> &>(this->_iPins, oPins);
 }
 
 Tristate Circuit::compute(std::size_t)
@@ -95,11 +95,11 @@ Tristate Circuit::compute(std::size_t)
     throw std::runtime_error("No input pins on a Circuit");
 }
 
-std::size_t Circuit::getTick() const
+std::size_t Circuit::getTick() const noexcept
 {
     return this->_tick;
 }
-void Circuit::display()
+void Circuit::display() const
 {
     this->_os << "tick: " << this->_tick
         << "\ninput(s):\n";

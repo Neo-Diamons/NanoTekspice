@@ -26,12 +26,13 @@ namespace nts {
         private:
             std::ostream &_os;
             std::list<std::unique_ptr<IComponent>> _components;
-            std::list<std::pair<IInputComponent *, Tristate>> _inputs;
+            std::list<std::pair<IInputComponent * const, Tristate>> _inputs;
             std::map<std::string, std::pair<std::size_t, Tristate>> _outputs;
             std::size_t _tick = 0;
             std::size_t _nextPin = 0;
-            static const std::set<std::size_t> oPins;
             std::set<std::size_t> _iPins;
+
+            static const std::set<std::size_t> oPins;
 
         public:
             Circuit(std::ostream &os = std::cout)
@@ -42,10 +43,10 @@ namespace nts {
             void addComponent(std::unique_ptr<IComponent> component);
             void addOutput(const std::string &name);
             void linkComponents(const std::string &in, std::size_t iPin, const std::string &out, std::size_t oPin);
-            void display();
+            void display() const;
             void simulate();
-            std::size_t getTick() const;
-            std::pair<const std::set<std::size_t>&, const std::set<std::size_t>&> getValidPins() final;
+            std::size_t getTick() const noexcept;
+            std::pair<const std::set<std::size_t> &, const std::set<std::size_t> &> getValidPins() const final;
 
             Tristate compute(std::size_t pin) final;
 
@@ -55,11 +56,11 @@ namespace nts {
                         : _name(name)
                     {}
 
-                    const std::string &getName() const { return _name; }
+                    const std::string &getName() const noexcept { return _name; }
 
                 protected:
                     const std::string _name;
-                    [[nodiscard]] std::string makeMessage() const final;
+                    [[nodiscard]] std::string makeMessage() const noexcept final;
             };
     };
 }

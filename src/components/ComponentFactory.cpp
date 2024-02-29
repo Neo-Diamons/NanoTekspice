@@ -16,31 +16,13 @@
 
 using namespace nts;
 
-const std::map<const char *, std::function<std::unique_ptr<IComponent>(const Circuit &, const std::string &)>> ComponentFactory::_constructors = {
-    {InputComponent::name, [](const Circuit &circuit, const std::string &name){ return std::make_unique<InputComponent>(circuit, name); }},
-    {ClockComponent::name, [](const Circuit &circuit, const std::string &name){ return std::make_unique<ClockComponent>(circuit, name); }},
-    {TrueComponent::name, [](const Circuit &circuit, const std::string &name){ return std::make_unique<TrueComponent>(circuit, name); }},
-    {FalseComponent::name, [](const Circuit &circuit, const std::string &name){ return std::make_unique<FalseComponent>(circuit, name); }}
+const std::map<const char * const, std::function<std::unique_ptr<IComponent>(const Circuit &, const std::string &)>> ComponentFactory::_constructors = {
 };
 
-[[nodiscard]] std::string ComponentFactory::InvalidTypeException::makeMessage() const
-{
-    std::stringstream message;
-
-    message << "ComponentFactory::InvalidTypeException: Component '" << this->_name
-        << "' has type '" << this->_type << "' which is not valid";
-
-    return message.str();
+[[nodiscard]] std::string ComponentFactory::InvalidTypeException::makeMessage() const noexcept
 }
 
-[[nodiscard]] std::string ComponentFactory::ComponentExistsException::makeMessage() const
-{
-    std::stringstream message;
-
-    message << "ComponentFactory::ComponentExistsException: Cannot create component named '" << this->_name
-        << "' of type '" << this->_type << "'; a component with that name already exists";
-
-    return message.str();
+[[nodiscard]] std::string ComponentFactory::ComponentExistsException::makeMessage() const noexcept
 }
 
 void ComponentFactory::create(const std::string &type, const std::string &name) const

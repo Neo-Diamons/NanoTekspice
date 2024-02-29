@@ -20,10 +20,10 @@ namespace nts {
         public:
             virtual ~IComponent() = default;
 
-            virtual const std::string &getName() = 0;
+            virtual const std::string &getName() const noexcept = 0;
             virtual Tristate compute(std::size_t pin) = 0;
             virtual void setLink(std::size_t pin, IComponent *other, std::size_t otherPin) = 0;
-            virtual std::pair<const std::set<std::size_t>&, const std::set<std::size_t>&> getValidPins() = 0;
+            virtual std::pair<const std::set<std::size_t> &, const std::set<std::size_t> &> getValidPins() const = 0;
     };
 }
 
