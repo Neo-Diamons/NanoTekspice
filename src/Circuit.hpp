@@ -45,7 +45,7 @@ namespace nts {
             void display();
             void simulate();
             std::size_t getTick() const;
-            std::pair<const std::set<size_t>&, const std::set<size_t>&> getValidPins() final;
+            std::pair<const std::set<std::size_t>&, const std::set<std::size_t>&> getValidPins() final;
 
             Tristate compute(std::size_t pin) final;
 

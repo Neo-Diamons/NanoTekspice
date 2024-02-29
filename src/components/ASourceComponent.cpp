@@ -9,9 +9,9 @@
 
 using namespace nts;
 
-const std::pair<std::set<size_t>, std::set<size_t>> ASourceComponent::ioPins = {{}, {1}};
+const std::pair<std::set<std::size_t>, std::set<std::size_t>> ASourceComponent::ioPins = {{}, {1}};
 
-std::pair<const std::set<size_t> &, const std::set<size_t> &> ASourceComponent::getValidPins()
+std::pair<const std::set<std::size_t> &, const std::set<std::size_t> &> ASourceComponent::getValidPins()
 {
     return ioPins;
 }

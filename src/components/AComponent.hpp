@@ -8,7 +8,6 @@
 #ifndef NANOTEKSPICE_ACOMPONENT_HPP_
     #define NANOTEKSPICE_ACOMPONENT_HPP_
 
-    #include <cstddef>
     #include <map>
 
     #include "IComponent.hpp"
@@ -29,7 +28,7 @@ namespace nts {
 
             const Circuit &_circuit;
             const std::string _name;
-            std::map<size_t, Link> _pins{};
+            std::map<std::size_t, Link> _pins;
     };
 }
 

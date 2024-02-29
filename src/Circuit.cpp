@@ -83,11 +83,11 @@ void Circuit::linkComponents(const std::string &in, std::size_t iPin, const std:
 
 }
 
-const std::set<size_t> Circuit::oPins = {};
+const std::set<std::size_t> Circuit::oPins = {};
 
-std::pair<const std::set<size_t>&, const std::set<size_t>&> Circuit::getValidPins()
+std::pair<const std::set<std::size_t>&, const std::set<std::size_t>&> Circuit::getValidPins()
 {
-    return std::pair<const std::set<size_t>&, const std::set<size_t>&>(this->_iPins, oPins);
+    return std::pair<const std::set<std::size_t>&, const std::set<std::size_t>&>(this->_iPins, oPins);
 }
 
 Tristate Circuit::compute(std::size_t)
