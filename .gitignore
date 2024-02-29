@@ -11,3 +11,6 @@ vgcore.*
 
 # Binary files
 nanotekspice
+
+# Generated documentation
+docs/

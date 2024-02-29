@@ -142,6 +142,9 @@ tests_unit:			$(UT_TEST)
 debug:				CXXFLAGS += -g
 debug:				$(DG_OBJ); 	$(COMPILE)
 
+docs:
+	@doxygen
+
 tests_run:			tests_functional tests_unit
 	gcovr $(UT_DIR_OBJ) --exclude tests/
 	gcovr $(UT_DIR_OBJ) --exclude tests/ --txt-metric branch
@@ -158,6 +161,6 @@ fclean:				clean
 
 re:					fclean all
 
-.PHONY:				all tests tests_run debug clean fclean re
+.PHONY:				all tests tests_run debug clean fclean re docs
 
-.SILENT:			all tests tests_run debug clean fclean re
+.SILENT:			all tests tests_run debug clean fclean re docs
