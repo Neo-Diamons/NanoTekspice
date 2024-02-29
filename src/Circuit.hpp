@@ -44,6 +44,7 @@ namespace nts {
             void linkComponents(const std::string &in, std::size_t iPin, const std::string &out, std::size_t oPin);
             void display() const;
             void simulate();
+            void setInput(const std::string &name, Tristate value);
             std::size_t getTick() const noexcept;
             std::pair<const std::set<std::size_t> &, const std::set<std::size_t> &> getValidPins() const final;
 

@@ -110,3 +110,15 @@ void Circuit::simulate()
         i.second = i.first->getState();
     });
 }
+
+void Circuit::setInput(const std::string &name, Tristate value)
+{
+    auto input = std::find_if(this->_inputs.begin(), this->_inputs.end(), [&name](const auto &i){
+        return i.first->getName() == name;
+    });
+
+    if (input == this->_inputs.end())
+        throw ComponentNotFoundException(name);
+
+    input->first->setState(value);
+}
