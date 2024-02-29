@@ -22,6 +22,8 @@ nts::Link::Link(const std::shared_ptr<IComponent> &component, const std::size_t 
 
 void nts::Link::simulate(const std::size_t tick) const
 {
+    if (_pin == 0)
+        return;
     _component->simulate(tick);
 }
 
