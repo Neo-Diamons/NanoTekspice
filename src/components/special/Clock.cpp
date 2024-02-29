@@ -14,9 +14,8 @@ void nts::ClockComponent::simulate(const std::size_t tick)
     if (tick == _lastTick)
         return;
     _lastTick = tick;
-    if (_oldState == _state)
-        _state = !_state;
     _oldState = _state;
+    _state = !_state;
 }
 
 nts::Tristate nts::ClockComponent::compute(const std::size_t pin)

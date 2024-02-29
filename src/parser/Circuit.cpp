@@ -18,7 +18,7 @@ void nts::Circuit::addComponent(const std::string &type, const std::string &valu
         if (std::get<0>(*component) == value)
             throw ExceptionDuplicateComponent(value);
 
-    auto newComponent = std::make_shared<std::tuple<std::string, std::shared_ptr<nts::IComponent>>>(
+    const auto newComponent = std::make_shared<std::tuple<std::string, std::shared_ptr<nts::IComponent>>>(
         value,
         Factory::createComponent(type)
     );
@@ -96,12 +96,13 @@ const Components &nts::Circuit::getOutputs() const
 
 std::ostream &nts::operator<<(std::ostream &os, const Circuit &circuit)
 {
-    os << "tick: " << circuit.getTick() << std::endl;
-    os << "input(s):" << std::endl;
+    os << "tick: " << circuit.getTick();
+    os << "\ninput(s):";
     for (auto &input : circuit.getInputs())
-        os << "  " << std::get<0>(*input) << ": " << std::dynamic_pointer_cast<InputComponents>(std::get<1>(*input))->compute(1) << std::endl;
-    os << "output(s):" << std::endl;
+        os << "\n  " << std::get<0>(*input) << ": " << std::dynamic_pointer_cast<InputComponents>(std::get<1>(*input))->compute(1);
+    os << "\noutput(s):";
     for (auto &output : circuit.getOutputs())
-        os << "  " << std::get<0>(*output) << ": " << std::dynamic_pointer_cast<OutputComponent>(std::get<1>(*output))->compute(1) << std::endl;
+        os << "\n  " << std::get<0>(*output) << ": " << std::dynamic_pointer_cast<OutputComponent>(std::get<1>(*output))->compute(1);
+    os << std::endl;
     return os;
 }

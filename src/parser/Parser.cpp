@@ -148,7 +148,6 @@ void nts::Parser::loop()
 
                 _circuit.simulate();
                 std::cout << _circuit;
-                usleep(100);
             }
             continue;
         }
