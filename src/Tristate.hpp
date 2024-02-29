@@ -10,6 +10,8 @@
 
     #include <iostream>
 
+    #include "Exception.hpp"
+
 namespace nts {
     enum Tristate {
         Undefined = (-true),
@@ -49,6 +51,21 @@ namespace nts {
 
 
     std::ostream &operator<<(std::ostream &os, Tristate state);
+
+    void operator>>(const std::string &str, Tristate &state);
+
+    class InvalidTristateException : public Exception {
+        public:
+            InvalidTristateException(const std::string &string)
+                : _string(string)
+            {}
+
+        protected:
+            [[nodiscard]] std::string makeMessage() const noexcept final;
+
+        private:
+            const std::string _string;
+    };
 }
 
 #endif /* !NANOTEKSPICE_TRISTATE_HPP_ */
