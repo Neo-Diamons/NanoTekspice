@@ -116,7 +116,7 @@ void Circuit::simulate()
 {
     _tick++;
     std::for_each(this->_outputs.begin(), this->_outputs.end(), [this](auto &o){
-        o.second.second = this->_pins[o.second.first].compute();
+        o.second.second = this->_pins.compute(o.second.first);
     });
     std::for_each(this->_inputs.begin(), this->_inputs.end(), [this](auto &i){
         i.second = i.first->getState();

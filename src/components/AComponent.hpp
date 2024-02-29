@@ -11,7 +11,7 @@
     #include <map>
 
     #include "IComponent.hpp"
-    #include "Link.hpp"
+    #include "LinkMap.hpp"
 
 namespace nts {
     class Circuit;
@@ -28,7 +28,7 @@ namespace nts {
 
             const Circuit &_circuit;
             const std::string _name;
-            std::map<std::size_t, Link> _pins;
+            LinkMap _pins = LinkMap(this);
     };
 }
 

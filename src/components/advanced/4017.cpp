@@ -9,10 +9,10 @@
 
 nts::Tristate nts::Gates4017::compute(std::size_t pin)
 {
-    if (_pins[15].compute() == nts::Tristate::True)
+    if (_pins.compute(15) == nts::Tristate::True)
         _count = 0;
-    else if (_pins[13].compute() == nts::Tristate::True
-        && _pins[14].compute() == nts::Tristate::True)
+    else if (_pins.compute(13) == nts::Tristate::True
+        && _pins.compute(14) == nts::Tristate::True)
         _count = (_count + 1) % 10;
 
     switch (pin) {

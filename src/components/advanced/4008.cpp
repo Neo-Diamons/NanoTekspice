@@ -10,8 +10,8 @@
 
 nts::Tristate nts::Gates4008::add(int idA, int idB, nts::Tristate carry)
 {
-    nts::Tristate a = _pins[idA].compute();
-    nts::Tristate b = _pins[idB].compute() ^ carry;
+    nts::Tristate a = _pins.compute(idA);
+    nts::Tristate b = _pins.compute(idB) ^ carry;
 
     nts::Tristate sum = a ^ b ^ _outPins[14];
     _outPins[14] = (a & b) | (_outPins[14] & (a ^ b));
@@ -21,7 +21,7 @@ nts::Tristate nts::Gates4008::add(int idA, int idB, nts::Tristate carry)
 
 nts::Tristate nts::Gates4008::compute(std::size_t pin)
 {
-    nts::Tristate carry = _pins[9].compute();
+    nts::Tristate carry = _pins.compute(9);
 
     _outPins = {
         {10, nts::Undefined},

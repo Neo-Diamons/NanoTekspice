@@ -9,14 +9,14 @@
 
 nts::Tristate nts::Gates4013::compute(std::size_t pin)
 {
-    if (_pins[4].compute() == nts::True) {
-        _outPins[1] = _pins[6].compute();
+    if (_pins.compute(4) == nts::True) {
+        _outPins[1] = _pins.compute(6);
         _outPins[2] = nts::True;
-    } else if (_pins[6].compute() == nts::True) {
+    } else if (_pins.compute(6) == nts::True) {
         _outPins[1] = nts::True;
         _outPins[2] = nts::False;
-    } else if (_pins[3].compute() == nts::True) {
-        if (_pins[5].compute() == nts::True) {
+    } else if (_pins.compute(3) == nts::True) {
+        if (_pins.compute(5) == nts::True) {
             _outPins[1] = nts::True;
             _outPins[2] = nts::False;
         } else {
@@ -25,14 +25,14 @@ nts::Tristate nts::Gates4013::compute(std::size_t pin)
         }
     }
 
-    if (_pins[10].compute() == nts::True) {
-        _outPins[13] = _pins[8].compute();
+    if (_pins.compute(10) == nts::True) {
+        _outPins[13] = _pins.compute(8);
         _outPins[12] = nts::True;
-    } else if (_pins[8].compute() == nts::True) {
+    } else if (_pins.compute(8) == nts::True) {
         _outPins[13] = nts::True;
         _outPins[12] = nts::False;
-    } else if (_pins[11].compute() == nts::True) {
-        if (_pins[9].compute() == nts::True) {
+    } else if (_pins.compute(11) == nts::True) {
+        if (_pins.compute(9) == nts::True) {
             _outPins[13] = nts::True;
             _outPins[12] = nts::False;
         } else {
