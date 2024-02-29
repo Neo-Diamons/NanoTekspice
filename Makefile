@@ -97,6 +97,8 @@ DEBUG		:=	$(DIR_BIN)/debug
 FU_TEST		:=	$(FU_DIR)/tester.sh
 UT_TEST		:=	$(DIR_BIN)/unit_test
 
+DOC_OUT		:=	doc/html
+
 RM			:=	rm -rf
 
 CXX			:=	g++
@@ -153,11 +155,15 @@ tests_run:			tests_functional tests_unit
 
 doc:
 	doxygen doc/Doxyfile
+	python -m webbrowser -t doc/html/index.html
 
 clean:
 	@[ -d $(DIR_BUILD) ]											\
 	&& $(RM) $(DIR_BUILD)											\
 	&& printf "\033[31m[DELETED]\033[0m %s\n" $(DIR_BUILD) || true
+	@[ -d $(DOC_OUT) ]												\
+	&& $(RM) $(DOC_OUT)												\
+	&& printf "\033[31m[DELETED]\033[0m %s\n" $(DOC_OUT) || true
 
 fclean:				clean
 	@[ -f $(NAME) ]													\

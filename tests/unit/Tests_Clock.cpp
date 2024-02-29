@@ -67,6 +67,16 @@ Test(clock, set_true_false_simulate_three)
     cr_assert_eq(clockComp->compute(1), nts::True);
 }
 
+Test(clock, set_the_actual_state)
+{
+    clockComp->setState(nts::True);
+
+    clockComp->simulate(tick++);
+    clockComp->setState(nts::True);
+    clockComp->simulate(tick++);
+    cr_assert_eq(clockComp->compute(1), nts::True);
+}
+
 Test(clock, invalid_simulate)
 {
     clockComp->setState(nts::False);
