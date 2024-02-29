@@ -12,8 +12,8 @@ void nts::Gates4017::simulate(const std::size_t tick)
     if (tick == _lastTick)
         return;
     _lastTick = tick;
-    for (auto &pin: _pins)
-        pin.second.simulate(tick);
+    for (auto &[fst, snd]: _pins)
+        snd.simulate(tick);
 
     if (_pins[15].compute() == True)
         _count = 0;

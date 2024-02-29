@@ -13,12 +13,20 @@
 namespace nts {
     class ValueComponent : public AComponent {
     public:
+        ValueComponent(const std::list<std::size_t> &inputs, const std::list<std::size_t> &outputs)
+            : AComponent(inputs, outputs)
+        {}
+
         void simulate([[maybe_unused]] const std::size_t tick) override
         {}
     };
 
     class InputComponents : public AComponent {
     public:
+        InputComponents(const std::list<std::size_t> &inputs, const std::list<std::size_t> &outputs)
+            : AComponent(inputs, outputs)
+        {}
+
         virtual void setState(Tristate state) = 0;
     };
 
@@ -29,48 +37,34 @@ namespace nts {
         Tristate _oldState = Undefined;
 
     public:
-        InputComponent()
-        {
-            _inputs = {};
-            _outputs = {1};
-        }
+        InputComponent() : InputComponents({}, {1})
+        {}
 
         void simulate(std::size_t tick) override;
-
         Tristate compute(std::size_t pin) override;
-
         void setState(Tristate state) override;
     };
 
     class OutputComponent final : public AComponent {
     public:
-        OutputComponent()
-        {
-            _inputs = {1};
-            _outputs = {};
-        }
+        OutputComponent() : AComponent({1}, {})
+        {}
 
         Tristate compute(std::size_t pin) override;
     };
 
     class TrueComponent final : public ValueComponent {
     public:
-        TrueComponent()
-        {
-            _inputs = {};
-            _outputs = {1};
-        }
+        TrueComponent() : ValueComponent({}, {1})
+        {}
 
         Tristate compute(std::size_t pin) override;
     };
 
     class FalseComponent final : public ValueComponent {
     public:
-        FalseComponent()
-        {
-            _inputs = {};
-            _outputs = {1};
-        }
+        FalseComponent() : ValueComponent({}, {1})
+        {}
 
         Tristate compute(std::size_t pin) override;
     };
@@ -81,16 +75,11 @@ namespace nts {
         Tristate _oldState = Undefined;
 
     public:
-        ClockComponent()
-        {
-            _inputs = {};
-            _outputs = {1};
-        }
+        ClockComponent() : InputComponents({}, {1})
+        {}
 
         void simulate(std::size_t tick) override;
-
         Tristate compute(std::size_t pin) override;
-
         void setState(Tristate state) override;
     };
 }

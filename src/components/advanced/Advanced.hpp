@@ -18,11 +18,8 @@ namespace nts {
         Tristate add(u_int8_t idA, u_int8_t idB, Tristate carry);
 
     public:
-        Gates4008()
-        {
-            _inputs = {1, 2, 3, 4, 5, 6, 7, 9, 15};
-            _outputs = {10, 11, 12, 13, 14};
-        }
+        Gates4008() : AComponent({1, 2, 3, 4, 5, 6, 7, 9, 15}, {10, 11, 12, 13, 14})
+        {}
 
         Tristate compute(std::size_t pin) override;
     };
@@ -32,14 +29,10 @@ namespace nts {
         std::size_t _count = 0;
 
     public:
-        Gates4017()
-        {
-            _inputs = {13, 14, 15};
-            _outputs = {1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12};
-        }
+        Gates4017() : AComponent({13, 14, 15}, {1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12})
+        {}
 
         void simulate(std::size_t tick) override;
-
         Tristate compute(std::size_t pin) override;
     };
 
@@ -53,30 +46,22 @@ namespace nts {
         };
 
     public:
-        Gates4013()
-        {
-            _inputs = {3, 4, 5, 6, 9, 8, 10, 11};
-            _outputs = {1, 2, 12, 13};
-        }
+        Gates4013() : AComponent({3, 4, 5, 6, 9, 8, 10, 11}, {1, 2, 12, 13})
+        {}
 
         void simulate(std::size_t tick) override;
-
         Tristate compute(std::size_t pin) override;
     };
 
-    class Gates4040 : public AComponent {
+    class Gates4040 final : public AComponent {
     private:
-        unsigned _count = 0;
+        std::size_t _count = 0;
 
     public:
-        Gates4040()
-        {
-            _inputs = {10, 11};
-            _outputs = {1, 2, 3, 4, 5, 6, 7, 9, 12, 13, 14, 15};
-        }
+        Gates4040() : AComponent({10, 11}, {1, 2, 3, 4, 5, 6, 7, 9, 12, 13, 14, 15})
+        {}
 
         void simulate(std::size_t tick) override;
-
         Tristate compute(std::size_t pin) override;
     };
 }
