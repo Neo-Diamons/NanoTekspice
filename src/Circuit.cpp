@@ -97,14 +97,14 @@ std::size_t Circuit::getTick() const noexcept
 }
 void Circuit::display() const
 {
-    this->_os << "tick: " << this->_tick
+    std::cout << "tick: " << this->_tick
         << "\ninput(s):\n";
     std::for_each(this->_inputs.begin(), this->_inputs.end(), [this](const auto &i){
-        this->_os << "  " << i.first->getName() << ": " << i.second << '\n';
+        std::cout << "  " << i.first->getName() << ": " << i.second << '\n';
     });
-    this->_os << "output(s):\n";
+    std::cout << "output(s):\n";
     std::for_each(this->_outputs.begin(), this->_outputs.end(), [this](const auto &o){
-        this->_os << "  " << o.first << ": " << o.second.second << '\n';
+        std::cout << "  " << o.first << ": " << o.second.second << '\n';
     });
 }
 

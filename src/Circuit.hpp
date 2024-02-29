@@ -24,7 +24,6 @@
 namespace nts {
     class Circuit : public AComponent {
         private:
-            std::ostream &_os;
             std::list<std::unique_ptr<IComponent>> _components;
             std::list<std::pair<IInputComponent * const, Tristate>> _inputs;
             std::map<std::string, std::pair<std::size_t, Tristate>> _outputs;
@@ -35,8 +34,8 @@ namespace nts {
             static const std::set<std::size_t> oPins;
 
         public:
-            Circuit(std::ostream &os = std::cout)
-                : AComponent(*this, "Circuit"), _os(os)
+            Circuit() noexcept
+                : AComponent(*this, "Circuit")
             {}
 
             [[nodiscard]] std::list<std::reference_wrapper<const std::string>> getNames() const;
