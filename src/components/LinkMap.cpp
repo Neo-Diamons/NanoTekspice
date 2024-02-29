@@ -16,8 +16,8 @@ using namespace nts;
     std::stringstream message;
 
     message << "LinkMap::LinkNotFoundException: Pin " << this->_pin
-        << " on component '" << this->_componentName
-        << "' is not linked to any component";
+        << " on component '" + this->_componentName
+        + "' is not linked to any component";
 
     return message.str();
 }

@@ -49,11 +49,7 @@ void Circuit::addOutput(const std::string &name)
 
 [[nodiscard]] std::string Circuit::ComponentNotFoundException::makeMessage() const noexcept
 {
-    std::stringstream message;
-
-    message << "Circuit::ComponentNotFoundException: Component '" << this->_name << "' does not exist";
-
-    return message.str();
+    return "Circuit::ComponentNotFoundException: Component '" + this->_name + "' does not exist";
 }
 
 void Circuit::linkComponents(const std::string &in, std::size_t iPin, const std::string &out, std::size_t oPin)

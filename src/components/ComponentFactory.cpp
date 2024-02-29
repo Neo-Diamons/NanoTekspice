@@ -20,9 +20,15 @@ const std::map<const char * const, std::function<std::unique_ptr<IComponent>(con
 };
 
 [[nodiscard]] std::string ComponentFactory::InvalidTypeException::makeMessage() const noexcept
+{
+    return "ComponentFactory::InvalidTypeException: Component '" + this->_name
+        + "' has type '" + this->_type + "' which is not valid";
 }
 
 [[nodiscard]] std::string ComponentFactory::ComponentExistsException::makeMessage() const noexcept
+{
+    return "ComponentFactory::ComponentExistsException: Cannot create component named '" + this->_name
+        + "' of type '" + this->_type + "'; a component with that name already exists";
 }
 
 void ComponentFactory::create(const std::string &type, const std::string &name) const
