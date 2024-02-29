@@ -28,7 +28,7 @@ namespace nts {
             std::list<std::unique_ptr<IComponent>> _components;
             std::list<std::pair<IInputComponent * const, Tristate>> _inputs;
             std::map<std::string, std::pair<std::size_t, Tristate>> _outputs;
-            std::size_t _tick = 0;
+            ssize_t _tick = -1;
             std::size_t _nextPin = 0;
             std::set<std::size_t> _iPins;
 
