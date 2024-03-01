@@ -21,14 +21,10 @@ namespace nts {
     class ComponentFactory {
         private:
             static const std::map<const char * const, std::function<std::unique_ptr<IComponent>(const Circuit &, const std::string &)>> constructors;
-            Circuit &_circuit;
 
         public:
-            ComponentFactory(Circuit &circuit)
-                : _circuit(circuit)
-            {}
-
-            void create(const std::string &type, const std::string &name) const;
+            std::unique_ptr<IComponent> create(const Circuit &circuit, const std::string &type, const std::string &name,
+                const std::list<std::string> &names) const;
 
             class Exception : public nts::Exception {
                 public:

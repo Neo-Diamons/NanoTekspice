@@ -40,21 +40,16 @@ const std::map<const char * const, std::function<std::unique_ptr<IComponent>(con
         + "' of type '" + this->_type + "'; a component with that name already exists";
 }
 
-void ComponentFactory::create(const std::string &type, const std::string &name) const
+std::unique_ptr<IComponent> ComponentFactory::create(const Circuit &circuit, const std::string &type, const std::string &name,
+    const std::list<std::string> &names) const
 {
-    const std::list<std::reference_wrapper<const std::string>> &names = this->_circuit.getNames();
     for (auto n: names)
-        if (n.get() == name)
+        if (n == name)
             throw ComponentExistsException(type, name);
-
-    if (type == "output") {
-        this->_circuit.addOutput(name);
-        return;
-    }
 
     auto constructor = constructors.find(type.c_str());
     if (constructor == constructors.end())
         throw InvalidTypeException(type, name);
 
-    this->_circuit.addComponent((*constructor).second(_circuit, name));
+    return (*constructor).second(circuit, name);
 }
