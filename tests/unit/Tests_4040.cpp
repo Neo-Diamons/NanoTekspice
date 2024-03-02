@@ -7,8 +7,8 @@
 
 #include <criterion/criterion.h>
 
-#include "src/parser/Factory.hpp"
-#include "src/parser/Exception.hpp"
+#include "src/parsing/Factory.hpp"
+#include "src/parsing/Exception.hpp"
 
 static auto gate = std::make_shared<nts::Gates4040>();
 static auto cl_clock = std::make_shared<nts::ClockComponent>();

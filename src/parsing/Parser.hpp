@@ -17,18 +17,14 @@ namespace nts {
     private:
         std::string _filename;
         std::ifstream _file;
-        Circuit _circuit;
 
-        static void signalHandler(int signum);
-
-        void parseChipsets();
-        void parseLinks();
-        void loop();
+        void parseChipsets(Circuit &circuit);
+        void parseLinks(Circuit &circuit);
 
     public:
         explicit Parser(const std::string &filename);
 
-        void parse();
+        void parse(Circuit &circuit);
     };
 }
 

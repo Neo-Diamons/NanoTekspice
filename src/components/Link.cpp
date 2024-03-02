@@ -6,7 +6,7 @@
 */
 
 #include "Link.hpp"
-#include "src/parser/Exception.hpp"
+#include "src/parsing/Exception.hpp"
 
 nts::Link::Link()
 {

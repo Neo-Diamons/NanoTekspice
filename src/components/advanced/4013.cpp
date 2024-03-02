@@ -15,32 +15,36 @@ void nts::Gates4013::simulate(const std::size_t tick)
     for (auto &[fst, snd]: _pins)
         snd.simulate(tick);
 
-    if (_pins[6].compute() == True) {
-        _outPins[1] = True;
-        _outPins[2] = _pins[4].compute();
-    } else if (_pins[4].compute() == True) {
-        _outPins[1] = False;
+    if (_pins[4].compute() == True) {
+        _outPins[1] = _pins[6].compute();
         _outPins[2] = True;
+    } else if (_pins[6].compute() == True) {
+        _outPins[1] = True;
+        _outPins[2] = False;
     } else if (_pins[3].compute() == True) {
-        _outPins[1] = _pins[5].compute();
-        _outPins[2] = !_outPins[1];
-    } else {
-        _outPins[1] = !_outPins[1];
-        _outPins[2] = !_outPins[2];
+        if (_pins[5].compute() == True) {
+            _outPins[1] = True;
+            _outPins[2] = False;
+        } else {
+            _outPins[1] = False;
+            _outPins[2] = True;
+        }
     }
-
-    if (_pins[8].compute() == True) {
-        _outPins[13] = True;
-        _outPins[12] = _pins[10].compute();
-    } else if (_pins[10].compute() == True) {
-        _outPins[13] = False;
+    
+    if (_pins[10].compute() == True) {
+        _outPins[13] = _pins[8].compute();
         _outPins[12] = True;
+    } else if (_pins[8].compute() == True) {
+        _outPins[13] = True;
+        _outPins[12] = False;
     } else if (_pins[11].compute() == True) {
-        _outPins[13] = _pins[9].compute();
-        _outPins[12] = !_outPins[13];
-    } else {
-        _outPins[13] = !_outPins[13];
-        _outPins[12] = !_outPins[12];
+        if (_pins[9].compute() == True) {
+            _outPins[13] = True;
+            _outPins[12] = False;
+        } else {
+            _outPins[13] = False;
+            _outPins[12] = True;
+        }
     }
 }
 

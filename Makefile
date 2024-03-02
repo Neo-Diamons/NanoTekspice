@@ -13,11 +13,12 @@ SRC			:=	$(addprefix $(DIR)/,								\
 					Main.cpp										\
 				)
 
-DIR			+=	src/parser
+DIR			+=	src/parsing
 SRC			+=	$(addprefix $(lastword $(DIR))/,					\
 					Parser.cpp										\
 					Factory.cpp										\
 					Circuit.cpp										\
+					Shell.cpp										\
 				)
 
 DIR			+=	src/components
