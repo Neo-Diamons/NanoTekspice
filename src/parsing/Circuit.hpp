@@ -13,15 +13,16 @@
 
 #include "src/components/AComponent.hpp"
 
-typedef std::list<std::shared_ptr<std::tuple<std::string, std::shared_ptr<nts::IComponent>>>> Components;
+// typedef std::list<std::shared_ptr<std::tuple<std::string, std::shared_ptr<nts::IComponent>>>> Components;
+typedef std::shared_ptr<std::tuple<std::string, std::shared_ptr<nts::IComponent>>> Component;
 
 namespace nts {
     class Circuit {
     private:
         std::size_t _tick = 0;
-        Components _components{};
-        Components _inputs{};
-        Components _outputs{};
+        std::list<Component> _components{};
+        std::list<Component> _inputs{};
+        std::list<Component> _outputs{};
 
     public:
         void addComponent(const std::string &type, const std::string &value);
@@ -32,8 +33,8 @@ namespace nts {
         void setValue(const std::string &name, const std::string &value) const;
 
         [[nodiscard]] std::size_t getTick() const;
-        [[nodiscard]] const Components &getInputs() const;
-        [[nodiscard]] const Components &getOutputs() const;
+        [[nodiscard]] const std::list<Component> &getInputs() const;
+        [[nodiscard]] const std::list<Component> &getOutputs() const;
 
         friend std::ostream &operator<<(std::ostream &os, const Circuit &circuit);
     };

@@ -7,7 +7,7 @@
 
 #include "Special.hpp"
 
-#include "src/parser/Exception.hpp"
+#include "src/parsing/Exception.hpp"
 
 nts::Tristate nts::FalseComponent::compute(const std::size_t pin)
 {

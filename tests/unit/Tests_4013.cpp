@@ -7,8 +7,8 @@
 
 #include <criterion/criterion.h>
 
-#include "src/parser/Factory.hpp"
-#include "src/parser/Exception.hpp"
+#include "src/parsing/Factory.hpp"
+#include "src/parsing/Exception.hpp"
 
 static auto gate = std::make_shared<nts::Gates4013>();
 static auto in_1_data = std::make_shared<nts::InputComponent>();

@@ -5,11 +5,8 @@
 ** Main
 */
 
-#include <iostream>
-
-#include "parser/Parser.hpp"
-
-#include "parser/Factory.hpp"
+#include "parsing/Shell.hpp"
+#include "parsing/Parser.hpp"
 
 int main(const int ac, char **av)
 {
@@ -18,8 +15,10 @@ int main(const int ac, char **av)
         return 84;
     }
 
+    nts::Circuit circuit;
     nts::Parser parser(av[1]);
-    parser.parse();
+    parser.parse(circuit);
+    nts::Shell::run(circuit);
 
     return 0;
 }

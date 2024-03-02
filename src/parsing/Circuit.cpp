@@ -32,10 +32,10 @@ void nts::Circuit::addComponent(const std::string &type, const std::string &valu
 
 void nts::Circuit::sortComponents()
 {
-    _inputs.sort([](const std::shared_ptr<std::tuple<std::string, std::shared_ptr<IComponent>>> &a, const std::shared_ptr<std::tuple<std::string, std::shared_ptr<IComponent>>> &b) {
+    _inputs.sort([](const Component &a, const Component &b) {
         return std::get<0>(*a) < std::get<0>(*b);
     });
-    _outputs.sort([](const std::shared_ptr<std::tuple<std::string, std::shared_ptr<IComponent>>> &a, const std::shared_ptr<std::tuple<std::string, std::shared_ptr<IComponent>>> &b) {
+    _outputs.sort([](const Component &a, const Component &b) {
         return std::get<0>(*a) < std::get<0>(*b);
     });
 }
@@ -84,12 +84,12 @@ std::size_t nts::Circuit::getTick() const
     return _tick;
 }
 
-const Components &nts::Circuit::getInputs() const
+const std::list<Component> &nts::Circuit::getInputs() const
 {
     return _inputs;
 }
 
-const Components &nts::Circuit::getOutputs() const
+const std::list<Component> &nts::Circuit::getOutputs() const
 {
     return _outputs;
 }

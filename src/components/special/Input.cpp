@@ -7,7 +7,7 @@
 
 #include "Special.hpp"
 
-#include "src/parser/Exception.hpp"
+#include "src/parsing/Exception.hpp"
 
 void nts::InputComponent::simulate(const std::size_t tick)
 {

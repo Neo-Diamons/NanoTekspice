@@ -7,7 +7,7 @@
 
 #include <criterion/criterion.h>
 
-#include "src/parser/Factory.hpp"
+#include "src/parsing/Factory.hpp"
 
 Test(gates4008, test00)
 {

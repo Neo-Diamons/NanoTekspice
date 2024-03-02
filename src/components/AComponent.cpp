@@ -9,7 +9,7 @@
 
 #include <algorithm>
 
-#include "src/parser/Exception.hpp"
+#include "src/parsing/Exception.hpp"
 
 bool nts::AComponent::asInput(const std::size_t pin) const
 {
