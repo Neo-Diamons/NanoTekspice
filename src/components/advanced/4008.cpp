@@ -10,12 +10,10 @@
 nts::Tristate nts::Gates4008::add(const u_int8_t idA, const u_int8_t idB, const Tristate carry)
 {
     const Tristate a = _pins[idA].compute();
-    const Tristate b = _pins[idB].compute() ^ carry;
+    const Tristate b = _pins[idB].compute();
 
-    const Tristate sum = a ^ b ^ _outPins[14];
-    _outPins[14] = (a && b) || (_outPins[14] && (a ^ b));
-
-    return sum;
+    _outPins[14] = ((a ^ b) && carry) || (a && b);
+    return (a ^ b) ^ carry;
 }
 
 nts::Tristate nts::Gates4008::compute(const std::size_t pin)
@@ -30,10 +28,10 @@ nts::Tristate nts::Gates4008::compute(const std::size_t pin)
         {14, carry},
     };
 
-    _outPins[10] = add(7, 6, carry);
-    _outPins[11] = add(5, 4, carry);
-    _outPins[12] = add(3, 2, carry);
-    _outPins[13] = add(1, 15, carry);
+    _outPins[10] = add(7, 6, _outPins[14]);
+    _outPins[11] = add(5, 4, _outPins[14]);
+    _outPins[12] = add(3, 2, _outPins[14]);
+    _outPins[13] = add(1, 15, _outPins[14]);
 
     switch (pin) {
         case 10:
