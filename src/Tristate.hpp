@@ -17,6 +17,7 @@ namespace nts {
         False     = false
     };
 
+    // AND
     constexpr Tristate operator&&(const Tristate a, const Tristate b)
     {
         if (a == False || b == False)
@@ -24,6 +25,7 @@ namespace nts {
         return a == Undefined || b == Undefined ? Undefined : True;
     }
 
+    // OR
     constexpr Tristate operator||(const Tristate a, const Tristate b)
     {
         if (a == True || b == True)
@@ -31,6 +33,7 @@ namespace nts {
         return a == Undefined || b == Undefined ? Undefined : False;
     }
 
+    // NOT
     constexpr Tristate operator!(const Tristate a)
     {
         if (a == Undefined)
@@ -38,11 +41,13 @@ namespace nts {
         return a == True ? False : True;
     }
 
+    // NAND
     constexpr Tristate operator&(const Tristate a, const Tristate b)
     {
         return !(a && b);
     }
 
+    // XOR
     constexpr Tristate operator^(const Tristate a, const Tristate b)
     {
         if (a == Undefined || b == Undefined)
@@ -50,6 +55,7 @@ namespace nts {
         return a != b ? True : False;
     }
 
+    // NOR
     constexpr Tristate operator|(const Tristate a, const Tristate b)
     {
         return !(a || b);
