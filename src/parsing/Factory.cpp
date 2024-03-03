@@ -47,8 +47,8 @@ std::shared_ptr<nts::IComponent> nts::Factory::createComponent(const std::string
     // Advanced
     if (type == "4008")
         return std::make_shared<Gates4008>();
-    // if (type == "4013")
-    //     return std::make_shared<Gates4013>();
+    if (type == "4013")
+        return std::make_shared<Gates4013>();
     if (type == "4017")
         return std::make_shared<Gates4017>();
     if (type == "4040")
