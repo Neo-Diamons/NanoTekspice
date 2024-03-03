@@ -12,6 +12,9 @@
 
 namespace nts {
     class Gates4001 final : public AComponent {
+    private:
+        std::list<std::size_t> inProccess{};
+
     public:
         Gates4001() : AComponent({1, 2, 5, 6, 8, 9, 12, 13}, {3, 4, 10, 11})
         {}
