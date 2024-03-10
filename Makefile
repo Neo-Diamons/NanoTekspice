@@ -94,12 +94,15 @@ DIR_BIN		:=	$(DIR_BUILD)/bin
 
 DIR_OBJ		:=	$(DIR_BUILD)/obj
 OBJ			:=	$(patsubst %$(EXT),$(DIR_OBJ)/%.o,$(SRC))
+DEP			:=	$(OBJ:.o=.d)
 
 UT_DIR_OBJ	:=	$(DIR_BUILD)/tests/unit
 UT_OBJ		:=	$(patsubst %$(EXT),$(UT_DIR_OBJ)/%.o,$(UT_SRC))
+UT_DEP		:=	$(UT_OBJ:.o=.d)
 
 DG_DIR_OBJ	:=	$(DIR_BUILD)/debug
 DG_OBJ		:=	$(patsubst %$(EXT),$(DG_DIR_OBJ)/%.o,$(SRC))
+DG_DEP		:=	$(DG_OBJ:.o=.d)
 
 DEBUG		:=	$(DIR_BIN)/debug
 FU_TEST		:=	$(FU_DIR)/tester.sh
@@ -126,7 +129,7 @@ define BUILD_OBJ
 	@$(RM) $(patsubst %.o,%.gcda,$@)
 	@$(RM) $(patsubst %.o,%.gcno,$@)
 	$(CREATE_DIR)
-	@$(CXX) $(CXXFLAGS) -c $< -o $@									\
+	@$(CXX) $(CXXFLAGS) -MMD -c $< -o $@							\
 	&& printf "\033[32m[OK]\033[0m %s\n" $<							\
 	|| printf "\033[31m[KO]\033[0m %s\n" $<
 endef
@@ -142,20 +145,23 @@ define COMPILE
 	|| printf "\033[31m[ERROR]\033[0m %s\n"  $@
 endef
 
+-include $(DEP)
 $(NAME):			$(OBJ); 	$(COMPILE)
 
 tests_functional:	$(FU_TEST) $(NAME)
 	@$^
 
+-include $(UT_DEP)
 $(UT_TEST):			CXXFLAGS += -lcriterion --coverage
 $(UT_TEST):			$(UT_OBJ);	$(COMPILE)
 tests_unit:			$(UT_TEST)
 	@cp $(UT_TEST) $(UT_DIR_OBJ)
 	@$(UT_DIR_OBJ)/$(notdir $<)
 
-$(DEBUG):				CXXFLAGS += -g
-$(DEBUG):				$(DG_OBJ); 	$(COMPILE)
-debug:					$(DEBUG)
+-include $(DG_DEP)
+$(DEBUG):			CXXFLAGS += -g
+$(DEBUG):			$(DG_OBJ); 	$(COMPILE)
+debug:				$(DEBUG)
 
 tests_run:			tests_functional tests_unit
 	gcovr $(UT_DIR_OBJ) --exclude tests/
