@@ -127,5 +127,10 @@ void nts::Parser::parse(Circuit &circuit)
 
     circuit.sortComponents();
 
+    if (circuit.empty()) {
+        std::cerr << "Error: no components found" << std::endl;
+        exit(84);
+    }
+
     _file.close();
 }
