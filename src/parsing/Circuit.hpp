@@ -32,6 +32,8 @@ namespace nts {
         void addLink(const std::string &comp1, std::size_t pin1, const std::string &comp2, std::size_t pin2) const;
         void setValue(const std::string &name, const std::string &value) const;
 
+        bool empty() const;
+
         [[nodiscard]] std::size_t getTick() const;
         [[nodiscard]] const std::list<Component> &getInputs() const;
         [[nodiscard]] const std::list<Component> &getOutputs() const;

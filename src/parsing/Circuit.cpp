@@ -84,6 +84,11 @@ std::size_t nts::Circuit::getTick() const
     return _tick;
 }
 
+bool nts::Circuit::empty() const
+{
+    return _components.empty();
+}
+
 const std::list<Component> &nts::Circuit::getInputs() const
 {
     return _inputs;
